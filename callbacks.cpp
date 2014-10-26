@@ -84,72 +84,54 @@ void myDisplay(void)
 	indexArrayCores = 0;
 	GLfloat normalDifuse = 0;
 	GLfloat normalSpecular = 0;
-	// for (indexArrayVertices = 0; indexArrayVertices < (3 * numVertices); indexArrayVertices += 3)
-	// {
-	// 	/* For every vertex */
-	// 	/* Get the XYZ coordinates and the normal vector */
-	// 	for (i = 0; i < 3; i++)
-	// 	{
-	// 		auxP[i] = arrayVertices[ indexArrayVertices + i ];
-	// 		auxN[i] = arrayNormais[ indexArrayVertices + i ];
-	// 	}
-	// 	/* The 4th homogeneous coordinate */
-	// 	auxP[3] = 1.0;
-	// 	auxN[3] = 0.0;
-	// 	/* Apply the global transformation matrix to each vertex */
-	// 	pontoP = multiplyPointByMatrix(&matrizModelView, auxP);
-	// 	/* And to the corresponding normal vector */
-	// 	vectorN = multiplyVectorByMatrix(&matrizModelView, auxN);
-	// 	/* Get the corresponding unit normal vector */
-	// 	convertToUnitVector(vectorN);
-	// 	/* DIFFUSE REFLECTION */
-	// 	/* Compute the vector L */
-	// 	for (i = 0; i < 3; i++)
-	// 	{
-	// 		vectorL[i] = posicaoFLuz_0[i];
-	// 	}
-	// 	/* TWO SITUATIONS : POINT light source versus DIRECTIONAL light source */
-	// 	/* Get the corresponding unit vector */
-	// 	convertToUnitVector(vectorL);
-	// 	/* Compute cos (N . L) */
-	// 	cosNL = computeScalarProduct(vectorN, vectorL);
-	// 	 STOP and CHECK if you get the expected results 
-	// 	/* SPECULAR REFLECTION */
-	// 	/* Compute the vector V --- The viewer is at (0,0,0) */
-	// 	vectorV = computeSymmetricVector(pontoP);
-	// 	/* Compute the HALFWAY VECTOR */
-	// 	vectorH = addVector(vectorL, vectorV);
-	// 	/* Get the corresponding unit vector */
-	// 	convertToUnitVector(vectorH);
-	// 	/* Compute cos (N . H) */
-	// 	cosNH = computeScalarProduct(vectorN, vectorH);
-	// 	/* STOP and CHECK if you get the expected results */
-	// 	/* ADD UP the 3 illumination components */
-	// 	/* AVOID RGB values greater the 1.0 */
-	// 	/* ONLY the AMBIENT component is being used at this moment... */
-	// 	arrayCores[indexArrayCores] = ambientTerm[0] + diffuseTerm[0] * cosNL + specularTerm[0] * pow(cosNH, coefPhong);
-	// 	indexArrayCores++;
-	// 	arrayCores[indexArrayCores] = ambientTerm[1] + diffuseTerm[1] * cosNL + specularTerm[1] * pow(cosNH, coefPhong);
-	// 	indexArrayCores++;
-	// 	arrayCores[indexArrayCores] = ambientTerm[2] + diffuseTerm[2] * cosNL + specularTerm[2] * pow(cosNH, coefPhong);
-	// 	indexArrayCores++;
-	// 	/* Libertar os arrays temporarios */
-	// 	free(pontoP);
-	// 	free(vectorN);
-	// 	free(vectorV);
-	// 	free(vectorH);
-	// }
-	
-	/* SMOOTH-SHADING */
-	/* Compute the illumination RGB value for every triangle vertex */
-	/* Store the RGB values in the color array */
 	for (indexArrayVertices = 0; indexArrayVertices < (3 * numVertices); indexArrayVertices += 3)
 	{
-		arrayCores[indexArrayCores] = ambientTerm[0];
+		/* For every vertex */
+		/* Get the XYZ coordinates and the normal vector */
+		for (i = 0; i < 3; i++)
+		{
+			auxP[i] = arrayVertices[ indexArrayVertices + i ];
+			auxN[i] = arrayNormais[ indexArrayVertices + i ];
+		}
+		/* The 4th homogeneous coordinate */
+		auxP[3] = 1.0;
+		auxN[3] = 0.0;
+		/* Apply the global transformation matrix to each vertex */
+		pontoP = multiplyPointByMatrix(&matrizModelView, auxP);
+		/* And to the corresponding normal vector */
+		vectorN = multiplyVectorByMatrix(&matrizModelView, auxN);
+		/* Get the corresponding unit normal vector */
+		convertToUnitVector(vectorN);
+		/* DIFFUSE REFLECTION */
+		/* Compute the vector L */
+		for (i = 0; i < 3; i++)
+		{
+			vectorL[i] = posicaoFLuz_0[i];
+		}
+		/* TWO SITUATIONS : POINT light source versus DIRECTIONAL light source */
+		/* Get the corresponding unit vector */
+		convertToUnitVector(vectorL);
+		/* Compute cos (N . L) */
+		cosNL = computeScalarProduct(vectorN, vectorL);
+		// STOP and CHECK if you get the expected results 
+		/* SPECULAR REFLECTION */
+		/* Compute the vector V --- The viewer is at (0,0,0) */
+		vectorV = computeSymmetricVector(pontoP);
+		/* Compute the HALFWAY VECTOR */
+		vectorH = addVector(vectorL, vectorV);
+		/* Get the corresponding unit vector */
+		convertToUnitVector(vectorH);
+		/* Compute cos (N . H) */
+		cosNH = computeScalarProduct(vectorN, vectorH);
+		/* STOP and CHECK if you get the expected results */
+		/* ADD UP the 3 illumination components */
+		/* AVOID RGB values greater the 1.0 */
+		/* ONLY the AMBIENT component is being used at this moment... */
+		arrayCores[indexArrayCores] = ambientTerm[0] + diffuseTerm[0] * cosNL + specularTerm[0] * pow(cosNH, coefPhong);
 		indexArrayCores++;
-		arrayCores[indexArrayCores] = ambientTerm[1];
+		arrayCores[indexArrayCores] = ambientTerm[1] + diffuseTerm[1] * cosNL + specularTerm[1] * pow(cosNH, coefPhong);
 		indexArrayCores++;
-		arrayCores[indexArrayCores] = ambientTerm[2];
+		arrayCores[indexArrayCores] = ambientTerm[2] + diffuseTerm[2] * cosNL + specularTerm[2] * pow(cosNH, coefPhong);
 		indexArrayCores++;
 		/* Libertar os arrays temporarios */
 		free(pontoP);
@@ -219,14 +201,19 @@ void myKeyboard(unsigned char key, int x, int y)
 		glutPostRedisplay();
 		break;
 	case 'P':
-		if (coefPhong < 255)
+		if (coefPhong <= 20) 
+			coefPhong++;
+		else if (coefPhong < 255)
 			coefPhong += 10;
 		fprintf(stdout, "Phong coef: %f\n", coefPhong);
 		glutPostRedisplay();
 		break;
 	case 'p':
-		if (coefPhong > 1)
+		if (coefPhong <= 20 && coefPhong > 1) 
+			coefPhong--;
+		else if (coefPhong > 20)
 			coefPhong -= 10;
+		fprintf(stdout, "Phong coef: %f\n", coefPhong);
 		glutPostRedisplay();
 		break;
 	case 'Z' :

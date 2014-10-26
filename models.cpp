@@ -28,11 +28,11 @@ struct vertex3d {
 	float z;
 };
 
-void lerVerticesDeFicheiro(char *nome, int *numVertices, GLfloat **arrayVertices)
+void lerVerticesDeFicheiro(string nome, int *numVertices, GLfloat **arrayVertices)
 {
 	std::vector<vertex3d> vertices, normalVector, faces;
 
-	FILE * file = fopen("models/queen.obj", "r");
+	FILE * file = fopen(nome.c_str(), "r");
 	if(file == NULL){
 	    printf("Failed to open file!\n");
 	    return;

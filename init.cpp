@@ -87,9 +87,9 @@ void inicializarFontesDeLuz(void)
 
 void inicializarModelos(void)
 {
-	lerVerticesDeFicheiro("modeloCuboV4.txt", &numVertices, &arrayVertices);
+	lerVerticesDeFicheiro("models/queen.obj", &numVertices, &arrayVertices);
 	/* Determinar as normais unitarias a cada triangulo */
-	//arrayNormais = calcularNormaisTriangulos(numVertices, arrayVertices);
+	arrayNormais = calcularNormaisTriangulos(numVertices, arrayVertices);
 	/* TESTE */
 	//infosModelo( numVertices, arrayVertices, arrayNormais );
 	/* Array vazio para guardar a cor atribuida a cada vertice */

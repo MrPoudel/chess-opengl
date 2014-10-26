@@ -14,9 +14,12 @@
 
 #include <GL/glew.h>
 #include <GL/freeglut.h>
+#include <string>
 
-void lerVerticesDeFicheiro(char *nome, int *numVertices, GLfloat **arrayVertices);
-void escreverVerticesEmFicheiro(char *nome, int numVertices, GLfloat *arrayVertices);
+using namespace std;
+
+void lerVerticesDeFicheiro(string nome, int *numVertices, GLfloat **arrayVertices);
+void escreverVerticesEmFicheiro(string nome, int numVertices, GLfloat *arrayVertices);
 GLfloat *calcularNormaisTriangulos(int numVertices, GLfloat *arrayVertices);
 
 #endif
