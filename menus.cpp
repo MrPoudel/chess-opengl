@@ -80,6 +80,7 @@ int numItensMenu2 = sizeof(menu2) / sizeof(menuItemStruct);
 
 static void myMenuEsq(int i)
 {
+	GraphicModelChess* obj = &models.find(0)->second;
 	switch (menu1[i].val)
 	{
 	case 'x' :
@@ -92,23 +93,22 @@ static void myMenuEsq(int i)
 		glutPostRedisplay();
 		break;
 	case 't' :
-		parametrosTransl3D(&deslX, &deslY, &deslZ);
+		parametrosTransl3D(&obj->desl.x, &obj->desl.y, &obj->desl.z);
 		glutPostRedisplay();
 		break;
 	case 's' :
 		glutPostRedisplay();
 		break;
 	case 'o' :
-		deslX = 0;
-		deslY = 0;
-		deslZ = -0.5;
-		anguloRotXX = 0;
-		anguloRotYY = 0;
-		anguloRotZZ = 0;
-		factorEscX = 0.25;
-		factorEscY = 0.25;
-		factorEscZ = 0.25;
-		animacaoON = 0;
+		obj->desl.x = 0;
+		obj->desl.y = 0;
+		obj->desl.z = -0.5;
+		obj->anguloRot.x = 0;
+		obj->anguloRot.y = 0;
+		obj->anguloRot.z = 0;
+		obj->factorEsc.x = 0.25;
+		obj->factorEsc.y = 0.25;
+		obj->factorEsc.z = 0.25;
 		glutPostRedisplay();
 		break;
 	case 'O' :
@@ -122,14 +122,6 @@ static void myMenuEsq(int i)
 		glutPostRedisplay();
 		break;
 	case 'A' :
-		if (animacaoON)
-		{
-			animacaoON = 0;
-		}
-		else
-		{
-			animacaoON = 1;
-		}
 		glutPostRedisplay();
 		break;
 	case 'B' :
@@ -150,26 +142,27 @@ static void myMenuEsq(int i)
 
 static void myMenuDir(int i)
 {
+	GraphicModelChess* obj = &models.find(0)->second;
 	char nomeF[40];
 	switch (menu2[i].val)
 	{
 	case 'L' :
 		libertarArraysGlobais();
-		lerVerticesDeFicheiro(nomeFicheiro(), &numVertices, &arrayVertices, &arrayNormais);
+		lerVerticesDeFicheiro(nomeFicheiro(), &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
 		/* Array vazio para guardar a cor atribuida a cada vertice */
-		arrayCores = (GLfloat *) calloc(3 * numVertices, sizeof(GLfloat));
+		obj->arrayCores = (GLfloat *) calloc(3 * obj->numVertices, sizeof(GLfloat));
 		/* COMPLETAR */
 		/* Estabelecer propriedades do material iniciais */
 		/* Parametros das transformacoes */
-		deslX = 0;
-		deslY = 0;
-		deslZ = -0.5;
-		anguloRotXX = 0;
-		anguloRotYY = 0;
-		anguloRotZZ = 0;
-		factorEscX = 0.25;
-		factorEscY = 0.25;
-		factorEscZ = 0.25;
+		obj->desl.x = 0;
+		obj->desl.y = 0;
+		obj->desl.z = -0.5;
+		obj->anguloRot.x = 0;
+		obj->anguloRot.y = 0;
+		obj->anguloRot.z = 0;
+		obj->factorEsc.x = 0.25;
+		obj->factorEsc.y = 0.25;
+		obj->factorEsc.z = 0.25;
 		glutPostRedisplay();
 		break;
 	case 'F' :

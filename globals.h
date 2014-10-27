@@ -14,9 +14,10 @@
 #include <GL/freeglut.h>
 #include "mathUtils.h"
 #include "graphicModel.h"
-#include <vector>
+#include <map>
 
 using namespace std;
+
 /* Variaveis GLOBAIS !! */
 extern int windowHandle;
 /* O identificador do programa em GLSL combinando os SHADERS */
@@ -24,6 +25,7 @@ extern GLuint programaGLSL;
 /* Os identificadores dos SHADERS */
 extern GLuint vs;
 extern GLuint fs;
+
 /* Para passar coordenadas, cores a a matriz de transformacao ao Vertex-Shader */
 extern GLint attribute_coord3d;
 extern GLint attribute_corRGB;
@@ -31,36 +33,9 @@ extern GLint uniform_matriz_proj;
 extern GLint uniform_matriz_model_view;
 /* Matriz de projeccao */
 extern mat4x4 matrizProj;
-/* Para o FOCO PONTUAL */
-extern GLfloat *intensidadeFLuz_0;
-extern GLfloat *posicaoFLuz_0;
-extern GLfloat *intensidadeLuzAmbiente;
-/* Para o modelo corrente */
-/* Coordenadas dos vertices */
-extern GLsizei numVertices;
-extern GLfloat *arrayVertices;
-extern GLfloat *arrayNormais;
-extern GLfloat *arrayCores;
-/* Propriedades do material */
-extern GLfloat *kAmb;
-extern GLfloat *kDif;
-extern GLfloat *kEsp;
-extern GLfloat coefPhong;
 /* Matriz global de transformacao */
 extern mat4x4 matrizModelView;
-/* Parametros das transformacoes */
-extern GLfloat deslX;
-extern GLfloat deslY;
-extern GLfloat deslZ;
-extern GLfloat anguloRotXX;
-extern GLfloat anguloRotYY;
-extern GLfloat anguloRotZZ;
-extern GLfloat factorEscX;
-extern GLfloat factorEscY;
-extern GLfloat factorEscZ;
-/* FLAG para controlar a animacao */
-extern GLboolean animacaoON;
 
-extern GraphicModelChess models;
+extern map<int, GraphicModelChess> models;
 
 #endif

@@ -34,8 +34,9 @@ void inicializarEstado(void)
 	/* Matriz de projeccao é inicialmente a IDENTIDADE => Proj. Paralela Ortogonal */
 	matrizProj = IDENTITY_MATRIX;
 	matrizModelView = IDENTITY_MATRIX;
-	/* Para rodar globalmente a cena */
-	animacaoON = 0;
+
+	GraphicModelChess empty;
+	models.insert(pair<int, GraphicModelChess>(0, empty));
 }
 
 
@@ -63,66 +64,69 @@ void inicializarJanela(void)
 
 void inicializarFontesDeLuz(void)
 {
+	GraphicModelChess* obj = &models.find(0)->second;
 	/* Intensidade Luminosa */
 	// IL
-	models.intensidadeFLuz_0[0] = 1.0;
-	models.intensidadeFLuz_0[1] = 1.0;
-	models.intensidadeFLuz_0[2] = 1.0;
-	models.intensidadeFLuz_0[3] = 1.0;
+	obj->intensidadeFLuz_0[0] = 1.0;
+	obj->intensidadeFLuz_0[1] = 1.0;
+	obj->intensidadeFLuz_0[2] = 1.0;
+	obj->intensidadeFLuz_0[3] = 1.0;
 	/* Posicao */
-	models.posicaoFLuz_0 [0] = 0.0;
-	models.posicaoFLuz_0 [1] = 0.0;
-	models.posicaoFLuz_0 [2] = 10.0;
-	models.posicaoFLuz_0 [3] = 0.0;
+	obj->posicaoFLuz_0 [0] = 0.0;
+	obj->posicaoFLuz_0 [1] = 0.0;
+	obj->posicaoFLuz_0 [2] = 10.0;
+	obj->posicaoFLuz_0 [3] = 0.0;
 	/* Luz Ambiente */
 	// IA
-	models.intensidadeLuzAmbiente[0] = 0.2;
-	models.intensidadeLuzAmbiente[1] = 0.2;
-	models.intensidadeLuzAmbiente[2] = 0.2;
-	models.intensidadeLuzAmbiente[3] = 1.0;
+	obj->intensidadeLuzAmbiente[0] = 0.2;
+	obj->intensidadeLuzAmbiente[1] = 0.2;
+	obj->intensidadeLuzAmbiente[2] = 0.2;
+	obj->intensidadeLuzAmbiente[3] = 1.0;
 }
 
 void inicializarModelos(void)
 {
-	lerVerticesDeFicheiro("models/queen.obj", &models.numVertices, &models.arrayVertices, &models.arrayNormais);
+	GraphicModelChess* obj = &models.find(0)->second;
+	lerVerticesDeFicheiro("models/queen.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
 	/* Determinar as normais unitarias a cada triangulo */
 	//arrayNormais = calcularNormaisTriangulos(numVertices, arrayVertices);
 	/* TESTE */
 	//infosModelo( numVertices, arrayVertices, arrayNormais );
 	/* Array vazio para guardar a cor atribuida a cada vertice */
-	models.arrayCores = (GLfloat *) calloc(3 * models.numVertices, sizeof(GLfloat));
+	obj->arrayCores = (GLfloat *) calloc(3 * obj->numVertices, sizeof(GLfloat));
 	
 	/* Propriedades do material */
-	models.kAmb[0] = 0.2;
-	models.kAmb[1] = 0.2;
-	models.kAmb[2] = 0.2;
-	models.kAmb[3] = 1.0;
+	obj->kAmb[0] = 0.2;
+	obj->kAmb[1] = 0.2;
+	obj->kAmb[2] = 0.2;
+	obj->kAmb[3] = 1.0;
 
-	models.kDif[0] = 0.5;
-	models.kDif[1] = 0.5;
-	models.kDif[2] = 0.5;
-	models.kDif[3] = 1.0;
+	obj->kDif[0] = 0.5;
+	obj->kDif[1] = 0.5;
+	obj->kDif[2] = 0.5;
+	obj->kDif[3] = 1.0;
 
-	models.kEsp[0] = 0.7;
-	models.kEsp[1] = 0.7;
-	models.kEsp[2] = 0.7;
-	models.kEsp[3] = 1.0;
-	models.coefPhong = 100;
+	obj->kEsp[0] = 0.7;
+	obj->kEsp[1] = 0.7;
+	obj->kEsp[2] = 0.7;
+	obj->kEsp[3] = 1.0;
+	obj->coefPhong = 100;
 	/* Parametros das transformacoes */
-	models.desl.x = 0;
-	models.desl.y = 0;
-	models.desl.z = -0.5;
-	models.anguloRot.x = 0;
-	models.anguloRot.y = 0;
-	models.anguloRot.z = 0;
-	models.factorEsc.x = 0.25;
-	models.factorEsc.y = 0.25;
-	models.factorEsc.z = 0.25;
+	obj->desl.x = 0;
+	obj->desl.y = 0;
+	obj->desl.z = -0.5;
+	obj->anguloRot.x = 0;
+	obj->anguloRot.y = 0;
+	obj->anguloRot.z = 0;
+	obj->factorEsc.x = 0.25;
+	obj->factorEsc.y = 0.25;
+	obj->factorEsc.z = 0.25;
 }
 
 void libertarArraysGlobais(void)
 {
-	free(models.arrayVertices);
-	free(models.arrayNormais);
-	free(models.arrayCores);
+	GraphicModelChess* obj = &models.find(0)->second;
+	free(obj->arrayVertices);
+	free(obj->arrayNormais);
+	free(obj->arrayCores);
 }
