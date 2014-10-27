@@ -155,10 +155,7 @@ static void myMenuDir(int i)
 	{
 	case 'L' :
 		libertarArraysGlobais();
-		nomeFicheiro(nomeF);
-		lerVerticesDeFicheiro(nomeF, &numVertices, &arrayVertices);
-		/* Determinar as normais unitarias a cada triangulo */
-		arrayNormais = calcularNormaisTriangulos(numVertices, arrayVertices);
+		lerVerticesDeFicheiro(nomeFicheiro(), &numVertices, &arrayVertices, &arrayNormais);
 		/* Array vazio para guardar a cor atribuida a cada vertice */
 		arrayCores = (GLfloat *) calloc(3 * numVertices, sizeof(GLfloat));
 		/* COMPLETAR */

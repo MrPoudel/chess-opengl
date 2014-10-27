@@ -12,12 +12,16 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
+#include <string>
+
+using namespace std;
+
 void infosConsola(void);
 void infosModelo(int numVertices, GLfloat *arrayVertices, GLfloat *arrayNormais);
 void infosVector(GLfloat *v);
 void anguloRotacao(float *ang);
 void parametrosTransl3D(float *dx, float *dy, float *dz);
 void parametrosVarEscala3D(float *sx, float *sy, float *sz);
-void nomeFicheiro(char *nome);
+string nomeFicheiro(void);
 
 #endif

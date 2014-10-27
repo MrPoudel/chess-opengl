@@ -47,23 +47,23 @@ void myDisplay(void)
 						  GL_FLOAT,          // the type of each element
 						  GL_FALSE,          // take our values as-is
 						  0,                 // no extra data between each position
-						  arrayVertices);    // pointer to the C array
+						  models.arrayVertices);    // pointer to the C array
 	/* Caracteristicas do array de cores */
 	glVertexAttribPointer(attribute_corRGB,  // attribute
 						  3,                 // number of elements per vertex, here (R,G,B)
 						  GL_FLOAT,          // the type of each element
 						  GL_FALSE,          // take our values as-is
 						  0,                 // no extra data between each position
-						  arrayCores);     // pointer to the C array
+						  models.arrayCores);     // pointer to the C array
 	/* ATENCAO : Ordem das transformacoes !! */
 	matrizModelView = IDENTITY_MATRIX;
 	/* Deslocar para mais longe */
-	Translate(&matrizModelView, deslX, deslY, deslZ);
-	RotateAboutX(&matrizModelView, DegreesToRadians(anguloRotXX));
-	RotateAboutY(&matrizModelView, DegreesToRadians(anguloRotYY));
-	RotateAboutZ(&matrizModelView, DegreesToRadians(anguloRotZZ));
+	Translate(&matrizModelView, models.desl.x, models.desl.y, models.desl.z);
+	RotateAboutX(&matrizModelView, DegreesToRadians(models.anguloRot.x));
+	RotateAboutY(&matrizModelView, DegreesToRadians(models.anguloRot.y));
+	RotateAboutZ(&matrizModelView, DegreesToRadians(models.anguloRot.z));
 	/* Diminuir o tamanho do modelo para nao sair fora do view volume */
-	Scale(&matrizModelView, factorEscX, factorEscY, factorEscZ);
+	Scale(&matrizModelView, models.factorEsc.x, models.factorEsc.y, models.factorEsc.z);
 	/* Matriz de projeccao */
 	glUniformMatrix4fv(uniform_matriz_proj, 1, GL_FALSE, matrizProj.m);
 	/* Matriz de transformacao */
@@ -74,9 +74,9 @@ void myDisplay(void)
 	/* AMBIENT ILLUMINATION IS CONSTANT */
 	for (i = 0; i < 3; i++)
 	{
-		ambientTerm[i] = kAmb[i] * intensidadeLuzAmbiente[i]; /* TESTING */
-		diffuseTerm[i] = kDif[i] * intensidadeFLuz_0[i];
-		specularTerm[i] = kEsp[i] * intensidadeFLuz_0[i];
+		ambientTerm[i] = models.kAmb[i] * models.intensidadeLuzAmbiente[i]; /* TESTING */
+		diffuseTerm[i] = models.kDif[i] * models.intensidadeFLuz_0[i];
+		specularTerm[i] = models.kEsp[i] * models.intensidadeFLuz_0[i];
 	}
 	/* SMOOTH-SHADING */
 	/* Compute the illumination RGB value for every triangle vertex */
@@ -84,14 +84,14 @@ void myDisplay(void)
 	indexArrayCores = 0;
 	GLfloat normalDifuse = 0;
 	GLfloat normalSpecular = 0;
-	for (indexArrayVertices = 0; indexArrayVertices < (3 * numVertices); indexArrayVertices += 3)
+	for (indexArrayVertices = 0; indexArrayVertices < (3 * models.numVertices); indexArrayVertices += 3)
 	{
 		/* For every vertex */
 		/* Get the XYZ coordinates and the normal vector */
 		for (i = 0; i < 3; i++)
 		{
-			auxP[i] = arrayVertices[ indexArrayVertices + i ];
-			auxN[i] = arrayNormais[ indexArrayVertices + i ];
+			auxP[i] = models.arrayVertices[ indexArrayVertices + i ];
+			auxN[i] = models.arrayNormais[ indexArrayVertices + i ];
 		}
 		/* The 4th homogeneous coordinate */
 		auxP[3] = 1.0;
@@ -106,7 +106,7 @@ void myDisplay(void)
 		/* Compute the vector L */
 		for (i = 0; i < 3; i++)
 		{
-			vectorL[i] = posicaoFLuz_0[i];
+			vectorL[i] = models.posicaoFLuz_0[i];
 		}
 		/* TWO SITUATIONS : POINT light source versus DIRECTIONAL light source */
 		/* Get the corresponding unit vector */
@@ -127,11 +127,11 @@ void myDisplay(void)
 		/* ADD UP the 3 illumination components */
 		/* AVOID RGB values greater the 1.0 */
 		/* ONLY the AMBIENT component is being used at this moment... */
-		arrayCores[indexArrayCores] = ambientTerm[0] + diffuseTerm[0] * cosNL + specularTerm[0] * pow(cosNH, coefPhong);
+		models.arrayCores[indexArrayCores] = ambientTerm[0] + diffuseTerm[0] * cosNL + specularTerm[0] * pow(cosNH, models.coefPhong);
 		indexArrayCores++;
-		arrayCores[indexArrayCores] = ambientTerm[1] + diffuseTerm[1] * cosNL + specularTerm[1] * pow(cosNH, coefPhong);
+		models.arrayCores[indexArrayCores] = ambientTerm[1] + diffuseTerm[1] * cosNL + specularTerm[1] * pow(cosNH, models.coefPhong);
 		indexArrayCores++;
-		arrayCores[indexArrayCores] = ambientTerm[2] + diffuseTerm[2] * cosNL + specularTerm[2] * pow(cosNH, coefPhong);
+		models.arrayCores[indexArrayCores] = ambientTerm[2] + diffuseTerm[2] * cosNL + specularTerm[2] * pow(cosNH, models.coefPhong);
 		indexArrayCores++;
 		/* Libertar os arrays temporarios */
 		free(pontoP);
@@ -140,7 +140,7 @@ void myDisplay(void)
 		free(vectorH);
 	}
 	/* Push each element to the vertex shader */
-	glDrawArrays(GL_TRIANGLES, 0, numVertices);
+	glDrawArrays(GL_TRIANGLES, 0, models.numVertices);
 	glDisableVertexAttribArray(attribute_coord3d);
 	glDisableVertexAttribArray(attribute_corRGB);
 	/* Display the result */
@@ -160,90 +160,90 @@ void myKeyboard(unsigned char key, int x, int y)
 	case 27  :  exit(EXIT_SUCCESS);
 	case 'A':
 		for (i = 0; i < 3; i++)
-			if (kAmb[i] < 1)
-				kAmb[i] += 0.1;
-		fprintf(stdout, "Ambient coef: %f\n", kAmb[0]);
+			if (models.kAmb[i] < 1)
+				models.kAmb[i] += 0.1;
+		fprintf(stdout, "Ambient coef: %f\n", models.kAmb[0]);
 		glutPostRedisplay();
 		break;
 	case 'a':
 		for (i = 0; i < 3; i++)
-			if (kAmb[i] > 0)
-				kAmb[i] -= 0.1;
-		fprintf(stdout, "Ambient coef: %f\n", kAmb[0]);
+			if (models.kAmb[i] > 0)
+				models.kAmb[i] -= 0.1;
+		fprintf(stdout, "Ambient coef: %f\n", models.kAmb[0]);
 		glutPostRedisplay();
 		break;
 	case 'D':
 		for (i = 0; i < 3; i++)
-			if (kDif[i] < 1)
-				kDif[i] += 0.1;
-		fprintf(stdout, "Diffuse coef: %f\n", kDif[0]);
+			if (models.kDif[i] < 1)
+				models.kDif[i] += 0.1;
+		fprintf(stdout, "Diffuse coef: %f\n", models.kDif[0]);
 		glutPostRedisplay();
 		break;
 	case 'd':
 		for (i = 0; i < 3; i++)
-			if (kDif[i] > 0)
-				kDif[i] -= 0.1;
-		fprintf(stdout, "Diffuse coef: %f\n", kDif[0]);
+			if (models.kDif[i] > 0)
+				models.kDif[i] -= 0.1;
+		fprintf(stdout, "Diffuse coef: %f\n", models.kDif[0]);
 		glutPostRedisplay();
 		break;
 	case 'E':
 		for (i = 0; i < 3; i++)
-			if (kEsp[i] < 1)
-				kEsp[i] += 0.1;
-		fprintf(stdout, "Specular coef: %f\n", kEsp[0]);
+			if (models.kEsp[i] < 1)
+				models.kEsp[i] += 0.1;
+		fprintf(stdout, "Specular coef: %f\n", models.kEsp[0]);
 		glutPostRedisplay();
 		break;
 	case 'e':
 		for (i = 0; i < 3; i++)
-			if (kEsp[i] > 0)
-				kEsp[i] -= 0.1;
-		fprintf(stdout, "Specular coef: %f\n", kEsp[0]);
+			if (models.kEsp[i] > 0)
+				models.kEsp[i] -= 0.1;
+		fprintf(stdout, "Specular coef: %f\n", models.kEsp[0]);
 		glutPostRedisplay();
 		break;
 	case 'P':
-		if (coefPhong <= 20) 
-			coefPhong++;
-		else if (coefPhong < 255)
-			coefPhong += 10;
-		fprintf(stdout, "Phong coef: %f\n", coefPhong);
+		if (models.coefPhong <= 20) 
+			models.coefPhong++;
+		else if (models.coefPhong < 255)
+			models.coefPhong += 10;
+		fprintf(stdout, "Phong coef: %f\n", models.coefPhong);
 		glutPostRedisplay();
 		break;
 	case 'p':
-		if (coefPhong <= 20 && coefPhong > 1) 
-			coefPhong--;
-		else if (coefPhong > 20)
-			coefPhong -= 10;
-		fprintf(stdout, "Phong coef: %f\n", coefPhong);
+		if (models.coefPhong <= 20 && models.coefPhong > 1) 
+			models.coefPhong--;
+		else if (models.coefPhong > 20)
+			models.coefPhong -= 10;
+		fprintf(stdout, "Phong coef: %f\n", models.coefPhong);
 		glutPostRedisplay();
 		break;
 	case 'Z' :
 	case 'z' :
-		anguloRotZZ += 5;
-		if (anguloRotZZ == 360.0)
+		models.anguloRot.z += 5;
+		if (models.anguloRot.z == 360.0)
 		{
-			anguloRotZZ = 0.0;
+			models.anguloRot.z = 0.0;
 		}
 		glutPostRedisplay();
 		break;
 	case 'X' :
 	case 'x' :
-		anguloRotZZ -= 5;
-		if (anguloRotZZ == -360.0)
+		models.anguloRot.z -= 5;
+		if (models.anguloRot.z == -360.0)
 		{
-			anguloRotZZ = 0.0;
+			models.anguloRot.z = 0.0;
 		}
 		glutPostRedisplay();
 		break;
 	case '+' :
-		factorEscX *= 1.1;
-		factorEscY *= 1.1;
-		factorEscZ *= 1.1;
+		models.factorEsc.x *= 1.1;
+		models.factorEsc.y *= 1.1;
+		models.factorEsc.z *= 1.1;
 		glutPostRedisplay();
 		break;
 	case '-' :
-		factorEscX *= 0.9;
-		factorEscY *= 0.9;
-		factorEscZ *= 0.9;
+		models.factorEsc.x *= 0.9;
+		models.factorEsc.y *= 0.9;
+		models.factorEsc.z *= 0.9;
 		glutPostRedisplay();
 		break;
 	}
@@ -256,34 +256,34 @@ void mySpecialKeys(int key, int x, int y)
 	switch (key)
 	{
 	case GLUT_KEY_LEFT :
-		anguloRotYY -= 5;
-		if (anguloRotYY == -360.0)
+		models.anguloRot.y -= 5;
+		if (models.anguloRot.y == -360.0)
 		{
-			anguloRotYY = 0.0;
+			models.anguloRot.y = 0.0;
 		}
 		glutPostRedisplay();
 		break;
 	case GLUT_KEY_RIGHT :
-		anguloRotYY += 5;
-		if (anguloRotYY == 360.0)
+		models.anguloRot.y += 5;
+		if (models.anguloRot.y == 360.0)
 		{
-			anguloRotYY = 0.0;
+			models.anguloRot.y = 0.0;
 		}
 		glutPostRedisplay();
 		break;
 	case GLUT_KEY_UP :
-		anguloRotXX -= 5;
-		if (anguloRotXX == -360.0)
+		models.anguloRot.x -= 5;
+		if (models.anguloRot.x == -360.0)
 		{
-			anguloRotXX = 0.0;
+			models.anguloRot.x = 0.0;
 		}
 		glutPostRedisplay();
 		break;
 	case GLUT_KEY_DOWN :
-		anguloRotXX += 5;
-		if (anguloRotXX == 360.0)
+		models.anguloRot.x += 5;
+		if (models.anguloRot.x == 360.0)
 		{
-			anguloRotXX = 0.0;
+			models.anguloRot.x = 0.0;
 		}
 		glutPostRedisplay();
 		break;
@@ -295,10 +295,10 @@ void myTimer(int value)
 {
 	if (animacaoON)
 	{
-		anguloRotYY += 5;
-		if (anguloRotYY == 360.0)
+		models.anguloRot.y += 5;
+		if (models.anguloRot.y == 360.0)
 		{
-			anguloRotYY = 0.0;
+			models.anguloRot.y = 0.0;
 		}
 		glutPostRedisplay();
 	}

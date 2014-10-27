@@ -65,67 +65,64 @@ void inicializarFontesDeLuz(void)
 {
 	/* Intensidade Luminosa */
 	// IL
-	intensidadeFLuz_0 = (GLfloat *) malloc(4 * sizeof(GLfloat));
-	intensidadeFLuz_0[0] = 1.0;
-	intensidadeFLuz_0[1] = 1.0;
-	intensidadeFLuz_0[2] = 1.0;
-	intensidadeFLuz_0[3] = 1.0;
+	models.intensidadeFLuz_0[0] = 1.0;
+	models.intensidadeFLuz_0[1] = 1.0;
+	models.intensidadeFLuz_0[2] = 1.0;
+	models.intensidadeFLuz_0[3] = 1.0;
 	/* Posicao */
-	posicaoFLuz_0 = (GLfloat *) malloc(4 * sizeof(GLfloat));
-	posicaoFLuz_0 [0] = 0.0;
-	posicaoFLuz_0 [1] = 0.0;
-	posicaoFLuz_0 [2] = 10.0;
-	posicaoFLuz_0 [3] = 0.0;
+	models.posicaoFLuz_0 [0] = 0.0;
+	models.posicaoFLuz_0 [1] = 0.0;
+	models.posicaoFLuz_0 [2] = 10.0;
+	models.posicaoFLuz_0 [3] = 0.0;
 	/* Luz Ambiente */
 	// IA
-	intensidadeLuzAmbiente = (GLfloat *) malloc(4 * sizeof(GLfloat));
-	intensidadeLuzAmbiente[0] = 0.2;
-	intensidadeLuzAmbiente[1] = 0.2;
-	intensidadeLuzAmbiente[2] = 0.2;
-	intensidadeLuzAmbiente[3] = 1.0;
+	models.intensidadeLuzAmbiente[0] = 0.2;
+	models.intensidadeLuzAmbiente[1] = 0.2;
+	models.intensidadeLuzAmbiente[2] = 0.2;
+	models.intensidadeLuzAmbiente[3] = 1.0;
 }
 
 void inicializarModelos(void)
 {
-	lerVerticesDeFicheiro("models/queen.obj", &numVertices, &arrayVertices);
+	lerVerticesDeFicheiro("models/queen.obj", &models.numVertices, &models.arrayVertices, &models.arrayNormais);
 	/* Determinar as normais unitarias a cada triangulo */
-	arrayNormais = calcularNormaisTriangulos(numVertices, arrayVertices);
+	//arrayNormais = calcularNormaisTriangulos(numVertices, arrayVertices);
 	/* TESTE */
 	//infosModelo( numVertices, arrayVertices, arrayNormais );
 	/* Array vazio para guardar a cor atribuida a cada vertice */
-	arrayCores = (GLfloat *) calloc(3 * numVertices, sizeof(GLfloat));
+	models.arrayCores = (GLfloat *) calloc(3 * models.numVertices, sizeof(GLfloat));
+	
 	/* Propriedades do material */
-	kAmb = (GLfloat *) malloc(4 * sizeof(GLfloat));
-	kAmb[0] = 0.2;
-	kAmb[1] = 0.2;
-	kAmb[2] = 0.2;
-	kAmb[3] = 1.0;
-	kDif = (GLfloat *) malloc(4 * sizeof(GLfloat));
-	kDif[0] = 0.5;
-	kDif[1] = 0.5;
-	kDif[2] = 0.5;
-	kDif[3] = 1.0;
-	kEsp = (GLfloat *) malloc(4 * sizeof(GLfloat));
-	kEsp[0] = 0.7;
-	kEsp[1] = 0.7;
-	kEsp[2] = 0.7;
-	kEsp[3] = 1.0;
-	coefPhong = 100;
+	models.kAmb[0] = 0.2;
+	models.kAmb[1] = 0.2;
+	models.kAmb[2] = 0.2;
+	models.kAmb[3] = 1.0;
+
+	models.kDif[0] = 0.5;
+	models.kDif[1] = 0.5;
+	models.kDif[2] = 0.5;
+	models.kDif[3] = 1.0;
+
+	models.kEsp[0] = 0.7;
+	models.kEsp[1] = 0.7;
+	models.kEsp[2] = 0.7;
+	models.kEsp[3] = 1.0;
+	models.coefPhong = 100;
 	/* Parametros das transformacoes */
-	deslX = 0;
-	deslY = 0;
-	deslZ = -0.5;
-	anguloRotXX = 0;
-	anguloRotYY = 0;
-	anguloRotZZ = 0;
-	factorEscX = 0.25;
-	factorEscY = 0.25;
-	factorEscZ = 0.25;
+	models.desl.x = 0;
+	models.desl.y = 0;
+	models.desl.z = -0.5;
+	models.anguloRot.x = 0;
+	models.anguloRot.y = 0;
+	models.anguloRot.z = 0;
+	models.factorEsc.x = 0.25;
+	models.factorEsc.y = 0.25;
+	models.factorEsc.z = 0.25;
 }
 
 void libertarArraysGlobais(void)
 {
-	free(arrayVertices);
-	free(arrayNormais);
-	free(arrayCores);
+	free(models.arrayVertices);
+	free(models.arrayNormais);
+	free(models.arrayCores);
 }

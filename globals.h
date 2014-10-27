@@ -13,7 +13,10 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include "mathUtils.h"
+#include "graphicModel.h"
+#include <vector>
 
+using namespace std;
 /* Variaveis GLOBAIS !! */
 extern int windowHandle;
 /* O identificador do programa em GLSL combinando os SHADERS */
@@ -57,5 +60,7 @@ extern GLfloat factorEscY;
 extern GLfloat factorEscZ;
 /* FLAG para controlar a animacao */
 extern GLboolean animacaoON;
+
+extern GraphicModelChess models;
 
 #endif

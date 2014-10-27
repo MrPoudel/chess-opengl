@@ -8,8 +8,10 @@
 /* Incluir os ficheiros cabecalhos necessarios */
 
 #include <stdio.h>
+#include <iostream>
 #include "consoleIO.h"
 
+using namespace std;
 /* Escrever algumas informacoes na consola */
 
 void infosConsola(void)
@@ -77,8 +79,10 @@ void parametrosVarEscala3D(float *sx, float *sy, float *sz)
 }
 
 
-void nomeFicheiro(char *nome)
+string nomeFicheiro(void)
 {
-	fprintf(stdout, "Escreva o nome do ficheiro, incluindo a extensao:\n");
-	fgets(nome, sizeof(nome), stdin);
+	string filename;
+	cout << "Escreva o nome do ficheiro, incluindo a extensao:" << endl;
+	cin >> filename;
+	return filename;
 }

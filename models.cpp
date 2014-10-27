@@ -28,9 +28,9 @@ struct vertex3d {
 	float z;
 };
 
-void lerVerticesDeFicheiro(string nome, int *numVertices, GLfloat **arrayVertices)
+void lerVerticesDeFicheiro(string nome, int *numVertices, GLfloat **arrayVertices, GLfloat **arrayNormais)
 {
-	std::vector<vertex3d> vertices, normalVector, faces;
+	std::vector<vertex3d> vertices, normalVector, faces, facesNormals;
 
 	FILE * file = fopen(nome.c_str(), "r");
 	if(file == NULL){
@@ -57,6 +57,10 @@ void lerVerticesDeFicheiro(string nome, int *numVertices, GLfloat **arrayVertice
 		    faces.push_back(vertices.at(vertexIndex[0]-1));
 		    faces.push_back(vertices.at(vertexIndex[1]-1));
 		    faces.push_back(vertices.at(vertexIndex[2]-1));
+
+		    facesNormals.push_back(normalVector.at(normalIndex[0]-1));
+		    facesNormals.push_back(normalVector.at(normalIndex[1]-1));
+		    facesNormals.push_back(normalVector.at(normalIndex[2]-1));
 		} else {
 
 		}
@@ -65,13 +69,19 @@ void lerVerticesDeFicheiro(string nome, int *numVertices, GLfloat **arrayVertice
 
 	*numVertices = faces.size();
 	*arrayVertices = (GLfloat *) malloc(3 * faces.size() * sizeof(GLfloat));
+	*arrayNormais = (GLfloat *) malloc(3 * faces.size() * sizeof(GLfloat));
 	GLfloat* coordenadas = *arrayVertices;
+	GLfloat* normais = *arrayNormais;
 	int i;
 	int sub = 0;
 	for (i = 0; i < faces.size(); i++) {
 		vertex3d tmp = faces.at(i);
+		vertex3d tmpN = facesNormals.at(i);
+		normais[sub] = tmpN.x;
 		coordenadas[sub++] = tmp.x;
+		normais[sub] = tmpN.y;
 		coordenadas[sub++] = tmp.y;
+		normais[sub] = tmpN.z;
 		coordenadas[sub++] = tmp.z;
 	}
 }

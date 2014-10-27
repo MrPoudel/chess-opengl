@@ -1,5 +1,6 @@
 #include "globals.h"
 
+using namespace std;
 /* Variaveis GLOBAIS !! */
 int windowHandle;
 /* O identificador do programa em GLSL combinando os SHADERS */
@@ -43,3 +44,5 @@ GLfloat factorEscY;
 GLfloat factorEscZ;
 /* FLAG para controlar a animacao */
 GLboolean animacaoON;
+
+GraphicModelChess models;
