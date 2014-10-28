@@ -17,20 +17,16 @@
 #include <string.h>
 #include "models.h"
 #include "mathUtils.h"
+#include "Points.h"
 /* Ler um modelo de ficheiro */
 /* FORMATO SIMPLES: x y z */
 /* VERTICES REPLICADOS */
 /* Atribuida MEMORIA ao array dos vertices */
 /* Nao sao verificados erros de formatacao do ficheiro */
-struct vertex3d {
-	float x;
-	float y;
-	float z;
-};
 
 void lerVerticesDeFicheiro(string nome, int *numVertices, GLfloat **arrayVertices, GLfloat **arrayNormais)
 {
-	std::vector<vertex3d> vertices, normalVector, faces, facesNormals;
+	std::vector<Point3D<float> > vertices, normalVector, faces, facesNormals;
 
 	FILE * file = fopen(nome.c_str(), "r");
 	if(file == NULL){
@@ -40,13 +36,13 @@ void lerVerticesDeFicheiro(string nome, int *numVertices, GLfloat **arrayVertice
 
 	char firstChar[128];
 	int res = fscanf(file, "%s", firstChar);
+
+	Point3D<float> tmp, tmpN;
 	while(res != EOF) {
 	    if (strcmp(firstChar, "v") == 0) {
-	    	vertex3d tmp;
 		    fscanf(file, "%f %f %f\n", &tmp.x, &tmp.y, &tmp.z);
 		    vertices.push_back(tmp);
 		} else if(strcmp(firstChar, "vn") == 0) {
-			vertex3d tmp;
 		    fscanf(file, "%f %f %f\n", &tmp.x, &tmp.y, &tmp.z);
 		    normalVector.push_back(tmp);
 		} else if(strcmp(firstChar, "f") == 0) {
@@ -75,8 +71,8 @@ void lerVerticesDeFicheiro(string nome, int *numVertices, GLfloat **arrayVertice
 	int i;
 	int sub = 0;
 	for (i = 0; i < faces.size(); i++) {
-		vertex3d tmp = faces.at(i);
-		vertex3d tmpN = facesNormals.at(i);
+		tmp = faces.at(i);
+		tmpN = facesNormals.at(i);
 		normais[sub] = tmpN.x;
 		coordenadas[sub++] = tmp.x;
 		normais[sub] = tmpN.y;

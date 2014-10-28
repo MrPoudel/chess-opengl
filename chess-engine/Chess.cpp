@@ -1,5 +1,7 @@
 #include "Chess.h"
 #include <cstddef>
+#include <typeinfo>
+#include <iostream>
 
 Chess::Chess() {
 	/* Player one setup */
@@ -47,29 +49,54 @@ Chess::~Chess() {
 
 bool Chess::move(Point2D<int> src, Point2D<int> dst) {
 	/* Check valid move */
-	if (src.x < 0 || src.x >= 8 || src.y < 0 || src.y >= 8 || dst.x < 0 || dst.x >= 8 || dst.y < 0 || dst.y >= 8)
+	if (src.x < 0 || src.x >= 8 || src.y < 0 || src.y >= 8 || 
+		dst.x < 0 || dst.x >= 8 || dst.y < 0 || dst.y >= 8 ||
+		table[src.x][src.y] == NULL)
 		return false;
+	Point2D<int> res;
+	cout << src.x << "," << src.y << "->" << dst.x << "," << dst.y << endl;
+	res.x = dst.x - src.x;
+	res.y = dst.y - src.y;
+	if (table[src.x][src.y]->getType() == "Pawn" && table[src.x][src.y]->player == TWO)
+		res.x *= -1;
 
-	Point2D<int> tmp;
-	tmp.x = src.x - dst.x;
-	tmp.y = src.y - dst.y;
 	vector<Point2D<int> > points = table[src.x][src.y]->getPossibleMoves();
 	bool found = false;
+	cout << res.x << "," << res.y << endl;
 	for(vector<Point2D<int> >::iterator it = points.begin(); it != points.end(); ++it) {
-		if (it->x == tmp.x && it->y == tmp.y)
+		cout << it->x << "," << it->y << endl;
+		if (it->x == res.x && it->y == res.y)
 			found = true;		
 	}
-	if (!found || table[dst.x][dst.y]->player == table[src.x][src.y]->player)	
+	if (!found)	
 		return false;
 
 	if (table[dst.x][dst.y] == NULL) {
+		if (table[src.x][src.y]->getType() == "Pawn" && res.y != 0)
+			return false;
+
 		table[dst.x][dst.y] = table[src.x][src.y];
 		table[src.x][src.y] = NULL;
 	} else {
+		if (table[src.x][src.y]->getType() == "Pawn" && res.y == 0)
+			return false;
 		beated.push_back(*table[dst.x][dst.y]);
 		table[dst.x][dst.y] = table[src.x][src.y];
 		table[src.x][src.y] = NULL;
 	}
 
 	return true;
+}
+
+ostream& operator<<(ostream& output, const Chess& obj) {
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			if (obj.table[i][j] == NULL)
+				output << "_" << i << j << " ";
+			else if (obj.table[i][j]->getType() == "Pawn") 
+				output << "P" << i << j << " ";
+		}
+		output << endl;
+	}
+	return output;
 }

@@ -2,6 +2,7 @@
 #define CHESSPIECE_H
 
 #include <vector>
+#include <string>
 #include "../Points.h"
 
 using namespace std;
@@ -17,6 +18,7 @@ class ChessPiece {
 		~ChessPiece();
 
 		vector<Point2D<int> > getPossibleMoves();
+		virtual string getType();
 };
 
 #endif

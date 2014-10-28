@@ -12,3 +12,7 @@ ChessPiece::~ChessPiece() {
 vector<Point2D<int> > ChessPiece::getPossibleMoves() {
 	return possibleMoves;
 }
+
+string ChessPiece::getType() {
+	return "None";
+}

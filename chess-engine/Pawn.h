@@ -6,6 +6,7 @@
 class Pawn : public ChessPiece {
 public:
 	Pawn(Player);
+	string getType();
 };
 
 #endif

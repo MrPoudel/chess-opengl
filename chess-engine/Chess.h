@@ -2,6 +2,7 @@
 #define CHESS_H
 
 #include <vector>
+#include <ostream>
 #include "ChessPiece.h"
 #include "../Points.h"
 #include "Pawn.h"
@@ -15,7 +16,10 @@ private:
 public:
 	Chess();
 	~Chess();
+	friend ostream &operator<<(ostream &, const Chess &);
+
 	bool move(Point2D<int> src, Point2D<int> dst);
+
 };
 
 #endif
