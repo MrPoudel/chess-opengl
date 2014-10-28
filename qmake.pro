@@ -1,5 +1,8 @@
-HEADERS		= callbacks.h consoleIO.h init.h mathUtils.h menus.h models.h shaders.h globals.h
-SOURCES		= project60337.cpp globals.cpp callbacks.cpp consoleIO.cpp init.cpp mathUtils.cpp menus.cpp models.cpp shaders.cpp
+HEADERS		= callbacks.h consoleIO.h init.h mathUtils.h menus.h models.h shaders.h globals.h \ 
+				chess-engine/Chess.h chess-engine/ChessPiece.h chess-engine/Pawn.h \
+				Points.h
+SOURCES		= project60337.cpp globals.cpp callbacks.cpp consoleIO.cpp init.cpp mathUtils.cpp menus.cpp models.cpp \
+				shaders.cpp chess-engine/ChessPiece.cpp chess-engine/Chess.cpp chess-engine/Pawn.cpp
 
 INCLUDEPATH     = 
 LIBS            += -lGLEW -lGL -lglut

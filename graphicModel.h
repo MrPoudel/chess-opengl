@@ -6,13 +6,7 @@
 #include <GL/freeglut.h>
 #include <vector>
 #include "mathUtils.h"
-
-struct point3D
-{
-	GLfloat x;
-	GLfloat y;
-	GLfloat z;
-};
+#include "Points.h"
 
 enum ChessPiece {
 	Pawn, Tower, King, Queen, Bishop, Knight
@@ -37,9 +31,9 @@ public:
 	GLfloat kEsp[4];
 	GLfloat coefPhong;
 	/* Parametros das transformacoes */
-	point3D desl;
-	point3D anguloRot;
-	point3D factorEsc;
+	Point3D<float> desl;
+	Point3D<float> anguloRot;
+	Point3D<float> factorEsc;
 };
 
 #endif
