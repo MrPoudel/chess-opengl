@@ -1,4 +1,4 @@
-#include "ChessPiece.h"
+#include "ChessPiece.hpp"
 
 ChessPiece::ChessPiece(Player player, std::vector<Point2D<int> > possibleMoves) {
 	this->player = player;

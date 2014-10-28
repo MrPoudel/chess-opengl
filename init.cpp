@@ -12,9 +12,9 @@
 #define GLEW_STATIC /* Necessario se houver problemas com a lib */
 #include <GL/glew.h>
 #include <GL/freeglut.h>
-#include "globals.h"
-#include "mathUtils.h"
-#include "models.h"
+#include "globals.hpp"
+#include "mathUtils.hpp"
+#include "models.hpp"
 
 void inicializarEstado(void)
 {

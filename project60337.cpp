@@ -13,12 +13,12 @@
 #define GLEW_STATIC /* Necessario se houver problemas com a lib */
 #include <GL/glew.h>
 #include <GL/freeglut.h>
-#include "globals.h"
-#include "callbacks.h"
-#include "consoleIO.h"
-#include "init.h"
-#include "menus.h"
-#include "shaders.h"
+#include "globals.hpp"
+#include "callbacks.hpp"
+#include "consoleIO.hpp"
+#include "init.hpp"
+#include "menus.hpp"
+#include "shaders.hpp"
 
 int main(int argc, char **argv)
 {

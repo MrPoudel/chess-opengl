@@ -12,8 +12,8 @@
 #define GLEW_STATIC /* Necessario se houver problemas com a lib */
 #include <GL/glew.h>
 #include <GL/freeglut.h>
-#include "mathUtils.h"
-#include "graphicModel.h"
+#include "mathUtils.hpp"
+#include "graphicModel.hpp"
 #include <map>
 
 using namespace std;

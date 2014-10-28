@@ -3,9 +3,9 @@
 
 #include <vector>
 #include <ostream>
-#include "ChessPiece.h"
-#include "../Points.h"
-#include "Pawn.h"
+#include "ChessPiece.hpp"
+#include "../Points.hpp"
+#include "Pieces/Pawn.hpp"
 
 using namespace std;
 

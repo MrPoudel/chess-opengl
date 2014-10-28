@@ -10,7 +10,7 @@
 #define GLEW_STATIC /* Necessario se houver problemas com a lib */
 #include <GL/glew.h>
 #include <GL/freeglut.h>
-#include "globals.h"
+#include "globals.hpp"
 #include <string>
 
 using namespace std;

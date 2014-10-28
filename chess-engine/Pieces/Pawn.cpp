@@ -1,4 +1,4 @@
-#include "Pawn.h"
+#include "Pawn.hpp"
 
 using namespace std;
 

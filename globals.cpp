@@ -1,4 +1,4 @@
-#include "globals.h"
+#include "globals.hpp"
 
 using namespace std;
 /* Variaveis GLOBAIS !! */

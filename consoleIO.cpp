@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 #include <iostream>
-#include "consoleIO.h"
+#include "consoleIO.hpp"
 
 using namespace std;
 /* Escrever algumas informacoes na consola */

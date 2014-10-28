@@ -15,9 +15,9 @@
 #include <vector>
 #include <math.h>
 #include <string.h>
-#include "models.h"
-#include "mathUtils.h"
-#include "Points.h"
+#include "models.hpp"
+#include "mathUtils.hpp"
+#include "Points.hpp"
 /* Ler um modelo de ficheiro */
 /* FORMATO SIMPLES: x y z */
 /* VERTICES REPLICADOS */

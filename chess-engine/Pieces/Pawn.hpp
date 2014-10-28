@@ -1,9 +1,10 @@
 #ifndef PAWN_H
 #define PAWN_H
 
-#include "ChessPiece.h"
+#include "../ChessPiece.hpp"
 
 class Pawn : public ChessPiece {
+
 public:
 	Pawn(Player);
 	string getType();

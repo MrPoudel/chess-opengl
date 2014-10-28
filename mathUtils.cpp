@@ -21,7 +21,7 @@
 
 #include <math.h>
 #include <string.h>
-#include "mathUtils.h"
+#include "mathUtils.hpp"
 
 
 /* PARA AS TRANSFORMACOES */

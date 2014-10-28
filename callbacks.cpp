@@ -10,9 +10,9 @@
 #define GLEW_STATIC /* Necessario se houver problemas com a lib */
 #include <GL/glew.h>
 #include <GL/freeglut.h>
-#include "globals.h"
-#include "callbacks.h"
-#include "consoleIO.h"
+#include "globals.hpp"
+#include "callbacks.hpp"
+#include "consoleIO.hpp"
 
 /* Callback functions */
 

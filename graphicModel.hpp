@@ -5,8 +5,8 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include <vector>
-#include "mathUtils.h"
-#include "Points.h"
+#include "mathUtils.hpp"
+#include "Points.hpp"
 
 enum ChessPiece {
 	Pawn, Tower, King, Queen, Bishop, Knight

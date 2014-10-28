@@ -12,11 +12,11 @@
 #define GLEW_STATIC /* Necessario se houver problemas com a lib */
 #include <GL/glew.h>
 #include <GL/freeglut.h>
-#include "consoleIO.h"
-#include "globals.h"
-#include "init.h"
-#include "menus.h"
-#include "models.h"
+#include "consoleIO.hpp"
+#include "globals.hpp"
+#include "init.hpp"
+#include "menus.hpp"
+#include "models.hpp"
 
 #include <string>
 using namespace std;
