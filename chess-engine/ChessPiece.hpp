@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include "../Points.hpp"
+#include "../utils/Points.hpp"
 
 using namespace std;
 

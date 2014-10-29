@@ -13,7 +13,7 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include "globals.hpp"
-#include "mathUtils.hpp"
+#include "utils/mathUtils.hpp"
 #include "models.hpp"
 
 void inicializarEstado(void)
@@ -31,6 +31,8 @@ void inicializarEstado(void)
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
 	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	/* Matriz de projeccao é inicialmente a IDENTIDADE => Proj. Paralela Ortogonal */
 	matrizProj = IDENTITY_MATRIX;
 	matrizModelView = IDENTITY_MATRIX;

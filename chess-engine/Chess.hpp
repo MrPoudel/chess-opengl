@@ -4,7 +4,7 @@
 #include <vector>
 #include <ostream>
 #include "ChessPiece.hpp"
-#include "../Points.hpp"
+#include "../utils/Points.hpp"
 #include "Pieces/Pawn.hpp"
 #include "Pieces/King.hpp"
 #include "Pieces/Queen.hpp"

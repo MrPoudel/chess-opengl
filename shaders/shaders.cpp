@@ -10,7 +10,7 @@
 #define GLEW_STATIC /* Necessario se houver problemas com a lib */
 #include <GL/glew.h>
 #include <GL/freeglut.h>
-#include "globals.hpp"
+#include "../globals.hpp"
 #include <string>
 
 using namespace std;
@@ -50,7 +50,7 @@ int initResources(void)
 	GLint compileOK = GL_FALSE;
 	GLint linkOK = GL_FALSE;
 	/* String contendo o codigo (GLSL) do vertex-shader */
-	vsSource = readShaderSource("vShader.glsl");
+	vsSource = readShaderSource("shaders/vShader.glsl");
 	if (vsSource == NULL)
 	{
 		fprintf(
@@ -68,7 +68,7 @@ int initResources(void)
 	/* Para passar a matriz de model-view ao Vertex-Shader */
 	uniform_matriz_model_view_name = "matrizModelView";
 	/* String contendo o codigo (GLSL) do fragment-shader */
-	fsSource = readShaderSource("fShader.glsl");
+	fsSource = readShaderSource("shaders/fShader.glsl");
 	if (fsSource == NULL)
 	{
 		fprintf(

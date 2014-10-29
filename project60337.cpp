@@ -18,7 +18,7 @@
 #include "consoleIO.hpp"
 #include "init.hpp"
 #include "menus.hpp"
-#include "shaders.hpp"
+#include "shaders/shaders.hpp"
 
 int main(int argc, char **argv)
 {

@@ -16,8 +16,8 @@
 #include <math.h>
 #include <string.h>
 #include "models.hpp"
-#include "mathUtils.hpp"
-#include "Points.hpp"
+#include "utils/mathUtils.hpp"
+#include "utils/Points.hpp"
 /* Ler um modelo de ficheiro */
 /* FORMATO SIMPLES: x y z */
 /* VERTICES REPLICADOS */

@@ -1,15 +1,19 @@
-HEADERS		= callbacks.hpp consoleIO.hpp init.hpp mathUtils.hpp menus.hpp menusodels.hpp shaders.hpp globals.hpp \ 
+HEADERS		= 	callbacks.hpp consoleIO.hpp init.hpp menus.hpp menusodels.hpp globals.hpp \ 
 				chess-engine/Chess.hpp chess-engine/ChessPiece.hpp \
-				chess-engine/Pieces/Pawn.hpp \
-				Points.hpp
+				chess-engine/Pieces/Pawn.hpp chess-engine/Pieces/Knight.hpp chess-engine/Pieces/Bishop.hpp \
+				chess-engine/Pieces/Tower.hpp chess-engine/Pieces/King.hpp chess-engine/Pieces/Queen.hpp \
+				utils/mathUtils.hpp utils/Points.hpp shaders/shaders.hpp 
 				
-SOURCES		= project60337.cpp globals.cpp callbacks.cpp consoleIO.cpp init.cpp mathUtils.cpp menus.cpp models.cpp \
-				shaders.cpp chess-engine/ChessPiece.cpp chess-engine/Chess.cpp chess-engine/Pieces/Pawn.cpp
+SOURCES		=	project60337.cpp globals.cpp callbacks.cpp consoleIO.cpp init.cpp menus.cpp models.cpp \
+				shaders/shaders.cpp chess-engine/ChessPiece.cpp chess-engine/Chess.cpp \
+				chess-engine/Pieces/Pawn.cpp chess-engine/Pieces/Knight.cpp chess-engine/Pieces/Bishop.cpp \
+				chess-engine/Pieces/Tower.cpp chess-engine/Pieces/King.cpp chess-engine/Pieces/Queen.cpp \
+				utils/mathUtils.cpp
 
 INCLUDEPATH     = 
 LIBS            += -lGLEW -lGL -lglut
 TARGET			= chess
-CONFIG -= qt warn_on
+CONFIG 			-= qt warn_on
 
 QMAKE_CXXFLAGS_WARN_ON -= -Wall -W -W1, -01 -m64
 QMAKE_CXXFLAGS_RELEASE =
