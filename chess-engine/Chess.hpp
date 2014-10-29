@@ -6,6 +6,11 @@
 #include "ChessPiece.hpp"
 #include "../Points.hpp"
 #include "Pieces/Pawn.hpp"
+#include "Pieces/King.hpp"
+#include "Pieces/Queen.hpp"
+#include "Pieces/Knight.hpp"
+#include "Pieces/Tower.hpp"
+#include "Pieces/Bishop.hpp"
 
 using namespace std;
 

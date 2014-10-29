@@ -1,7 +1,8 @@
-HEADERS		= callbacks.hpp consoleIO.hpp init.hpp mathUtils.hpp menus.hpp models.hpp shaders.hpp globals.hpp \ 
+HEADERS		= callbacks.hpp consoleIO.hpp init.hpp mathUtils.hpp menus.hpp menusodels.hpp shaders.hpp globals.hpp \ 
 				chess-engine/Chess.hpp chess-engine/ChessPiece.hpp \
 				chess-engine/Pieces/Pawn.hpp \
 				Points.hpp
+				
 SOURCES		= project60337.cpp globals.cpp callbacks.cpp consoleIO.cpp init.cpp mathUtils.cpp menus.cpp models.cpp \
 				shaders.cpp chess-engine/ChessPiece.cpp chess-engine/Chess.cpp chess-engine/Pieces/Pawn.cpp
 

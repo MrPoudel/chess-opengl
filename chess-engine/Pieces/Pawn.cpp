@@ -2,7 +2,7 @@
 
 using namespace std;
 
-vector<Point2D<int> > createPossibleMoves() {
+inline vector<Point2D<int> > createPossibleMoves() {
 	vector<Point2D<int> > moves;
 	moves.push_back(createPoint(1, 1));		// Diagonal Direita
 	moves.push_back(createPoint(1,-1));		// Diagonal Esquerda

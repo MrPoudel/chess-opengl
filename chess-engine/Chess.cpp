@@ -5,29 +5,29 @@
 
 Chess::Chess() {
 	/* Player one setup */
-	table[0][0] = new Pawn(ONE);
-	table[0][1] = new Pawn(ONE);
-	table[0][2] = new Pawn(ONE);
-	table[0][3] = new Pawn(ONE);
+	table[0][0] = new Tower(ONE);
+	table[0][1] = new Knight(ONE);
+	table[0][2] = new Bishop(ONE);
+	table[0][3] = new Queen(ONE);
 	
-	table[0][4] = new Pawn(ONE);
-	table[0][5] = new Pawn(ONE);
-	table[0][6] = new Pawn(ONE);
-	table[0][7] = new Pawn(ONE);
+	table[0][4] = new King(ONE);
+	table[0][5] = new Bishop(ONE);
+	table[0][6] = new Knight(ONE);
+	table[0][7] = new Tower(ONE);
 
 	for (int i = 0; i < 8; i++)
 		table[1][i] = new Pawn(ONE);
 
 	/* Player two setup */
-	table[7][0] = new Pawn(TWO);
-	table[7][1] = new Pawn(TWO);
-	table[7][2] = new Pawn(TWO);
-	table[7][3] = new Pawn(TWO);
+	table[7][0] = new Tower(TWO);
+	table[7][1] = new Knight(TWO);
+	table[7][2] = new Bishop(TWO);
+	table[7][3] = new Queen(TWO);
 
-	table[7][4] = new Pawn(TWO);
-	table[7][5] = new Pawn(TWO);
-	table[7][6] = new Pawn(TWO);
-	table[7][7] = new Pawn(TWO);
+	table[7][4] = new King(TWO);
+	table[7][5] = new Bishop(TWO);
+	table[7][6] = new Knight(TWO);
+	table[7][7] = new Tower(TWO);
 
 	for (int i = 0; i < 8; i++)
 		table[6][i] = new Pawn(TWO );
@@ -54,7 +54,6 @@ bool Chess::move(Point2D<int> src, Point2D<int> dst) {
 		table[src.x][src.y] == NULL)
 		return false;
 	Point2D<int> res;
-	cout << src.x << "," << src.y << "->" << dst.x << "," << dst.y << endl;
 	res.x = dst.x - src.x;
 	res.y = dst.y - src.y;
 	if (table[src.x][src.y]->getType() == "Pawn" && table[src.x][src.y]->player == TWO)
@@ -62,9 +61,7 @@ bool Chess::move(Point2D<int> src, Point2D<int> dst) {
 
 	vector<Point2D<int> > points = table[src.x][src.y]->getPossibleMoves();
 	bool found = false;
-	cout << res.x << "," << res.y << endl;
 	for(vector<Point2D<int> >::iterator it = points.begin(); it != points.end(); ++it) {
-		cout << it->x << "," << it->y << endl;
 		if (it->x == res.x && it->y == res.y)
 			found = true;		
 	}
@@ -95,6 +92,17 @@ ostream& operator<<(ostream& output, const Chess& obj) {
 				output << "_" << i << j << " ";
 			else if (obj.table[i][j]->getType() == "Pawn") 
 				output << "P" << i << j << " ";
+			else if (obj.table[i][j]->getType() == "Knight") 
+				output << "H" << i << j << " ";
+			else if (obj.table[i][j]->getType() == "King") 
+				output << "K" << i << j << " ";
+			else if (obj.table[i][j]->getType() == "Queen") 
+				output << "Q" << i << j << " ";
+			else if (obj.table[i][j]->getType() == "Tower") 
+				output << "T" << i << j << " ";
+			else if (obj.table[i][j]->getType() == "Bishop") 
+				output << "B" << i << j << " ";
+
 		}
 		output << endl;
 	}
