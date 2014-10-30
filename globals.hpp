@@ -13,8 +13,9 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include "utils/mathUtils.hpp"
-#include "graphicModel.hpp"
-#include <map>
+#include "GraphicModelChess.hpp"
+#include "LightModel.hpp"
+#include "chess-engine/Chess.hpp"
 
 using namespace std;
 
@@ -25,7 +26,6 @@ extern GLuint programaGLSL;
 /* Os identificadores dos SHADERS */
 extern GLuint vs;
 extern GLuint fs;
-
 /* Para passar coordenadas, cores a a matriz de transformacao ao Vertex-Shader */
 extern GLint attribute_coord3d;
 extern GLint attribute_corRGB;
@@ -36,6 +36,8 @@ extern mat4x4 matrizProj;
 /* Matriz global de transformacao */
 extern mat4x4 matrizModelView;
 
-extern map<int, GraphicModelChess> models;
+extern Chess * chess;
+extern LightModel * lights;
+extern vector<GraphicModelChess> models;
 
 #endif

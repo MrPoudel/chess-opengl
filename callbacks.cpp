@@ -18,7 +18,7 @@
 
 void myDisplay(void)
 {
-	GraphicModelChess* obj = &models.find(0)->second;
+	GraphicModelChess * obj = &models[0];
 
 	int i;
 	int indexArrayVertices;
@@ -76,9 +76,9 @@ void myDisplay(void)
 	/* AMBIENT ILLUMINATION IS CONSTANT */
 	for (i = 0; i < 3; i++)
 	{
-		ambientTerm[i] = obj->kAmb[i] * obj->intensidadeLuzAmbiente[i]; /* TESTING */
-		diffuseTerm[i] = obj->kDif[i] * obj->intensidadeFLuz_0[i];
-		specularTerm[i] = obj->kEsp[i] * obj->intensidadeFLuz_0[i];
+		ambientTerm[i] = obj->kAmb[i] * lights->intensidadeLuzAmbiente[i]; /* TESTING */
+		diffuseTerm[i] = obj->kDif[i] * lights->intensidadeFLuz[i];
+		specularTerm[i] = obj->kEsp[i] * lights->intensidadeFLuz[i];
 	}
 	/* SMOOTH-SHADING */
 	/* Compute the illumination RGB value for every triangle vertex */
@@ -108,7 +108,7 @@ void myDisplay(void)
 		/* Compute the vector L */
 		for (i = 0; i < 3; i++)
 		{
-			vectorL[i] = obj->posicaoFLuz_0[i];
+			vectorL[i] = lights->posicaoFLuz[i];
 		}
 		/* TWO SITUATIONS : POINT light source versus DIRECTIONAL light source */
 		/* Get the corresponding unit vector */
@@ -155,7 +155,7 @@ void myKeyboard(unsigned char key, int x, int y)
 {
 	/* Usar as teclas Q ou ESC para terminar o programa */
 	int i;
-	GraphicModelChess* obj = &models.find(0)->second;
+	GraphicModelChess * obj = &models[0];
 	switch (key)
 	{
 	case 'Q' :
@@ -256,7 +256,7 @@ void myKeyboard(unsigned char key, int x, int y)
 void mySpecialKeys(int key, int x, int y)
 {
 	/* Usar as teclas de cursor para controlar as rotacoes */
-	GraphicModelChess* obj = &models.find(0)->second;
+	GraphicModelChess * obj = &models[0];
 	switch (key)
 	{
 	case GLUT_KEY_LEFT :

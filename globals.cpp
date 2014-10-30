@@ -18,4 +18,6 @@ mat4x4 matrizProj;
 /* Matriz global de transformacao */
 mat4x4 matrizModelView;
 
-map<int, GraphicModelChess> models;
+Chess * chess;
+LightModel * lights;
+vector<GraphicModelChess> models;

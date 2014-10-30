@@ -2,7 +2,7 @@
 
 using namespace std;
 
-inline vector<Point2D<int> > createPossibleMoves() {
+static vector<Point2D<int> > createPossibleMoves() {
 	vector<Point2D<int> > moves;
 	moves.push_back(createPoint(1, 2));		// Right
 	moves.push_back(createPoint(-1,2));		// Right

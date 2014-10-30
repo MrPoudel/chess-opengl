@@ -30,7 +30,7 @@ Chess::Chess() {
 	table[7][7] = new Tower(TWO);
 
 	for (int i = 0; i < 8; i++)
-		table[6][i] = new Pawn(TWO );
+		table[6][i] = new Pawn(TWO);
 
 	for (int i = 2; i < 6; i++) {
 		for (int j = 0; j < 8; j++) {
@@ -61,6 +61,7 @@ bool Chess::move(Point2D<int> src, Point2D<int> dst) {
 
 	vector<Point2D<int> > points = table[src.x][src.y]->getPossibleMoves();
 	bool found = false;
+
 	for(vector<Point2D<int> >::iterator it = points.begin(); it != points.end(); ++it) {
 		if (it->x == res.x && it->y == res.y)
 			found = true;		
@@ -83,6 +84,34 @@ bool Chess::move(Point2D<int> src, Point2D<int> dst) {
 	}
 
 	return true;
+}
+
+vector<ChessPiece *> Chess::getListPieces() {
+	vector<ChessPiece *> vect;
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			if (table[i][j] != NULL)
+				vect.push_back(table[i][j]);
+		}
+	}
+	return vect;
+}
+
+Point2D<int> Chess::getPosition(ChessPiece * ptr) {
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			if (table[i][j] == ptr) {
+				Point2D<int> point = { i, j };
+				return point;
+			}
+		}
+	}
+	Point2D<int> point = { -1, -1 };
+	return point;
+}
+
+bool Chess::move(ChessPiece* src, Point2D<int> dst) {
+	return this->move(this->getPosition(src), dst);
 }
 
 ostream& operator<<(ostream& output, const Chess& obj) {

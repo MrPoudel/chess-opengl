@@ -80,7 +80,7 @@ int numItensMenu2 = sizeof(menu2) / sizeof(menuItemStruct);
 
 static void myMenuEsq(int i)
 {
-	GraphicModelChess* obj = &models.find(0)->second;
+	GraphicModelChess * obj = &models[0];
 	switch (menu1[i].val)
 	{
 	case 'x' :
@@ -142,7 +142,7 @@ static void myMenuEsq(int i)
 
 static void myMenuDir(int i)
 {
-	GraphicModelChess* obj = &models.find(0)->second;
+	GraphicModelChess * obj = &models[0];
 	char nomeF[40];
 	switch (menu2[i].val)
 	{

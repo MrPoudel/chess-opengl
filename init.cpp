@@ -31,14 +31,12 @@ void inicializarEstado(void)
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
 	glEnable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glEnable(GL_DEPTH_TEST);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	/* Matriz de projeccao é inicialmente a IDENTIDADE => Proj. Paralela Ortogonal */
 	matrizProj = IDENTITY_MATRIX;
 	matrizModelView = IDENTITY_MATRIX;
-
-	GraphicModelChess empty;
-	models.insert(pair<int, GraphicModelChess>(0, empty));
+	chess = new Chess();
 }
 
 
@@ -66,69 +64,91 @@ void inicializarJanela(void)
 
 void inicializarFontesDeLuz(void)
 {
-	GraphicModelChess* obj = &models.find(0)->second;
 	/* Intensidade Luminosa */
 	// IL
-	obj->intensidadeFLuz_0[0] = 1.0;
-	obj->intensidadeFLuz_0[1] = 1.0;
-	obj->intensidadeFLuz_0[2] = 1.0;
-	obj->intensidadeFLuz_0[3] = 1.0;
+	float intensidadeFLuz_0[4];
+	intensidadeFLuz_0[0] = 1.0;
+	intensidadeFLuz_0[1] = 1.0;
+	intensidadeFLuz_0[2] = 1.0;
+	intensidadeFLuz_0[3] = 1.0;
 	/* Posicao */
-	obj->posicaoFLuz_0 [0] = 0.0;
-	obj->posicaoFLuz_0 [1] = 0.0;
-	obj->posicaoFLuz_0 [2] = 10.0;
-	obj->posicaoFLuz_0 [3] = 0.0;
+	float posicaoFLuz_0[4];
+	posicaoFLuz_0 [0] = 0.0;
+	posicaoFLuz_0 [1] = 0.0;
+	posicaoFLuz_0 [2] = 10.0;
+	posicaoFLuz_0 [3] = 0.0;
 	/* Luz Ambiente */
 	// IA
-	obj->intensidadeLuzAmbiente[0] = 0.2;
-	obj->intensidadeLuzAmbiente[1] = 0.2;
-	obj->intensidadeLuzAmbiente[2] = 0.2;
-	obj->intensidadeLuzAmbiente[3] = 1.0;
+	float intensidadeLuzAmbiente[4];
+	intensidadeLuzAmbiente[0] = 0.2;
+	intensidadeLuzAmbiente[1] = 0.2;
+	intensidadeLuzAmbiente[2] = 0.2;
+	intensidadeLuzAmbiente[3] = 1.0;
+
+	lights = new LightModel(intensidadeFLuz_0, posicaoFLuz_0, intensidadeLuzAmbiente);
 }
 
 void inicializarModelos(void)
 {
-	GraphicModelChess* obj = &models.find(0)->second;
-	lerVerticesDeFicheiro("models/queen.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
-	/* Determinar as normais unitarias a cada triangulo */
-	//arrayNormais = calcularNormaisTriangulos(numVertices, arrayVertices);
-	/* TESTE */
-	//infosModelo( numVertices, arrayVertices, arrayNormais );
-	/* Array vazio para guardar a cor atribuida a cada vertice */
-	obj->arrayCores = (GLfloat *) calloc(3 * obj->numVertices, sizeof(GLfloat));
-	
-	/* Propriedades do material */
-	obj->kAmb[0] = 0.2;
-	obj->kAmb[1] = 0.2;
-	obj->kAmb[2] = 0.2;
-	obj->kAmb[3] = 1.0;
+	vector<ChessPiece*> list = chess->getListPieces();
+	for(vector<ChessPiece*>::iterator it = list.begin(); it != list.end(); ++it) {
+		GraphicModelChess empty;
+		models.push_back(empty);
+		
+		GraphicModelChess * obj = &models[0];
+		obj->piece = *it;
+		if (obj->piece->getType() == "Queen")
+			lerVerticesDeFicheiro("models/queen.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
+		else if (obj->piece->getType() == "Bishop")
+			lerVerticesDeFicheiro("models/bishop.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
+		else if (obj->piece->getType() == "Pawn")
+			lerVerticesDeFicheiro("models/pawn.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
+		else if (obj->piece->getType() == "King")
+			lerVerticesDeFicheiro("models/king.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
+		else if (obj->piece->getType() == "Knight")
+			lerVerticesDeFicheiro("models/knight.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
+		else if (obj->piece->getType() == "Tower")
+			lerVerticesDeFicheiro("models/rook.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
+		
+		obj->arrayCores = (GLfloat *) calloc(3 * obj->numVertices, sizeof(GLfloat));
+		
+		/* Propriedades do material */
+		obj->kAmb[0] = 0.2;
+		obj->kAmb[1] = 0.2;
+		obj->kAmb[2] = 0.2;
+		obj->kAmb[3] = 1.0;
 
-	obj->kDif[0] = 0.5;
-	obj->kDif[1] = 0.5;
-	obj->kDif[2] = 0.5;
-	obj->kDif[3] = 1.0;
+		obj->kDif[0] = 0.5;
+		obj->kDif[1] = 0.5;
+		obj->kDif[2] = 0.5;
+		obj->kDif[3] = 1.0;
 
-	obj->kEsp[0] = 0.7;
-	obj->kEsp[1] = 0.7;
-	obj->kEsp[2] = 0.7;
-	obj->kEsp[3] = 1.0;
-	obj->coefPhong = 100;
-	/* Parametros das transformacoes */
-	obj->desl.x = 0;
-	obj->desl.y = 0;
-	obj->desl.z = -0.5;
-	obj->anguloRot.x = 0;
-	obj->anguloRot.y = 0;
-	obj->anguloRot.z = 0;
-	obj->factorEsc.x = 0.25;
-	obj->factorEsc.y = 0.25;
-	obj->factorEsc.z = 0.25;
+		obj->kEsp[0] = 0.7;
+		obj->kEsp[1] = 0.7;
+		obj->kEsp[2] = 0.7;
+		obj->kEsp[3] = 1.0;
+		obj->coefPhong = 100;
+		/* Parametros das transformacoes */
+		obj->desl.x = 0;
+		obj->desl.y = 0;
+		obj->desl.z = -0.5;
+		obj->anguloRot.x = 0;
+		obj->anguloRot.y = 0;
+		obj->anguloRot.z = 0;
+		obj->factorEsc.x = 0.25;
+		obj->factorEsc.y = 0.25;
+		obj->factorEsc.z = 0.25;
+	}
 }
 
 void libertarArraysGlobais(void)
 {
-	GraphicModelChess* obj = &models.find(0)->second;
-	free(obj->arrayVertices);
-	free(obj->arrayNormais);
-	free(obj->arrayCores);
+	delete lights;
+	delete chess;
+
+	for(vector<GraphicModelChess>::iterator it = models.begin(); it != models.end(); ++it) {
+		free(it->arrayVertices);
+		free(it->arrayNormais);
+		free(it->arrayCores);
+	}
 }

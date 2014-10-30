@@ -21,10 +21,13 @@ private:
 public:
 	Chess();
 	~Chess();
+
 	friend ostream &operator<<(ostream &, const Chess &);
 
+	vector<ChessPiece *> getListPieces();
+	Point2D<int> getPosition(ChessPiece *);
+	bool move(ChessPiece* src, Point2D<int> dst);
 	bool move(Point2D<int> src, Point2D<int> dst);
-
 };
 
 #endif
