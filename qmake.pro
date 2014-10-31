@@ -11,7 +11,7 @@ SOURCES		=	project60337.cpp globals.cpp callbacks.cpp consoleIO.cpp init.cpp men
 				utils/mathUtils.cpp LightModel.cpp
 
 INCLUDEPATH     = 
-LIBS            += -lGLEW -lGL -lglut
+LIBS            += -lGLEW -lglut -lGL -lX11  -lm 
 TARGET			= chess
 CONFIG 			-= qt warn_on
 

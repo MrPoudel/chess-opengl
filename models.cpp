@@ -80,6 +80,7 @@ void lerVerticesDeFicheiro(string nome, int *numVertices, GLfloat **arrayVertice
 		normais[sub] = tmpN.z;
 		coordenadas[sub++] = tmp.z;
 	}
+	//*arrayNormais = calcularNormaisTriangulos(*numVertices, *arrayVertices);
 }
 
 

@@ -30,8 +30,9 @@ void inicializarEstado(void)
 	/* Back-Face Culling */
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
-	glEnable(GL_CULL_FACE);
-	//glEnable(GL_DEPTH_TEST);
+   	glEnable( GL_CULL_FACE );
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_DEPTH_TEST);
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	/* Matriz de projeccao é inicialmente a IDENTIDADE => Proj. Paralela Ortogonal */
 	matrizProj = IDENTITY_MATRIX;
@@ -51,7 +52,7 @@ void inicializarJanela(void)
 		GLUT_ACTION_GLUTMAINLOOP_RETURNS
 	);
 	/* Criar a janela de saida */
-	windowHandle = glutCreateWindow("OpenGL_ex_13");
+	windowHandle = glutCreateWindow("Chess 2014 OpenGL");
 	if (windowHandle < 1)
 	{
 		fprintf(
@@ -60,6 +61,7 @@ void inicializarJanela(void)
 		);
 		exit(EXIT_FAILURE);
 	}
+
 }
 
 void inicializarFontesDeLuz(void)
@@ -91,11 +93,10 @@ void inicializarFontesDeLuz(void)
 void inicializarModelos(void)
 {
 	vector<ChessPiece*> list = chess->getListPieces();
+	GraphicModelChess * obj;
+	int i = 0;
 	for(vector<ChessPiece*>::iterator it = list.begin(); it != list.end(); ++it) {
-		GraphicModelChess empty;
-		models.push_back(empty);
-		
-		GraphicModelChess * obj = &models[0];
+		obj = new GraphicModelChess();
 		obj->piece = *it;
 		if (obj->piece->getType() == "Queen")
 			lerVerticesDeFicheiro("models/queen.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
@@ -113,32 +114,41 @@ void inicializarModelos(void)
 		obj->arrayCores = (GLfloat *) calloc(3 * obj->numVertices, sizeof(GLfloat));
 		
 		/* Propriedades do material */
-		obj->kAmb[0] = 0.2;
-		obj->kAmb[1] = 0.2;
-		obj->kAmb[2] = 0.2;
+		obj->kAmb[0] = 0;
+		obj->kAmb[1] = 0;
+		obj->kAmb[2] = 0;
 		obj->kAmb[3] = 1.0;
 
-		obj->kDif[0] = 0.5;
-		obj->kDif[1] = 0.5;
-		obj->kDif[2] = 0.5;
+		obj->kDif[0] = 0.64;
+		obj->kDif[1] = 0.64;
+		obj->kDif[2] = 0.64;
 		obj->kDif[3] = 1.0;
 
-		obj->kEsp[0] = 0.7;
-		obj->kEsp[1] = 0.7;
-		obj->kEsp[2] = 0.7;
+		obj->kEsp[0] = 0.5;
+		obj->kEsp[1] = 0.5;
+		obj->kEsp[2] = 0.5;
 		obj->kEsp[3] = 1.0;
 		obj->coefPhong = 100;
 		/* Parametros das transformacoes */
-		obj->desl.x = 0;
-		obj->desl.y = 0;
-		obj->desl.z = -0.5;
-		obj->anguloRot.x = 0;
+		Point2D<int> pos = chess->getPosition(obj->piece);
+		// -0.35 -0.25 -0.15 -0.05 0.05 ..
+		obj->desl.x = pos.y * 0.5 - 1.75;
+		obj->desl.y = pos.x * 0.5 - 1.75;
+		obj->desl.z = 0;
+		obj->anguloRot.x = 90;
 		obj->anguloRot.y = 0;
 		obj->anguloRot.z = 0;
-		obj->factorEsc.x = 0.25;
-		obj->factorEsc.y = 0.25;
-		obj->factorEsc.z = 0.25;
+		obj->factorEsc.x = 1;
+		obj->factorEsc.y = 1;
+		obj->factorEsc.z = 1;
+		i++;
+
+		models.push_back(*obj);
 	}
+
+	matrizProj = CreateProjectionMatrix(60, 1, 1, 50);
+	/* Posicionar no interior do View Volome */
+	Translate(&matrizProj, 0, 0, -5);
 }
 
 void libertarArraysGlobais(void)
