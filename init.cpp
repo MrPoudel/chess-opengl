@@ -37,7 +37,9 @@ void inicializarEstado(void)
 	/* Matriz de projeccao é inicialmente a IDENTIDADE => Proj. Paralela Ortogonal */
 	matrizProj = IDENTITY_MATRIX;
 	matrizModelView = IDENTITY_MATRIX;
+
 	chess = new Chess();
+	selectedModel = -1;
 }
 
 

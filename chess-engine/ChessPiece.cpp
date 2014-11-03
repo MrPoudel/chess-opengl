@@ -1,8 +1,9 @@
 #include "ChessPiece.hpp"
 
-ChessPiece::ChessPiece(Player player, std::vector<Point2D<int> > possibleMoves) {
+ChessPiece::ChessPiece(Player player, std::vector<Point2D<int> > possibleMoves, bool multipleMoves) {
 	this->player = player;
 	this->possibleMoves = possibleMoves;
+	this->multipleMoves = multipleMoves;
 };
 
 ChessPiece::~ChessPiece() {

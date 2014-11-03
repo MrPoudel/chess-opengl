@@ -6,6 +6,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <iostream>
 #include <string>
 #define GLEW_STATIC /* Necessario se houver problemas com a lib */
 #include <GL/glew.h>
@@ -14,6 +15,7 @@
 #include "callbacks.hpp"
 #include "consoleIO.hpp"
 
+using namespace std;
 /* Callback functions */
 
 void myDisplay(void)
@@ -161,130 +163,53 @@ void myKeyboard(unsigned char key, int x, int y)
 {
 	/* Usar as teclas Q ou ESC para terminar o programa */
 	int i;
-	GraphicModelChess *obj = &models[1];
+	GraphicModelChess *obj;
+	vector<Point2D<int> > pp;
+	/*if (selectedModel != -1)
+		obj = &models[selectedModel];
+	else
+		return;
+	*/
 	switch (key)
 	{
 	case 'Q' :
 	case 'q' :
 	case 27  :  exit(EXIT_SUCCESS);
-	case 'y':
-		obj->desl.y += 0.05;
-		fprintf(stdout, "%f %f %f\n", obj->desl.x, obj->desl.y, obj->desl.z );
-		glutPostRedisplay();
-		break;
-	case 't':
-		obj->desl.x += 0.05;
-		fprintf(stdout, "%f %f %f\n", obj->desl.x, obj->desl.y, obj->desl.z );
-		glutPostRedisplay();
-		break;
-	case 'u':
-		obj->desl.z += 0.05;
-		fprintf(stdout, "%f %f %f\n", obj->desl.x, obj->desl.y, obj->desl.z );
-		glutPostRedisplay();
-		break;
-	case 'Y':
-		obj->desl.y -= 0.05;
-		fprintf(stdout, "%f %f %f\n", obj->desl.x, obj->desl.y, obj->desl.z );
-		glutPostRedisplay();
-		break;
-	case 'T':
-		obj->desl.x -= 0.05;
-		fprintf(stdout, "%f %f %f\n", obj->desl.x, obj->desl.y, obj->desl.z );
-		glutPostRedisplay();
-		break;
-	case 'U':
-		obj->desl.z -= 0.05;
-		fprintf(stdout, "%f %f %f\n", obj->desl.x, obj->desl.y, obj->desl.z );
-		glutPostRedisplay();
-		break;
-	case 'A':
-		for (i = 0; i < 3; i++)
-			if (obj->kAmb[i] < 1)
-				obj->kAmb[i] += 0.1;
-		fprintf(stdout, "Ambient coef: %f\n", obj->kAmb[0]);
-		glutPostRedisplay();
-		break;
-	case 'a':
-		for (i = 0; i < 3; i++)
-			if (obj->kAmb[i] > 0)
-				obj->kAmb[i] -= 0.1;
-		fprintf(stdout, "Ambient coef: %f\n", obj->kAmb[0]);
-		glutPostRedisplay();
-		break;
-	case 'D':
-		for (i = 0; i < 3; i++)
-			if (obj->kDif[i] < 1)
-				obj->kDif[i] += 0.1;
-		fprintf(stdout, "Diffuse coef: %f\n", obj->kDif[0]);
-		glutPostRedisplay();
-		break;
-	case 'd':
-		for (i = 0; i < 3; i++)
-			if (obj->kDif[i] > 0)
-				obj->kDif[i] -= 0.1;
-		fprintf(stdout, "Diffuse coef: %f\n", obj->kDif[0]);
-		glutPostRedisplay();
-		break;
-	case 'E':
-		for (i = 0; i < 3; i++)
-			if (obj->kEsp[i] < 1)
-				obj->kEsp[i] += 0.1;
-		fprintf(stdout, "Specular coef: %f\n", obj->kEsp[0]);
-		glutPostRedisplay();
-		break;
-	case 'e':
-		for (i = 0; i < 3; i++)
-			if (obj->kEsp[i] > 0)
-				obj->kEsp[i] -= 0.1;
-		fprintf(stdout, "Specular coef: %f\n", obj->kEsp[0]);
-		glutPostRedisplay();
-		break;
-	case 'P':
-		if (obj->coefPhong <= 20)
-			obj->coefPhong++;
-		else if (obj->coefPhong < 255)
-			obj->coefPhong += 10;
-		fprintf(stdout, "Phong coef: %f\n", obj->coefPhong);
-		glutPostRedisplay();
-		break;
-	case 'p':
-		if (obj->coefPhong <= 20 && obj->coefPhong > 1)
-			obj->coefPhong--;
-		else if (obj->coefPhong > 20)
-			obj->coefPhong -= 10;
-		fprintf(stdout, "Phong coef: %f\n", obj->coefPhong);
-		glutPostRedisplay();
-		break;
-	case 'Z' :
-	case 'z' :
-		obj->anguloRot.z += 5;
-		if (obj->anguloRot.z == 360.0)
-		{
-			obj->anguloRot.z = 0.0;
-		}
-		glutPostRedisplay();
-		break;
-	case 'X' :
-	case 'x' :
-		obj->anguloRot.z -= 5;
-		if (obj->anguloRot.z == -360.0)
-		{
-			obj->anguloRot.z = 0.0;
-		}
-		glutPostRedisplay();
-		break;
 	case '+' :
-		obj->factorEsc.x *= 1.1;
-		obj->factorEsc.y *= 1.1;
-		obj->factorEsc.z *= 1.1;
+		selectedModel++;
+		printf("%d\n", selectedModel);
 		glutPostRedisplay();
 		break;
 	case '-' :
-		obj->factorEsc.x *= 0.9;
-		obj->factorEsc.y *= 0.9;
-		obj->factorEsc.z *= 0.9;
+		selectedModel--;
+		printf("%d\n", selectedModel);
 		glutPostRedisplay();
 		break;
+	case 'p':
+	case 'P':
+		//cout << models[selectedModel].piece->player << endl;
+		cout << chess->getCurrentPlayer() << endl;
+		obj = &models[selectedModel];
+		cout << obj->piece->getType() << endl;
+		pp = chess->getPossiblePositions(obj->piece);
+		for(vector<Point2D<int> >::iterator it = pp.begin(); it != pp.end(); ++it)
+			cout << it->x << "," << it->y << " | ";
+
+		cout << endl << *chess;
+		break;
+	case 'm':
+	case 'M':
+		cout << chess->getCurrentPlayer() << endl;
+		obj = &models[selectedModel];
+		cout << obj->piece->getType() << endl;
+		pp = chess->getPossiblePositions(obj->piece);
+		for(vector<Point2D<int> >::iterator it = pp.begin(); it != pp.end(); ++it)
+			cout << it->x << "," << it->y << " | ";
+
+		if (pp.size() != 0) {
+			chess->move(obj->piece, pp[0]);
+		}
+		cout << endl << *chess;
 	}
 }
 

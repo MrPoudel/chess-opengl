@@ -17,7 +17,7 @@ static vector<Point2D<int> > createPossibleMoves() {
 	moves.push_back(createPoint(-2, 1));	// Behind
 	return moves;
 }
-Knight::Knight(Player player) : ChessPiece(player, createPossibleMoves()) {}
+Knight::Knight(Player player) : ChessPiece(player, createPossibleMoves(), false) {}
 
 string Knight::getType() {
 	return "Knight";

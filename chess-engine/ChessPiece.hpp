@@ -14,7 +14,8 @@ class ChessPiece {
 		vector<Point2D<int> > possibleMoves;
 	public:
 		Player player;
-		ChessPiece(Player, vector<Point2D<int> >);
+		bool multipleMoves;
+		ChessPiece(Player, vector<Point2D<int> >, bool);
 		~ChessPiece();
 
 		vector<Point2D<int> > getPossibleMoves();

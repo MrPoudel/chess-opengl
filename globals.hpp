@@ -36,6 +36,7 @@ extern mat4x4 matrizProj;
 /* Matriz global de transformacao */
 extern mat4x4 matrizModelView;
 
+extern int selectedModel;
 extern Chess * chess;
 extern LightModel * lights;
 extern vector<GraphicModelChess> models;

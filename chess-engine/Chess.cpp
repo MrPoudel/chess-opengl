@@ -3,6 +3,12 @@
 #include <typeinfo>
 #include <iostream>
 
+using namespace std;
+
+static bool isInsideChess(int x, int y) {
+	return !(x < 0 || x >= 8 || y < 0 || y >= 8);
+}
+
 Chess::Chess() {
 	/* Player one setup */
 	table[0][0] = new Tower(ONE);
@@ -37,6 +43,8 @@ Chess::Chess() {
 			table[i][j] = NULL;
 		}
 	}
+
+	cPlayer = ONE;
 }
 
 Chess::~Chess() {
@@ -47,15 +55,20 @@ Chess::~Chess() {
 	}
 }
 
+Player Chess::getCurrentPlayer() {
+	return this->cPlayer;
+}
 bool Chess::move(Point2D<int> src, Point2D<int> dst) {
 	/* Check valid move */
-	if (src.x < 0 || src.x >= 8 || src.y < 0 || src.y >= 8 || 
+	/*if (src.x < 0 || src.x >= 8 || src.y < 0 || src.y >= 8 || 
 		dst.x < 0 || dst.x >= 8 || dst.y < 0 || dst.y >= 8 ||
 		table[src.x][src.y] == NULL)
 		return false;
 	Point2D<int> res;
 	res.x = dst.x - src.x;
 	res.y = dst.y - src.y;
+	if (cPlayer != table[src.x][src.y]->player)
+		return false;
 	if (table[src.x][src.y]->getType() == "Pawn" && table[src.x][src.y]->player == TWO)
 		res.x *= -1;
 
@@ -83,6 +96,10 @@ bool Chess::move(Point2D<int> src, Point2D<int> dst) {
 		table[src.x][src.y] = NULL;
 	}
 
+	if (cPlayer == ONE)
+		cPlayer = TWO;
+	else
+		cPlayer = ONE;*/
 	return true;
 }
 
@@ -110,8 +127,76 @@ Point2D<int> Chess::getPosition(ChessPiece * ptr) {
 	return point;
 }
 
-bool Chess::move(ChessPiece* src, Point2D<int> dst) {
-	return this->move(this->getPosition(src), dst);
+bool Chess::move(ChessPiece* srcPiece, Point2D<int> dst) {
+	Point2D<int> src = getPosition(srcPiece);
+	if (!isInsideChess(src.x, src.y))
+		return false;
+	vector<Point2D<int> > vec = getPossiblePositions(srcPiece);
+	bool found = false;
+	for (vector<Point2D<int> >::iterator it = vec.begin(); it != vec.end(); ++it)
+		if (it->x == dst.x && it->y == dst.y)
+			found = true;
+	if (!found)
+		return false;
+
+	if (table[dst.x][dst.y] == NULL)
+	{	
+		table[dst.x][dst.y] = table[src.x][src.y];
+		table[src.x][src.y] = NULL;
+	} else {
+		beated.push_back(*table[dst.x][dst.y]);
+		table[dst.x][dst.y] = table[src.x][src.y];
+		table[src.x][src.y] = NULL;
+	}
+
+
+	if (cPlayer == ONE)
+		cPlayer = TWO;
+	else
+		cPlayer = ONE;
+	return true;
+}
+
+vector<Point2D<int> > Chess::getPossiblePositions(ChessPiece * src) {
+	vector<Point2D<int> > vec;
+
+	Point2D<int> pos = this->getPosition(src);
+	if (pos.x == -1 && pos.y == -1)
+		return vec;
+	Point2D<int> tmp;
+	vector<Point2D<int> > points = src->getPossibleMoves();
+	for(vector<Point2D<int> >::iterator it = points.begin(); it != points.end(); ++it) {
+		if (!src->multipleMoves) {
+			int coef = 1;
+			if (src->getType() == "Pawn" && src->player == TWO)
+				coef = -1;
+			tmp.x = pos.x + it->x * coef;
+			tmp.y = pos.y + it->y * coef;
+			if (!isInsideChess(tmp.x, tmp.y))
+				continue;
+			if (table[tmp.x][tmp.y] == NULL) {
+				if (src->getType() != "Pawn" || it->y == 0)	
+					vec.push_back(tmp);
+			} else {
+				if ((src->getType() != "Pawn" || it->y != 0) && table[tmp.x][tmp.y]->player != src->player)
+					vec.push_back(tmp);
+			}
+		} else {
+			for (int i = 1; i < 8; i++) {
+				tmp.x = pos.x + i * it->x;
+				tmp.y = pos.y + i * it->y;
+				if (!isInsideChess(tmp.x, tmp.y))
+					break;
+
+				if (table[tmp.x][tmp.y] != NULL && table[tmp.x][tmp.y]->player == src->player)
+					break;
+				vec.push_back(tmp);
+				if (table[tmp.x][tmp.y] != NULL && table[tmp.x][tmp.y]->player != src->player)
+					break;
+			}
+		}
+	}
+	return vec;
 }
 
 ostream& operator<<(ostream& output, const Chess& obj) {

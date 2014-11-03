@@ -9,7 +9,7 @@ static vector<Point2D<int> > createPossibleMoves() {
 	moves.push_back(createPoint(1, 0));		// Frente
 	return moves;
 }
-Pawn::Pawn(Player player) : ChessPiece(player, createPossibleMoves()) {}
+Pawn::Pawn(Player player) : ChessPiece(player, createPossibleMoves(), false) {}
 
 string Pawn::getType() {
 	return "Pawn";
