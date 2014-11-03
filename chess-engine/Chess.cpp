@@ -58,50 +58,6 @@ Chess::~Chess() {
 Player Chess::getCurrentPlayer() {
 	return this->cPlayer;
 }
-bool Chess::move(Point2D<int> src, Point2D<int> dst) {
-	/* Check valid move */
-	/*if (src.x < 0 || src.x >= 8 || src.y < 0 || src.y >= 8 || 
-		dst.x < 0 || dst.x >= 8 || dst.y < 0 || dst.y >= 8 ||
-		table[src.x][src.y] == NULL)
-		return false;
-	Point2D<int> res;
-	res.x = dst.x - src.x;
-	res.y = dst.y - src.y;
-	if (cPlayer != table[src.x][src.y]->player)
-		return false;
-	if (table[src.x][src.y]->getType() == "Pawn" && table[src.x][src.y]->player == TWO)
-		res.x *= -1;
-
-	vector<Point2D<int> > points = table[src.x][src.y]->getPossibleMoves();
-	bool found = false;
-
-	for(vector<Point2D<int> >::iterator it = points.begin(); it != points.end(); ++it) {
-		if (it->x == res.x && it->y == res.y)
-			found = true;		
-	}
-	if (!found)	
-		return false;
-
-	if (table[dst.x][dst.y] == NULL) {
-		if (table[src.x][src.y]->getType() == "Pawn" && res.y != 0)
-			return false;
-
-		table[dst.x][dst.y] = table[src.x][src.y];
-		table[src.x][src.y] = NULL;
-	} else {
-		if (table[src.x][src.y]->getType() == "Pawn" && res.y == 0)
-			return false;
-		beated.push_back(*table[dst.x][dst.y]);
-		table[dst.x][dst.y] = table[src.x][src.y];
-		table[src.x][src.y] = NULL;
-	}
-
-	if (cPlayer == ONE)
-		cPlayer = TWO;
-	else
-		cPlayer = ONE;*/
-	return true;
-}
 
 vector<ChessPiece *> Chess::getListPieces() {
 	vector<ChessPiece *> vect;

@@ -30,7 +30,6 @@ public:
 	Point2D<int> getPosition(ChessPiece *);
 	vector<Point2D<int> > getPossiblePositions(ChessPiece *);
 	bool move(ChessPiece* src, Point2D<int> dst);
-	bool move(Point2D<int> src, Point2D<int> dst);
 };
 
 #endif
