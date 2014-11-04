@@ -10,6 +10,7 @@
 #define _init_h
 
 void inicializarEstado(void);
+void inicializarPlanoProjeccao(void);
 void inicializarJanela(void);
 void inicializarFontesDeLuz(void);
 void inicializarModelos(void);

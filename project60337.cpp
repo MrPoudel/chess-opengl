@@ -48,6 +48,7 @@ int main(int argc, char **argv)
 	/* Inicializar o estado da aplicacao */
 	inicializarEstado();
 	/* Inicializar a cena */
+	inicializarPlanoProjeccao();
 	inicializarModelos();
 	inicializarFontesDeLuz();
 	/* Inicializar os shaders */

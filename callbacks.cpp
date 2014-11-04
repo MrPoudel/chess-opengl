@@ -11,6 +11,7 @@
 #define GLEW_STATIC /* Necessario se houver problemas com a lib */
 #include <GL/glew.h>
 #include <GL/freeglut.h>
+#include <glm/glm.hpp>
 #include "globals.hpp"
 #include "callbacks.hpp"
 #include "consoleIO.hpp"
@@ -28,6 +29,9 @@ void myDisplay(void)
 	for (int modelId = 0; modelId < models.size(); modelId++)
 	{
 		GraphicModelChess *obj = &models[modelId];
+		Point2D<float> nPos = GraphicModelChess::convertChessPos(chess->getPosition(obj->piece));
+		obj->desl.x = nPos.x;
+		obj->desl.y = nPos.y;
 		glEnableVertexAttribArray(attribute_coord3d);
 		glEnableVertexAttribArray(attribute_corRGB);
 		int i;
@@ -185,6 +189,20 @@ void myKeyboard(unsigned char key, int x, int y)
 		printf("%d\n", selectedModel);
 		glutPostRedisplay();
 		break;
+	case 't':
+	case 'T':
+		obj = &models[selectedModel];
+		pp = chess->getPossiblePositions(obj->piece);
+		if (pp.size() != 0) {
+			if (chess->move(obj->piece, pp[0])) {
+			}
+		}
+		glutPostRedisplay();
+		break;
+
+	case 'Y':
+	case 'y':
+		break;
 	case 'p':
 	case 'P':
 		//cout << models[selectedModel].piece->player << endl;
@@ -271,6 +289,24 @@ void myTimer(int value)
 	glutTimerFunc(250, myTimer, 0);
 }
 
+void onMouse(int button, int state, int x, int y) {
+  if(state != GLUT_DOWN)
+    return;
+ 
+  int window_width = glutGet(GLUT_WINDOW_WIDTH);
+  int window_height = glutGet(GLUT_WINDOW_HEIGHT);
+ 
+  GLbyte color[4];
+  GLfloat depth;
+  GLuint index;
+ 
+  glReadPixels(x, window_height - y - 1, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, color);
+  glReadPixels(x, window_height - y - 1, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+  glReadPixels(x, window_height - y - 1, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);
+ 
+  printf("Clicked on pixel %d, %d, color %02hhx%02hhx%02hhx%02hhx, depth %f, stencil index %u\n",
+         x, y, color[0], color[1], color[2], color[3], depth, index);
+}
 
 void registarCallbackFunctions(void)
 {
@@ -278,4 +314,5 @@ void registarCallbackFunctions(void)
 	glutTimerFunc(250, myTimer, 0);
 	glutKeyboardFunc(myKeyboard);
 	glutSpecialFunc(mySpecialKeys);
+	glutMouseFunc(onMouse);
 }

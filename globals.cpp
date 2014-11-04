@@ -1,7 +1,9 @@
 #include "globals.hpp"
 
 using namespace std;
+
 /* Variaveis GLOBAIS !! */
+projCoord proj;
 int windowHandle;
 /* O identificador do programa em GLSL combinando os SHADERS */
 GLuint programaGLSL;

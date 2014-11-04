@@ -19,7 +19,15 @@
 
 using namespace std;
 
+struct projCoord
+{
+	float fovy;
+	float aspect_ratio;
+	float near_plane;
+	float far_plane;
+};
 /* Variaveis GLOBAIS !! */
+extern projCoord proj;
 extern int windowHandle;
 /* O identificador do programa em GLSL combinando os SHADERS */
 extern GLuint programaGLSL;

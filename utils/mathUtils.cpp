@@ -162,11 +162,8 @@ void Translate(mat4x4 *m, float x, float y, float z)
 
 
 mat4x4 CreateProjectionMatrix(float fovy,
-
 							  float aspect_ratio,
-
 							  float near_plane,
-
 							  float far_plane)
 {
 	mat4x4 out = { { 0 } };

@@ -27,6 +27,13 @@ public:
 	Point3D<float> desl;
 	Point3D<float> anguloRot;
 	Point3D<float> factorEsc;
+
+	static Point2D<float> convertChessPos(Point2D<int> pos) {
+		Point2D<float> point;
+		point.x = pos.y * 0.5 - 1.75;
+		point.y = pos.x * 0.5 - 1.75;
+		return point;
+	};
 };
 
 #endif

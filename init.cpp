@@ -66,6 +66,12 @@ void inicializarJanela(void)
 
 }
 
+void inicializarPlanoProjeccao(void) {
+	proj.fovy = 60;
+	proj.aspect_ratio = 1;
+	proj.near_plane = 1;
+	proj.far_plane = 50;
+}
 void inicializarFontesDeLuz(void)
 {
 	/* Intensidade Luminosa */
@@ -134,11 +140,12 @@ void inicializarModelos(void)
 		/* Parametros das transformacoes */
 		Point2D<int> pos = chess->getPosition(obj->piece);
 		// -0.35 -0.25 -0.15 -0.05 0.05 ..
-		obj->desl.x = pos.y * 0.5 - 1.75;
-		obj->desl.y = pos.x * 0.5 - 1.75;
+		Point2D<float> nP = GraphicModelChess::convertChessPos(pos);
+		obj->desl.x = nP.x;
+		obj->desl.y = nP.y;
 		obj->desl.z = 0;
 		obj->anguloRot.x = 90;
-		obj->anguloRot.y = 0;
+		obj->anguloRot.y = obj->piece->player == ONE ? 90 : -90;
 		obj->anguloRot.z = 0;
 		obj->factorEsc.x = 1;
 		obj->factorEsc.y = 1;
@@ -147,8 +154,7 @@ void inicializarModelos(void)
 
 		models.push_back(*obj);
 	}
-
-	matrizProj = CreateProjectionMatrix(60, 1, 1, 50);
+	matrizProj = CreateProjectionMatrix(proj.fovy, proj.aspect_ratio, proj.near_plane, proj.far_plane);
 	/* Posicionar no interior do View Volome */
 	Translate(&matrizProj, 0, 0, -5);
 }

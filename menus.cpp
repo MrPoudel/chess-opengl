@@ -189,14 +189,14 @@ void criarMenus(void)
 {
 	int i;
 	/* MENU 1 */
-	glutCreateMenu(myMenuEsq);
-	for (i = 0; i < numItensMenu1; i++)
-	{
+	//glutCreateMenu(myMenuEsq);
+	//for (i = 0; i < numItensMenu1; i++)
+	//{
 		/* Os itens do menu e os valores devolvidos a funcao callback */
-		glutAddMenuEntry(menu1[i].item.c_str(), i);
-	}
+	//	glutAddMenuEntry(menu1[i].item.c_str(), i);
+	//}
 	/* O botao do rato associado */
-	glutAttachMenu(GLUT_LEFT_BUTTON);
+	//glutAttachMenu(GLUT_LEFT_BUTTON);
 	/* MENU 2 */
 	glutCreateMenu(myMenuDir);
 	for (i = 0; i < numItensMenu2; i++)
