@@ -30,8 +30,14 @@ public:
 
 	static Point2D<float> convertChessPos(Point2D<int> pos) {
 		Point2D<float> point;
-		point.x = pos.y * 0.5 - 1.75;
-		point.y = pos.x * 0.5 - 1.75;
+		point.x = pos.x * 0.5 - 1.75;
+		point.y = pos.y * 0.5 - 1.75;
+		return point;
+	};
+	static Point2D<float> convertBackToChessPos(float x, float y) {
+		Point2D<float> point;
+		point.x = (y + 1.75) / 0.5;
+		point.y = (x + 1.75) / 0.5;
 		return point;
 	};
 };

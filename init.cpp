@@ -32,6 +32,7 @@ void inicializarEstado(void)
 	glFrontFace(GL_CCW);
    	glEnable( GL_CULL_FACE );
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_DEPTH);
 	glEnable(GL_DEPTH_TEST);
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	/* Matriz de projeccao é inicialmente a IDENTIDADE => Proj. Paralela Ortogonal */
@@ -122,9 +123,9 @@ void inicializarModelos(void)
 		obj->arrayCores = (GLfloat *) calloc(3 * obj->numVertices, sizeof(GLfloat));
 		
 		/* Propriedades do material */
-		obj->kAmb[0] = 0;
-		obj->kAmb[1] = 0;
-		obj->kAmb[2] = 0;
+		obj->kAmb[0] = 0.5;
+		obj->kAmb[1] = 0.5;
+		obj->kAmb[2] = 0.5;
 		obj->kAmb[3] = 1.0;
 
 		obj->kDif[0] = 0.64;
@@ -136,7 +137,7 @@ void inicializarModelos(void)
 		obj->kEsp[1] = 0.5;
 		obj->kEsp[2] = 0.5;
 		obj->kEsp[3] = 1.0;
-		obj->coefPhong = 100;
+		obj->coefPhong = 80;
 		/* Parametros das transformacoes */
 		Point2D<int> pos = chess->getPosition(obj->piece);
 		// -0.35 -0.25 -0.15 -0.05 0.05 ..
@@ -145,7 +146,7 @@ void inicializarModelos(void)
 		obj->desl.y = nP.y;
 		obj->desl.z = 0;
 		obj->anguloRot.x = 90;
-		obj->anguloRot.y = obj->piece->player == ONE ? 90 : -90;
+		obj->anguloRot.y = obj->piece->player == ONE ? 0 : 180;
 		obj->anguloRot.z = 0;
 		obj->factorEsc.x = 1;
 		obj->factorEsc.y = 1;
@@ -157,6 +158,10 @@ void inicializarModelos(void)
 	matrizProj = CreateProjectionMatrix(proj.fovy, proj.aspect_ratio, proj.near_plane, proj.far_plane);
 	/* Posicionar no interior do View Volome */
 	Translate(&matrizProj, 0, 0, -5);
+	// Possicionar meio inclinado
+	RotateAboutX(&matrizProj, DegreesToRadians(-35));
+	// Virar camera para o player 1
+	RotateAboutZ(&matrizProj, DegreesToRadians(90));
 }
 
 void libertarArraysGlobais(void)

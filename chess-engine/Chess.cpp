@@ -157,7 +157,7 @@ vector<Point2D<int> > Chess::getPossiblePositions(ChessPiece * src) {
 
 ostream& operator<<(ostream& output, const Chess& obj) {
 	for (int i = 7; i >= 0; i--) {
-		for (int j = 0; j < 8; j++) {
+		for (int j = 7; j >= 0; j--) {
 			if (obj.table[i][j] == NULL)
 				output << "_" << i << j << " ";
 			else if (obj.table[i][j]->getType() == "Pawn") 
