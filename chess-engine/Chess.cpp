@@ -84,6 +84,8 @@ Point2D<int> Chess::getPosition(ChessPiece * ptr) {
 }
 
 bool Chess::move(ChessPiece* srcPiece, Point2D<int> dst) {
+	if (srcPiece->player != cPlayer)
+		return false;
 	Point2D<int> src = getPosition(srcPiece);
 	if (!isInsideChess(src.x, src.y))
 		return false;

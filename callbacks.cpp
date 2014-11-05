@@ -18,7 +18,7 @@
 
 using namespace std;
 /* Callback functions */
-
+void myAnimationTimer(int value);
 void myDisplay(void)
 {
     /* Limpar a janela */
@@ -191,24 +191,16 @@ void myKeyboard(unsigned char key, int x, int y)
         break;
     case 't':
     case 'T':
-        obj = &models[selectedModel];
-        pp = chess->getPossiblePositions(obj->piece);
-        if (pp.size() != 0)
-        {
-            if (chess->move(obj->piece, pp[0]))
-            {
-            }
-        }
-        glutPostRedisplay();
+        
         break;
 
     case 'Y':
     case 'y':
+        
+        //glutPostRedisplay();
         break;
     case 'p':
     case 'P':
-        //cout << models[selectedModel].piece->player << endl;
-        
         obj = &models[selectedModel];
         cout << chess->getCurrentPlayer() << ", player: " << obj->piece->player << endl;
         cout << obj->piece->getType() << endl;
@@ -220,18 +212,14 @@ void myKeyboard(unsigned char key, int x, int y)
         break;
     case 'm':
     case 'M':
-        cout << chess->getCurrentPlayer() << endl;
         obj = &models[selectedModel];
-        cout << obj->piece->getType() << endl;
         pp = chess->getPossiblePositions(obj->piece);
-        for (vector<Point2D<int> >::iterator it = pp.begin(); it != pp.end(); ++it)
-            cout << it->x << "," << it->y << " | ";
-
         if (pp.size() != 0)
         {
-            chess->move(obj->piece, pp[0]);
+            if (chess->move(obj->piece, pp[0]))
+                glutTimerFunc(1000, myAnimationTimer, 0);
         }
-        cout << endl << *chess;
+        glutPostRedisplay();
     }
 }
 
@@ -278,25 +266,30 @@ void mySpecialKeys(int key, int x, int y)
 }
 
 
-void myTimer(int value)
-{
-    //printf("%d\n", glGetError());
-    /*if (animacaoON)
-    {
-        models.anguloRot.y += 5;
-        if (models.anguloRot.y == 360.0)
-        {
-            models.anguloRot.y = 0.0;
-        }
-        glutPostRedisplay();
-    }*/
-    glutTimerFunc(250, myTimer, 0);
-}
 
 void onMouse(int button, int state, int x, int y)
 {
     if (state != GLUT_DOWN)
         return;
+   /* int window_width = glutGet(GLUT_WINDOW_WIDTH);
+    int window_height = glutGet(GLUT_WINDOW_HEIGHT);
+    double x1 = 2 * (double) x / (double) window_width - 1;
+    double y2 = -2 * (double) y / (double) window_height +1;
+
+    GLint viewport[4];
+    glGetIntegerv( GL_VIEWPORT, viewport ); //get the viewport info
+    float viewp[4];
+    for (int i = 0; i < 4; i++)
+    	viewp[i] = viewport[i];
+
+    multiplyVectorByMatrix(&matrizProj, viewp);
+    */ /*Matrix4 viewProjectionInverse = inverse(projectionMatrix *
+             viewMatrix);
+
+        Point3D point3D = new Point3D(x, y, 0); 
+        return viewProjectionInverse.multiply(point3D);
+        */
+
 
     int window_width = glutGet(GLUT_WINDOW_WIDTH);
     int window_height = glutGet(GLUT_WINDOW_HEIGHT);
@@ -305,12 +298,12 @@ void onMouse(int button, int state, int x, int y)
     GLfloat depth;
     GLuint index;
 
-    glReadPixels(x, window_height - y - 1, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, color);
-    glReadPixels(x, window_height - y - 1, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
-    glReadPixels(x, window_height - y - 1, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);
+    //glReadPixels(x, window_height - y - 1, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, color);
+    //glReadPixels(x, window_height - y - 1, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+    //glReadPixels(x, window_height - y - 1, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);
 
-    printf("Clicked on pixel %d, %d, color %02hhx%02hhx%02hhx%02hhx, depth %f, stencil index %u\n",
-           x, y, color[0], color[1], color[2], color[3], depth, index);
+    //printf("Clicked on pixel %d, %d, color %02hhx%02hhx%02hhx%02hhx, depth %f, stencil index %u\n",
+    //       x, y, color[0], color[1], color[2], color[3], depth, index);
 
     GLint viewport[4]; //var to hold the viewport info
     GLdouble modelview[16]; //var to hold the modelview info
@@ -318,30 +311,43 @@ void onMouse(int button, int state, int x, int y)
     GLfloat winX, winY, winZ; //variables to hold screen x,y,z coordinates
     GLdouble worldX, worldY, worldZ; //variables to hold world x,y,z coordinates
 
-    glGetDoublev( GL_MODELVIEW_MATRIX, modelview ); //get the modelview info
-    glGetDoublev( GL_PROJECTION_MATRIX, projection ); //get the projection matrix info
+    
+
+    //glGetDoublev( GL_MODELVIEW_MATRIX, modelview ); //get the modelview info
+    //glGetDoublev( GL_PROJECTION_MATRIX, projection ); //get the projection matrix info
     glGetIntegerv( GL_VIEWPORT, viewport ); //get the viewport info
 
-    winX = (float)x;
-    winY = (float)viewport[3] - (float)y;
-    winZ = 0;
+    //winX = (float)x;
+    //winY = (float)viewport[3] - (float)y;
+    //winZ = 0;
 
     //get the world coordinates from the screen coordinates
     for (int i = 0; i < 16; i++) {
-    	//modelview[i] = matrizModelView.m[i];
-    	//projection[i] = matrizProj.m[i];
+    	modelview[i] = matrizModelView.m[i];
+    	projection[i] = matrizProj.m[i];
     }
-    gluUnProject(winX, winY, winZ, modelview, projection, viewport, &worldX, &worldY, &worldZ);
+    for (int i = 0; i < 4; i++) 
+    	cout << viewport[i] << ", ";
+    cout << endl;
+    //gluUnProject(x, y, 0, modelview, projection, viewport, &worldX, &worldY, &worldZ);
+    gluUnProject(x, window_height - y - 1, 0, modelview, projection, viewport, &worldX, &worldY, &worldZ);
 
-    Point2D<float> pf = GraphicModelChess::convertBackToChessPos(worldX, worldY);
-    printf("%f %f %f - %f %f\n",
-           worldX, worldY, worldZ, pf.x, pf.y);
+    //Point2D<float> pf = GraphicModelChess::convertBackToChessPos(worldX, worldY);
+    printf("x: %f, y: %f, z: %f\n",
+           worldX, worldY, worldZ);
+}
+
+void myAnimationTimer(int value)
+{
+    RotateAboutZ(&matrizProj, DegreesToRadians(20));
+    glutPostRedisplay();
+    if (value + 20 < 180)
+        glutTimerFunc(250, myAnimationTimer, value + 20);
 }
 
 void registarCallbackFunctions(void)
 {
     glutDisplayFunc(myDisplay);
-    glutTimerFunc(250, myTimer, 0);
     glutKeyboardFunc(myKeyboard);
     glutSpecialFunc(mySpecialKeys);
     glutMouseFunc(onMouse);

@@ -21,7 +21,7 @@ void inicializarEstado(void)
 	/* DOUBLE-BUFFERING + DEPTH-TESTING */
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	/* Definir a cor do fundo */
-	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClearColor(1, 1, 1, 1.0);
 	/* Atributos das primitivas */
 	glPointSize(4.0);
 	glLineWidth(3.0);
@@ -123,16 +123,28 @@ void inicializarModelos(void)
 		obj->arrayCores = (GLfloat *) calloc(3 * obj->numVertices, sizeof(GLfloat));
 		
 		/* Propriedades do material */
-		obj->kAmb[0] = 0.5;
-		obj->kAmb[1] = 0.5;
-		obj->kAmb[2] = 0.5;
-		obj->kAmb[3] = 1.0;
+		if (obj->piece->player == ONE) {
+			obj->kAmb[0] = 0.5;
+			obj->kAmb[1] = 0.5;
+			obj->kAmb[2] = 0.5;
+			obj->kAmb[3] = 1.0;
 
-		obj->kDif[0] = 0.64;
-		obj->kDif[1] = 0.64;
-		obj->kDif[2] = 0.64;
-		obj->kDif[3] = 1.0;
+			obj->kDif[0] = 0.64;
+			obj->kDif[1] = 0.64;
+			obj->kDif[2] = 0.64;
+			obj->kDif[3] = 1.0;
+		} else {
+			obj->kAmb[0] = 0.1;
+			obj->kAmb[1] = 0.1;
+			obj->kAmb[2] = 0.1;
+			obj->kAmb[3] = 1.0;
 
+			obj->kDif[0] = 0.3;
+			obj->kDif[1] = 0.3;
+			obj->kDif[2] = 0.3;
+			obj->kDif[3] = 1.0;
+		}
+		
 		obj->kEsp[0] = 0.5;
 		obj->kEsp[1] = 0.5;
 		obj->kEsp[2] = 0.5;
@@ -157,9 +169,9 @@ void inicializarModelos(void)
 	}
 	matrizProj = CreateProjectionMatrix(proj.fovy, proj.aspect_ratio, proj.near_plane, proj.far_plane);
 	/* Posicionar no interior do View Volome */
-	Translate(&matrizProj, 0, 0, -5);
+	Translate(&matrizProj, 0, 0, -6);
 	// Possicionar meio inclinado
-	RotateAboutX(&matrizProj, DegreesToRadians(-35));
+	RotateAboutX(&matrizProj, DegreesToRadians(-75));
 	// Virar camera para o player 1
 	RotateAboutZ(&matrizProj, DegreesToRadians(90));
 }
