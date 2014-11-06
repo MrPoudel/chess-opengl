@@ -26,13 +26,12 @@ void inicializarEstado(void)
 	glPointSize(4.0);
 	glLineWidth(3.0);
 	/* Modo de desenho dos poligonos */
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	/* Back-Face Culling */
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
-   	glEnable( GL_CULL_FACE );
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_DEPTH);
+	//glCullFace(GL_BACK);
+	//glFrontFace(GL_CCW);
+   	//glEnable(GL_CULL_FACE);
+	//glEnable(GL_DEPTH);
 	glEnable(GL_DEPTH_TEST);
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	/* Matriz de projeccao é inicialmente a IDENTIDADE => Proj. Paralela Ortogonal */
@@ -84,8 +83,8 @@ void inicializarFontesDeLuz(void)
 	intensidadeFLuz_0[3] = 1.0;
 	/* Posicao */
 	float posicaoFLuz_0[4];
-	posicaoFLuz_0 [0] = 0.0;
-	posicaoFLuz_0 [1] = 0.0;
+	posicaoFLuz_0 [0] = -4.0;
+	posicaoFLuz_0 [1] = -4.0;
 	posicaoFLuz_0 [2] = 10.0;
 	posicaoFLuz_0 [3] = 0.0;
 	/* Luz Ambiente */
@@ -124,9 +123,9 @@ void inicializarModelos(void)
 		
 		/* Propriedades do material */
 		if (obj->piece->player == ONE) {
-			obj->kAmb[0] = 0.5;
-			obj->kAmb[1] = 0.5;
-			obj->kAmb[2] = 0.5;
+			obj->kAmb[0] = 0.1;
+			obj->kAmb[1] = 0.1;
+			obj->kAmb[2] = 0.1;
 			obj->kAmb[3] = 1.0;
 
 			obj->kDif[0] = 0.64;
@@ -145,11 +144,11 @@ void inicializarModelos(void)
 			obj->kDif[3] = 1.0;
 		}
 		
-		obj->kEsp[0] = 0.5;
-		obj->kEsp[1] = 0.5;
-		obj->kEsp[2] = 0.5;
+		obj->kEsp[0] = 0.9;
+		obj->kEsp[1] = 0.9;
+		obj->kEsp[2] = 0.9;
 		obj->kEsp[3] = 1.0;
-		obj->coefPhong = 80;
+		obj->coefPhong = 100;
 		/* Parametros das transformacoes */
 		Point2D<int> pos = chess->getPosition(obj->piece);
 		// -0.35 -0.25 -0.15 -0.05 0.05 ..
@@ -158,20 +157,51 @@ void inicializarModelos(void)
 		obj->desl.y = nP.y;
 		obj->desl.z = 0;
 		obj->anguloRot.x = 90;
-		obj->anguloRot.y = obj->piece->player == ONE ? 0 : 180;
+		obj->anguloRot.y = obj->piece->player == ONE ? 180 : 0;
 		obj->anguloRot.z = 0;
 		obj->factorEsc.x = 1;
 		obj->factorEsc.y = 1;
 		obj->factorEsc.z = 1;
 		i++;
 
-		models.push_back(*obj);
+		pieceModels.push_back(*obj);
 	}
+
+	/* Tabuleiro */
+	obj = new GraphicModelChess();
+	obj->piece = NULL;
+	lerVerticesDeFicheiro("models/board.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
+	obj->arrayCores = (GLfloat *) calloc(3 * obj->numVertices, sizeof(GLfloat));
+	
+	obj->kAmb[0] = 0.1;
+	obj->kAmb[1] = 0.1;
+	obj->kAmb[2] = 0.1;
+	obj->kAmb[3] = 1.0;
+	obj->kDif[0] = 0.64;
+	obj->kDif[1] = 0.64;
+	obj->kDif[2] = 0.64;
+	obj->kDif[3] = 1.0;
+	obj->kEsp[0] = 0.9;
+	obj->kEsp[1] = 0.9;
+	obj->kEsp[2] = 0.9;
+	obj->kEsp[3] = 1.0;
+	obj->coefPhong = 100;
+	obj->desl.x = 0;
+	obj->desl.y = 0;
+	obj->desl.z = 0;
+	obj->anguloRot.x = 0;
+	obj->anguloRot.y = 0;
+	obj->anguloRot.z = 0;
+	obj->factorEsc.x = 1;
+	obj->factorEsc.y = 1;
+	obj->factorEsc.z = 1;
+	secondaryModels.push_back(*obj);
+
 	matrizProj = CreateProjectionMatrix(proj.fovy, proj.aspect_ratio, proj.near_plane, proj.far_plane);
 	/* Posicionar no interior do View Volome */
 	Translate(&matrizProj, 0, 0, -6);
 	// Possicionar meio inclinado
-	RotateAboutX(&matrizProj, DegreesToRadians(-75));
+	RotateAboutX(&matrizProj, DegreesToRadians(-60));
 	// Virar camera para o player 1
 	RotateAboutZ(&matrizProj, DegreesToRadians(90));
 }
@@ -181,7 +211,7 @@ void libertarArraysGlobais(void)
 	delete lights;
 	delete chess;
 
-	for(vector<GraphicModelChess>::iterator it = models.begin(); it != models.end(); ++it) {
+	for(vector<GraphicModelChess>::iterator it = pieceModels.begin(); it != pieceModels.end(); ++it) {
 		free(it->arrayVertices);
 		free(it->arrayNormais);
 		free(it->arrayCores);

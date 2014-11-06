@@ -23,4 +23,5 @@ mat4x4 matrizModelView;
 Chess * chess;
 LightModel * lights;
 int selectedModel;
-vector<GraphicModelChess> models;
+vector<GraphicModelChess> secondaryModels;
+vector<GraphicModelChess> pieceModels;
