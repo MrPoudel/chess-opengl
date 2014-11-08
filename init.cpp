@@ -39,7 +39,7 @@ void inicializarEstado(void)
 	matrizModelView = IDENTITY_MATRIX;
 
 	chess = new Chess();
-	selectedModel = -1;
+	selectedModel = 4;
 }
 
 
@@ -83,9 +83,9 @@ void inicializarFontesDeLuz(void)
 	intensidadeFLuz_0[3] = 1.0;
 	/* Posicao */
 	float posicaoFLuz_0[4];
-	posicaoFLuz_0 [0] = -4.0;
-	posicaoFLuz_0 [1] = -4.0;
-	posicaoFLuz_0 [2] = 10.0;
+	posicaoFLuz_0 [0] = 0;
+	posicaoFLuz_0 [1] = 0;
+	posicaoFLuz_0 [2] = 0.1;
 	posicaoFLuz_0 [3] = 0.0;
 	/* Luz Ambiente */
 	// IA
@@ -215,5 +215,12 @@ void libertarArraysGlobais(void)
 		free(it->arrayVertices);
 		free(it->arrayNormais);
 		free(it->arrayCores);
+		delete &it;
+	}
+	for(vector<GraphicModelChess>::iterator it = secondaryModels.begin(); it != secondaryModels.end(); ++it) {
+		free(it->arrayVertices);
+		free(it->arrayNormais);
+		free(it->arrayCores);
+		delete &it;
 	}
 }

@@ -145,15 +145,12 @@ void produceModelsShading(GraphicModelChess *obj)
 }
 void myDisplay(void)
 {
-    /* Limpar a janela */
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    /* SHADERS */
     glUseProgram(programaGLSL);
-    /* Input para o Vertex-Shader */
     for (int modelId = 0; modelId < pieceModels.size(); modelId++)
     {
         GraphicModelChess *obj = &pieceModels[modelId];
-        
+
         Point2D<float> nPos = GraphicModelChess::convertChessPos(chess->getPosition(obj->piece));
         obj->desl.x = nPos.x;
         obj->desl.y = nPos.y;
@@ -165,35 +162,68 @@ void myDisplay(void)
         GraphicModelChess *obj = &secondaryModels[modelId];
         produceModelsShading(obj);
     }
-    /* Display the result */
-    /* DOUBLE-BUFFERING */
+    for (int modelId = 0; modelId < previewPositions.size(); modelId++)
+    {
+        GraphicModelChess *obj = &previewPositions[modelId];
+        produceModelsShading(obj);
+    }
     glutSwapBuffers();
 }
 
+void refreshPreviewPanels()
+{
+    previewPositions.clear();
+    vector<Point2D<int> > pp = chess->getPossiblePositions(pieceModels[selectedModel].piece);
+    previewPositions.push_back(GraphicModelChess::generatePreviewSquare(
+                                   GraphicModelChess::convertChessPos(
+                                       chess->getPosition(pieceModels[selectedModel].piece)
+                                   ), 1, 1, 0)
+                              );
+    for (vector<Point2D<int> >::iterator it = pp.begin(); it != pp.end(); ++it)
+    {
+        if (!chess->isFieldEmpty(*it))
+            previewPositions.push_back(GraphicModelChess::generatePreviewSquare(
+                                           GraphicModelChess::convertChessPos(*it), 1, 0, 0)
+                                      );
+        else
+            previewPositions.push_back(GraphicModelChess::generatePreviewSquare(
+                                           GraphicModelChess::convertChessPos(*it), 0, 1, 0)
+                                      );
+    }
+}
 
 void myKeyboard(unsigned char key, int x, int y)
 {
-    /* Usar as teclas Q ou ESC para terminar o programa */
     int i;
     GraphicModelChess *obj;
     vector<Point2D<int> > pp;
-    /*if (selectedModel != -1)
-        obj = &pieceModels[selectedModel];
-    else
-        return;
-    */
+
     switch (key)
     {
     case 'Q' :
     case 'q' :
     case 27  :  exit(EXIT_SUCCESS);
     case '+' :
-        selectedModel++;
+        if (chess->getCurrentPlayer() == ONE) {
+            if (selectedModel < 15)
+                selectedModel++;
+        } else {
+            if (selectedModel < 31)
+                selectedModel++;
+        }
+        refreshPreviewPanels();
         printf("%d\n", selectedModel);
         glutPostRedisplay();
         break;
     case '-' :
-        selectedModel--;
+        if (chess->getCurrentPlayer() == ONE) {
+            if (selectedModel > 0)
+                selectedModel--;
+        } else {
+            if (selectedModel > 16)
+                selectedModel--;
+        }
+        refreshPreviewPanels();
         printf("%d\n", selectedModel);
         glutPostRedisplay();
         break;
@@ -201,11 +231,9 @@ void myKeyboard(unsigned char key, int x, int y)
     case 'T':
 
         break;
-
     case 'Y':
     case 'y':
 
-        //glutPostRedisplay();
         break;
     case 'p':
     case 'P':
@@ -224,8 +252,14 @@ void myKeyboard(unsigned char key, int x, int y)
         pp = chess->getPossiblePositions(obj->piece);
         if (pp.size() != 0)
         {
-            if (chess->move(obj->piece, pp[0]))
+            if (chess->move(obj->piece, pp[0])) {
                 glutTimerFunc(1000, myAnimationTimer, 0);
+                if (chess->getCurrentPlayer() == ONE)
+                    selectedModel = 0;
+                else
+                    selectedModel = 16;
+                refreshPreviewPanels();
+            }
         }
         glutPostRedisplay();
     }
@@ -267,71 +301,6 @@ void onMouse(int button, int state, int x, int y)
 {
     if (state != GLUT_DOWN)
         return;
-    /* int window_width = glutGet(GLUT_WINDOW_WIDTH);
-     int window_height = glutGet(GLUT_WINDOW_HEIGHT);
-     double x1 = 2 * (double) x / (double) window_width - 1;
-     double y2 = -2 * (double) y / (double) window_height +1;
-
-     GLint viewport[4];
-     glGetIntegerv( GL_VIEWPORT, viewport ); //get the viewport info
-     float viewp[4];
-     for (int i = 0; i < 4; i++)
-         viewp[i] = viewport[i];
-
-     multiplyVectorByMatrix(&matrizProj, viewp);
-     */ /*Matrix4 viewProjectionInverse = inverse(projectionMatrix *
-          viewMatrix);
-
-     Point3D point3D = new Point3D(x, y, 0);
-     return viewProjectionInverse.multiply(point3D);
-     */
-
-
-    int window_width = glutGet(GLUT_WINDOW_WIDTH);
-    int window_height = glutGet(GLUT_WINDOW_HEIGHT);
-
-    GLbyte color[4];
-    GLfloat depth;
-    GLuint index;
-
-    //glReadPixels(x, window_height - y - 1, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, color);
-    //glReadPixels(x, window_height - y - 1, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
-    //glReadPixels(x, window_height - y - 1, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);
-
-    //printf("Clicked on pixel %d, %d, color %02hhx%02hhx%02hhx%02hhx, depth %f, stencil index %u\n",
-    //       x, y, color[0], color[1], color[2], color[3], depth, index);
-
-    GLint viewport[4]; //var to hold the viewport info
-    GLdouble modelview[16]; //var to hold the modelview info
-    GLdouble projection[16]; //var to hold the projection matrix info
-    GLfloat winX, winY, winZ; //variables to hold screen x,y,z coordinates
-    GLdouble worldX, worldY, worldZ; //variables to hold world x,y,z coordinates
-
-
-
-    //glGetDoublev( GL_MODELVIEW_MATRIX, modelview ); //get the modelview info
-    //glGetDoublev( GL_PROJECTION_MATRIX, projection ); //get the projection matrix info
-    glGetIntegerv( GL_VIEWPORT, viewport ); //get the viewport info
-
-    //winX = (float)x;
-    //winY = (float)viewport[3] - (float)y;
-    //winZ = 0;
-
-    //get the world coordinates from the screen coordinates
-    for (int i = 0; i < 16; i++)
-    {
-        modelview[i] = matrizModelView.m[i];
-        projection[i] = matrizProj.m[i];
-    }
-    for (int i = 0; i < 4; i++)
-        cout << viewport[i] << ", ";
-    cout << endl;
-    //gluUnProject(x, y, 0, modelview, projection, viewport, &worldX, &worldY, &worldZ);
-    gluUnProject(x, window_height - y - 1, 0, modelview, projection, viewport, &worldX, &worldY, &worldZ);
-
-    //Point2D<float> pf = GraphicModelChess::convertBackToChessPos(worldX, worldY);
-    printf("x: %f, y: %f, z: %f\n",
-           worldX, worldY, worldZ);
 }
 
 void myAnimationTimer(int value)

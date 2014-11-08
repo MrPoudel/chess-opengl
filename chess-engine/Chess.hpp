@@ -26,6 +26,7 @@ public:
 	friend ostream &operator<<(ostream &, const Chess &);
 
 	Player getCurrentPlayer();
+	bool isFieldEmpty(Point2D<int>);
 	vector<ChessPiece *> getListPieces();
 	Point2D<int> getPosition(ChessPiece *);
 	vector<Point2D<int> > getPossiblePositions(ChessPiece *);

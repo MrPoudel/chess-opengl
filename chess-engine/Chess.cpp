@@ -59,6 +59,12 @@ Player Chess::getCurrentPlayer() {
 	return this->cPlayer;
 }
 
+bool Chess::isFieldEmpty(Point2D<int> src) {
+	if (!isInsideChess(src.x, src.y))
+		return true;
+	return table[src.x][src.y] == NULL;
+}
+
 vector<ChessPiece *> Chess::getListPieces() {
 	vector<ChessPiece *> vect;
 	for (int i = 0; i < 8; i++) {
