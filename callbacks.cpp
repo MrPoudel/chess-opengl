@@ -22,7 +22,7 @@ void myAnimationTimer(int value);
 void produceModelsShading(GraphicModelChess *obj)
 {
     glEnableVertexAttribArray(attribute_coord3d);
-    glEnableVertexAttribArray(attribute_corRGB);
+    glEnableVertexAttribArray(attribute_normal3d);
     int i;
     int indexArrayVertices;
     int indexArrayNormais;
@@ -46,13 +46,13 @@ void produceModelsShading(GraphicModelChess *obj)
                           GL_FALSE,          // take our values as-is
                           0,                 // no extra data between each position
                           obj->arrayVertices);    // pointer to the C array
-    /* Caracteristicas do array de cores */
-    glVertexAttribPointer(attribute_corRGB,  // attribute
+
+    glVertexAttribPointer(attribute_normal3d,  // attribute
                           3,                 // number of elements per vertex, here (R,G,B)
                           GL_FLOAT,          // the type of each element
                           GL_FALSE,          // take our values as-is
                           0,                 // no extra data between each position
-                          obj->arrayCores);     // pointer to the C array
+                          obj->arrayNormais);     // pointer to the C array
     /* ATENCAO : Ordem das transformacoes !! */
     matrizModelView = IDENTITY_MATRIX;
     /* Deslocar para mais longe */
@@ -63,85 +63,27 @@ void produceModelsShading(GraphicModelChess *obj)
     /* Diminuir o tamanho do modelo para nao sair fora do view volume */
     Scale(&matrizModelView, obj->factorEsc.x, obj->factorEsc.y, obj->factorEsc.z);
     /* Matriz de projeccao */
-    glUniformMatrix4fv(uniform_matriz_proj, 1, GL_FALSE, matrizProj.m);
+    glUniformMatrix4fv(glGetUniformLocation(programaGLSL, "matrizProj"), 1, GL_FALSE, matrizProj.m);
     /* Matriz de transformacao */
-    glUniformMatrix4fv(uniform_matriz_model_view, 1, GL_FALSE, matrizModelView.m);
-    /* Phong Illumination Model */
-    /* Compute the 3 components: AMBIENT, DIFFUSE and SPECULAR */
-    /* INITIALIZE THE 3 COMPONENTS WITH THE CONSTANT FACTORS */
-    /* AMBIENT ILLUMINATION IS CONSTANT */
+    glUniformMatrix4fv(glGetUniformLocation(programaGLSL, "matrizModelView"), 1, GL_FALSE, matrizModelView.m);
+
     for (i = 0; i < 3; i++)
     {
-        ambientTerm[i] = obj->kAmb[i] * lights->intensidadeLuzAmbiente[i]; /* TESTING */
+        ambientTerm[i] = obj->kAmb[i] * lights->intensidadeLuzAmbiente[i];
         diffuseTerm[i] = obj->kDif[i] * lights->intensidadeFLuz[i];
         specularTerm[i] = obj->kEsp[i] * lights->intensidadeFLuz[i];
     }
-    /* SMOOTH-SHADING */
-    /* Compute the illumination RGB value for every triangle vertex */
-    /* Store the RGB values in the color array */
-    indexArrayCores = 0;
-    GLfloat normalDifuse = 0;
-    GLfloat normalSpecular = 0;
-    for (indexArrayVertices = 0; indexArrayVertices < (3 * obj->numVertices); indexArrayVertices += 3)
-    {
-        /* For every vertex */
-        /* Get the XYZ coordinates and the normal vector */
-        for (i = 0; i < 3; i++)
-        {
-            auxP[i] = obj->arrayVertices[ indexArrayVertices + i ];
-            auxN[i] = obj->arrayNormais[ indexArrayVertices + i ];
-        }
-        /* The 4th homogeneous coordinate */
-        auxP[3] = 1.0;
-        auxN[3] = 0.0;
-        /* Apply the global transformation matrix to each vertex */
-        pontoP = multiplyPointByMatrix(&matrizModelView, auxP);
-        /* And to the corresponding normal vector */
-        vectorN = multiplyVectorByMatrix(&matrizModelView, auxN);
-        /* Get the corresponding unit normal vector */
-        convertToUnitVector(vectorN);
-        /* DIFFUSE REFLECTION */
-        /* Compute the vector L */
-        for (i = 0; i < 3; i++)
-        {
-            vectorL[i] = lights->posicaoFLuz[i];
-        }
-        /* TWO SITUATIONS : POINT light source versus DIRECTIONAL light source */
-        /* Get the corresponding unit vector */
-        convertToUnitVector(vectorL);
-        /* Compute cos (N . L) */
-        cosNL = computeScalarProduct(vectorN, vectorL);
-        // STOP and CHECK if you get the expected results
-        /* SPECULAR REFLECTION */
-        /* Compute the vector V --- The viewer is at (0,0,0) */
-        vectorV = computeSymmetricVector(pontoP);
-        /* Compute the HALFWAY VECTOR */
-        vectorH = addVector(vectorL, vectorV);
-        /* Get the corresponding unit vector */
-        convertToUnitVector(vectorH);
-        /* Compute cos (N . H) */
-        cosNH = computeScalarProduct(vectorN, vectorH);
-        /* STOP and CHECK if you get the expected results */
-        /* ADD UP the 3 illumination components */
-        /* AVOID RGB values greater the 1.0 */
-        /* ONLY the AMBIENT component is being used at this moment... */
+    glUniform4fv(glGetUniformLocation(programaGLSL, "ambientTerm"), 1, ambientTerm);
+    glUniform4fv(glGetUniformLocation(programaGLSL, "diffuseTerm"), 1, diffuseTerm);
+    glUniform4fv(glGetUniformLocation(programaGLSL, "specularTerm"), 1, specularTerm);
 
-        obj->arrayCores[indexArrayCores] = ambientTerm[0] + diffuseTerm[0] * cosNL + specularTerm[0] * pow(cosNH, obj->coefPhong);
-        indexArrayCores++;
-        obj->arrayCores[indexArrayCores] = ambientTerm[1] + diffuseTerm[1] * cosNL + specularTerm[1] * pow(cosNH, obj->coefPhong);
-        indexArrayCores++;
-        obj->arrayCores[indexArrayCores] = ambientTerm[2] + diffuseTerm[2] * cosNL + specularTerm[2] * pow(cosNH, obj->coefPhong);
-        indexArrayCores++;
-        /* Libertar os arrays temporarios */
-        free(pontoP);
-        free(vectorN);
-        free(vectorV);
-        free(vectorH);
-    }
-    /* Push each element to the vertex shader */
+    glUniform4fv(glGetUniformLocation(programaGLSL, "posicaoFLuz"), 1, lights->posicaoFLuz);
+
+    glUniform1f(glGetUniformLocation(programaGLSL, "coefPhong"), obj->coefPhong);
+
     glDrawArrays(GL_TRIANGLES, 0, obj->numVertices);
     glDisableVertexAttribArray(attribute_coord3d);
-    glDisableVertexAttribArray(attribute_corRGB);
+    glDisableVertexAttribArray(attribute_normal3d);
 }
 void myDisplay(void)
 {
@@ -305,10 +247,10 @@ void onMouse(int button, int state, int x, int y)
 
 void myAnimationTimer(int value)
 {
-    RotateAboutZ(&matrizProj, DegreesToRadians(20));
+    RotateAboutZ(&matrizProj, DegreesToRadians(1));
     glutPostRedisplay();
-    if (value + 20 < 180)
-        glutTimerFunc(250, myAnimationTimer, value + 20);
+    if (value + 1 < 180)
+        glutTimerFunc(10, myAnimationTimer, value + 1);
 }
 
 void registarCallbackFunctions(void)

@@ -83,10 +83,10 @@ void inicializarFontesDeLuz(void)
 	intensidadeFLuz_0[3] = 1.0;
 	/* Posicao */
 	float posicaoFLuz_0[4];
-	posicaoFLuz_0 [0] = 0;
-	posicaoFLuz_0 [1] = 0;
-	posicaoFLuz_0 [2] = 0.1;
-	posicaoFLuz_0 [3] = 0.0;
+	posicaoFLuz_0[0] = 0;
+	posicaoFLuz_0[1] = 0;
+	posicaoFLuz_0[2] = 10;
+	posicaoFLuz_0[3] = 0;
 	/* Luz Ambiente */
 	// IA
 	float intensidadeLuzAmbiente[4];
@@ -102,7 +102,6 @@ void inicializarModelos(void)
 {
 	vector<ChessPiece*> list = chess->getListPieces();
 	GraphicModelChess * obj;
-	int i = 0;
 	for(vector<ChessPiece*>::iterator it = list.begin(); it != list.end(); ++it) {
 		obj = new GraphicModelChess();
 		obj->piece = *it;
@@ -120,7 +119,11 @@ void inicializarModelos(void)
 			lerVerticesDeFicheiro("models/rook.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
 		
 		obj->arrayCores = (GLfloat *) calloc(3 * obj->numVertices, sizeof(GLfloat));
-		
+		for (int i = 0; i < 3 * obj->numVertices; i+=3) {
+			obj->arrayCores[i] = 1;
+			obj->arrayCores[i+1] = 0;
+			obj->arrayCores[i+2] = 0;
+		}
 		/* Propriedades do material */
 		if (obj->piece->player == ONE) {
 			obj->kAmb[0] = 0.1;
@@ -162,7 +165,6 @@ void inicializarModelos(void)
 		obj->factorEsc.x = 1;
 		obj->factorEsc.y = 1;
 		obj->factorEsc.z = 1;
-		i++;
 
 		pieceModels.push_back(*obj);
 	}
@@ -171,8 +173,7 @@ void inicializarModelos(void)
 	obj = new GraphicModelChess();
 	obj->piece = NULL;
 	lerVerticesDeFicheiro("models/board.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
-	obj->arrayCores = (GLfloat *) calloc(3 * obj->numVertices, sizeof(GLfloat));
-	
+	//obj->arrayCores = (GLfloat *) calloc(3 * obj->numVertices, sizeof(GLfloat));
 	obj->kAmb[0] = 0.1;
 	obj->kAmb[1] = 0.1;
 	obj->kAmb[2] = 0.1;
@@ -200,7 +201,7 @@ void inicializarModelos(void)
 	matrizProj = CreateProjectionMatrix(proj.fovy, proj.aspect_ratio, proj.near_plane, proj.far_plane);
 	/* Posicionar no interior do View Volome */
 	Translate(&matrizProj, 0, 0, -6);
-	// Possicionar meio inclinado
+	/// Possicionar meio inclinado
 	RotateAboutX(&matrizProj, DegreesToRadians(-60));
 	// Virar camera para o player 1
 	RotateAboutZ(&matrizProj, DegreesToRadians(90));

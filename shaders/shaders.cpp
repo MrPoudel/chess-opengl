@@ -44,7 +44,7 @@ int initResources(void)
 	const char *vsSource;
 	const char *fsSource;
 	string attribute_coord3d_name;
-	string attribute_corRGB_name;
+	string attribute_normal3d_name;
 	const char *uniform_matriz_model_view_name;
 	const char *uniform_matriz_proj_name;
 	GLint compileOK = GL_FALSE;
@@ -62,11 +62,7 @@ int initResources(void)
 	/* Para passar vertices 3D ao Vertex-Shader */
 	attribute_coord3d_name = "v_coord3d";
 	/* Para passar cores ao Vertex-Shader */
-	attribute_corRGB_name = "v_corRGB";
-	/* Para passar a matriz de projeccao ao Vertex-Shader */
-	uniform_matriz_proj_name = "matrizProj";
-	/* Para passar a matriz de model-view ao Vertex-Shader */
-	uniform_matriz_model_view_name = "matrizModelView";
+	attribute_normal3d_name = "v_normal3d";
 	/* String contendo o codigo (GLSL) do fragment-shader */
 	fsSource = readShaderSource("shaders/fShader.glsl");
 	if (fsSource == NULL)
@@ -115,22 +111,10 @@ int initResources(void)
 		fprintf(stderr, "Could not bind attribute %s\n", attribute_coord3d_name.c_str());
 		return 0;
 	}
-	attribute_corRGB = glGetAttribLocation(programaGLSL, attribute_corRGB_name.c_str());
-	if (attribute_corRGB == -1)
+	attribute_normal3d = glGetAttribLocation(programaGLSL, attribute_normal3d_name.c_str());
+	if (attribute_normal3d == -1)
 	{
-		fprintf(stderr, "Could not bind attribute %s\n", attribute_corRGB_name.c_str());
-		return 0;
-	}
-	uniform_matriz_proj = glGetUniformLocation(programaGLSL, uniform_matriz_proj_name);
-	if (uniform_matriz_proj == -1)
-	{
-		fprintf(stderr, "Could not bind uniform %s\n", uniform_matriz_proj_name);
-		return 0;
-	}
-	uniform_matriz_model_view = glGetUniformLocation(programaGLSL, uniform_matriz_model_view_name);
-	if (uniform_matriz_model_view == -1)
-	{
-		fprintf(stderr, "Could not bind uniform %s\n", uniform_matriz_model_view_name);
+		fprintf(stderr, "Could not bind attribute %s\n", attribute_normal3d_name.c_str());
 		return 0;
 	}
 	return 1;

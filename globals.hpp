@@ -36,9 +36,7 @@ extern GLuint vs;
 extern GLuint fs;
 /* Para passar coordenadas, cores a a matriz de transformacao ao Vertex-Shader */
 extern GLint attribute_coord3d;
-extern GLint attribute_corRGB;
-extern GLint uniform_matriz_proj;
-extern GLint uniform_matriz_model_view;
+extern GLint attribute_normal3d;
 /* Matriz de projeccao */
 extern mat4x4 matrizProj;
 /* Matriz global de transformacao */

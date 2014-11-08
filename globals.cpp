@@ -12,9 +12,7 @@ GLuint vs;
 GLuint fs;
 /* Para passar coordenadas, cores a a matriz de transformacao ao Vertex-Shader */
 GLint attribute_coord3d;
-GLint attribute_corRGB;
-GLint uniform_matriz_proj;
-GLint uniform_matriz_model_view;
+GLint attribute_normal3d;
 /* Matriz de projeccao */
 mat4x4 matrizProj;
 /* Matriz global de transformacao */
