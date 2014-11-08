@@ -12,6 +12,7 @@
 #define GLEW_STATIC /* Necessario se houver problemas com a lib */
 #include <GL/glew.h>
 #include <GL/freeglut.h>
+#include <string>
 #include "utils/mathUtils.hpp"
 #include "GraphicModelChess.hpp"
 #include "LightModel.hpp"
@@ -34,6 +35,8 @@ extern GLuint programaGLSL;
 /* Os identificadores dos SHADERS */
 extern GLuint vs;
 extern GLuint fs;
+
+extern string projectPath;
 /* Para passar coordenadas, cores a a matriz de transformacao ao Vertex-Shader */
 extern GLint attribute_coord3d;
 extern GLint attribute_normal3d;

@@ -18,6 +18,7 @@ mat4x4 matrizProj;
 /* Matriz global de transformacao */
 mat4x4 matrizModelView;
 
+string projectPath = "../src/";
 Chess * chess;
 LightModel * lights;
 int selectedModel;
