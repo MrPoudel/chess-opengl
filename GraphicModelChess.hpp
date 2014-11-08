@@ -52,9 +52,9 @@ public:
 		obj->kAmb[1] = 0.1 + 0.9 * G;
 		obj->kAmb[2] = 0.1 + 0.9 * B;
 		obj->kAmb[3] = 1.0;
-		obj->kDif[0] = 0.64;
-		obj->kDif[1] = 0.64;
-		obj->kDif[2] = 0.64;
+		obj->kDif[0] = 0.64 + 0.3 * R;
+		obj->kDif[1] = 0.64 + 0.3 * G;
+		obj->kDif[2] = 0.64 + 0.3 * B;
 		obj->kDif[3] = 1.0;
 		obj->kEsp[0] = 0.9;
 		obj->kEsp[1] = 0.9;
