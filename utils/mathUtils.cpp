@@ -172,9 +172,9 @@ mat4x4 CreateProjectionMatrix(float fovy,
 	const float frustum_length = far_plane - near_plane;
 	out.m[0] = x_scale;
 	out.m[5] = y_scale;
-	out.m[10] = -((far_plane + near_plane) / frustum_length);
+	out.m[10] = (-(far_plane + near_plane) / frustum_length);
 	out.m[11] = -1;
-	out.m[14] = -((2 * near_plane * far_plane) / frustum_length);
+	out.m[14] = ((-2 * near_plane * far_plane) / frustum_length);
 	return out;
 }
 

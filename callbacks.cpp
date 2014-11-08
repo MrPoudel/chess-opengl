@@ -215,23 +215,19 @@ void mySpecialKeys(int key, int x, int y)
     switch (key)
     {
     case GLUT_KEY_LEFT :
-        obj->desl.y -= 0.25;
-        printf("%f %f\n", obj->desl.x, obj->desl.y);
+        RotateAboutZ(&matrizProj, DegreesToRadians(-1));
         glutPostRedisplay();
         break;
     case GLUT_KEY_RIGHT :
-        obj->desl.y += 0.25;
-        printf("%f %f\n", obj->desl.x, obj->desl.y);
+        RotateAboutZ(&matrizProj, DegreesToRadians(1));
         glutPostRedisplay();
         break;
     case GLUT_KEY_UP :
-        obj->desl.x -= 0.25;
-        printf("%f %f\n", obj->desl.x, obj->desl.y);
+        RotateAboutY(&matrizProj, DegreesToRadians(1));
         glutPostRedisplay();
         break;
     case GLUT_KEY_DOWN :
-        obj->desl.x += 0.25;
-        printf("%f %f\n", obj->desl.x, obj->desl.y);
+        RotateAboutY(&matrizProj, DegreesToRadians(-1));
         glutPostRedisplay();
         break;
     }

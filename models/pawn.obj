@@ -1,6 +1,7 @@
 # Blender v2.72 (sub 0) OBJ File: 'scene.blend'
 # www.blender.org
 mtllib pawn.mtl
+o Pawn
 v -0.000000 0.000010 0.524155
 v 0.013824 0.000010 0.522790
 v 0.013559 0.002695 0.522790
