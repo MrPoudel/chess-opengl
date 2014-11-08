@@ -1,7 +1,5 @@
 #version 120
 
-varying vec3 f_corRGB;
-
 varying vec3 fN;
 varying vec3 fL;
 varying vec3 fE;
