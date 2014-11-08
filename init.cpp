@@ -83,9 +83,9 @@ void inicializarFontesDeLuz(void)
 	intensidadeFLuz_0[3] = 1.0;
 	/* Posicao */
 	float posicaoFLuz_0[4];
-	posicaoFLuz_0[0] = 4;
-	posicaoFLuz_0[1] = 4;
-	posicaoFLuz_0[2] = 10;
+	posicaoFLuz_0[0] = -4;
+	posicaoFLuz_0[1] = -4;
+	posicaoFLuz_0[2] = 4;
 	posicaoFLuz_0[3] = 0;
 	/* Luz Ambiente */
 	// IA
@@ -152,8 +152,8 @@ void inicializarModelos(void)
 		obj->desl.x = nP.x;
 		obj->desl.y = nP.y;
 		obj->desl.z = 0;
-		obj->anguloRot.x = 90;
-		obj->anguloRot.y = obj->piece->player == ONE ? 180 : 0;
+		obj->anguloRot.x = 0;
+		obj->anguloRot.y = obj->piece->player == ONE ? 0 : 0;
 		obj->anguloRot.z = 0;
 		obj->factorEsc.x = 1;
 		obj->factorEsc.y = 1;
@@ -182,7 +182,7 @@ void inicializarModelos(void)
 	obj->desl.x = 0;
 	obj->desl.y = 0;
 	obj->desl.z = 0;
-	obj->anguloRot.x = 0;
+	obj->anguloRot.x = 90;
 	obj->anguloRot.y = 0;
 	obj->anguloRot.z = 0;
 	obj->factorEsc.x = 1;
@@ -196,7 +196,7 @@ void inicializarModelos(void)
 	/// Possicionar meio inclinado
 	RotateAboutX(&matrizProj, DegreesToRadians(-60));
 	// Virar camera para o player 1
-	RotateAboutZ(&matrizProj, DegreesToRadians(90));
+	RotateAboutZ(&matrizProj, DegreesToRadians(0));
 }
 
 void libertarArraysGlobais(void)

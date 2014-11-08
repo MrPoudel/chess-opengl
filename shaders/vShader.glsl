@@ -13,9 +13,11 @@ varying vec3 fL;
 
 void main( void )
 {
+	vec3 pos = (matrizModelView * vec4(v_coord3d, 1.0)).xyz;
+
 	fN = v_normal3d;
-    fE = (matrizModelView * vec4(v_coord3d, 1.0)).xyz;
-    fL = posicaoFLuz.xyz;
+    fE = -pos;
+    fL = posicaoFLuz.xyz - pos;
 
     gl_Position = matrizProj * matrizModelView * vec4(v_coord3d, 1.0);
 }

@@ -11,11 +11,11 @@ uniform float coefPhong;
 
 void main( void )
 {
-	vec3 N = normalize(fN);
 	vec3 E = normalize(fE);
     vec3 L = normalize(fL);
 
-    vec3 H = normalize( L + E );
+    vec3 H = normalize(L + E);
+	vec3 N = normalize(matrizModelView * vec4(fN, 0.0)).xyz;
     vec4 ambient = ambientTerm;
 
     float Kd = max(dot(L, N), 0.0);
