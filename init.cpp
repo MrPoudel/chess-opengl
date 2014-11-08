@@ -83,8 +83,8 @@ void inicializarFontesDeLuz(void)
 	intensidadeFLuz_0[3] = 1.0;
 	/* Posicao */
 	float posicaoFLuz_0[4];
-	posicaoFLuz_0[0] = 0;
-	posicaoFLuz_0[1] = 0;
+	posicaoFLuz_0[0] = 4;
+	posicaoFLuz_0[1] = 4;
 	posicaoFLuz_0[2] = 10;
 	posicaoFLuz_0[3] = 0;
 	/* Luz Ambiente */
@@ -117,13 +117,6 @@ void inicializarModelos(void)
 			lerVerticesDeFicheiro("models/knight.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
 		else if (obj->piece->getType() == "Tower")
 			lerVerticesDeFicheiro("models/rook.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
-		
-		obj->arrayCores = (GLfloat *) calloc(3 * obj->numVertices, sizeof(GLfloat));
-		for (int i = 0; i < 3 * obj->numVertices; i+=3) {
-			obj->arrayCores[i] = 1;
-			obj->arrayCores[i+1] = 0;
-			obj->arrayCores[i+2] = 0;
-		}
 		/* Propriedades do material */
 		if (obj->piece->player == ONE) {
 			obj->kAmb[0] = 0.1;
@@ -172,8 +165,7 @@ void inicializarModelos(void)
 	/* Tabuleiro */
 	obj = new GraphicModelChess();
 	obj->piece = NULL;
-	lerVerticesDeFicheiro("models/board.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
-	//obj->arrayCores = (GLfloat *) calloc(3 * obj->numVertices, sizeof(GLfloat));
+	lerVerticesDeFicheiro("models/board2.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
 	obj->kAmb[0] = 0.1;
 	obj->kAmb[1] = 0.1;
 	obj->kAmb[2] = 0.1;
@@ -215,13 +207,11 @@ void libertarArraysGlobais(void)
 	for(vector<GraphicModelChess>::iterator it = pieceModels.begin(); it != pieceModels.end(); ++it) {
 		free(it->arrayVertices);
 		free(it->arrayNormais);
-		free(it->arrayCores);
 		delete &it;
 	}
 	for(vector<GraphicModelChess>::iterator it = secondaryModels.begin(); it != secondaryModels.end(); ++it) {
 		free(it->arrayVertices);
 		free(it->arrayNormais);
-		free(it->arrayCores);
 		delete &it;
 	}
 }

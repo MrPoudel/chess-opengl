@@ -19,7 +19,6 @@ public:
     int numVertices;
     float *arrayVertices;
     float *arrayNormais;
-    float *arrayCores;
     /* Propriedades do material */
     float kAmb[4];
     float kDif[4];
@@ -49,12 +48,6 @@ public:
     	GraphicModelChess * obj = new GraphicModelChess();
 		obj->piece = NULL;
 		lerVerticesDeFicheiro("models/marker.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
-		obj->arrayCores = (GLfloat *) calloc(3 * obj->numVertices, sizeof(GLfloat));
-		for (int i = 0; i < 3 * obj->numVertices; i+=3) {
-			obj->arrayCores[i] = 1;
-			obj->arrayCores[i+1] = 0;
-			obj->arrayCores[i+2] = 0;
-		}
 		obj->kAmb[0] = 0.1 + 0.9 * R;
 		obj->kAmb[1] = 0.1 + 0.9 * G;
 		obj->kAmb[2] = 0.1 + 0.9 * B;

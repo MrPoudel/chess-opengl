@@ -147,23 +147,6 @@ static void myMenuDir(int i)
 	switch (menu2[i].val)
 	{
 	case 'L' :
-		libertarArraysGlobais();
-		lerVerticesDeFicheiro(nomeFicheiro(), &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
-		/* Array vazio para guardar a cor atribuida a cada vertice */
-		obj->arrayCores = (GLfloat *) calloc(3 * obj->numVertices, sizeof(GLfloat));
-		/* COMPLETAR */
-		/* Estabelecer propriedades do material iniciais */
-		/* Parametros das transformacoes */
-		obj->desl.x = 0;
-		obj->desl.y = 0;
-		obj->desl.z = -0.5;
-		obj->anguloRot.x = 0;
-		obj->anguloRot.y = 0;
-		obj->anguloRot.z = 0;
-		obj->factorEsc.x = 0.25;
-		obj->factorEsc.y = 0.25;
-		obj->factorEsc.z = 0.25;
-		glutPostRedisplay();
 		break;
 	case 'F' :
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
