@@ -4,8 +4,8 @@
 #include "../ChessPiece.hpp"
 
 class Pawn : public ChessPiece {
-
 public:
+	bool gotFirstMove;
 	Pawn(Player);
 	string getType();
 };

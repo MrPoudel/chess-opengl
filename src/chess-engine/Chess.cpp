@@ -113,6 +113,8 @@ bool Chess::move(ChessPiece* srcPiece, Point2D<int> dst) {
 		table[src.x][src.y] = NULL;
 	}
 
+	if (srcPiece->getType() == "Pawn")
+		((Pawn*) srcPiece)->gotFirstMove = false;
 
 	if (cPlayer == ONE)
 		cPlayer = TWO;
@@ -138,12 +140,20 @@ vector<Point2D<int> > Chess::getPossiblePositions(ChessPiece * src) {
 			tmp.y = pos.y + it->y * coef;
 			if (!isInsideChess(tmp.x, tmp.y))
 				continue;
-			if (table[tmp.x][tmp.y] == NULL) {
-				if (src->getType() != "Pawn" || it->y == 0)	
+
+			if (src->getType() == "Pawn") {
+				Pawn * pawnTmp = (Pawn *) src;
+				if (table[tmp.x][tmp.y] == NULL && it->y == 0) {
 					vec.push_back(tmp);
-			} else {
-				if ((src->getType() != "Pawn" || it->y != 0) && table[tmp.x][tmp.y]->player != src->player)
+					tmp.x = pos.x + 2 * it->x * coef;
+					if (pawnTmp->gotFirstMove) 
+						vec.push_back(tmp);
+				}
+				else if (table[tmp.x][tmp.y] != NULL && it->y != 0 && table[tmp.x][tmp.y]->player != src->player) {
 					vec.push_back(tmp);
+				}
+			} else if (table[tmp.x][tmp.y] == NULL || table[tmp.x][tmp.y]->player != src->player) {
+				vec.push_back(tmp);
 			}
 		} else {
 			for (int i = 1; i < 8; i++) {
