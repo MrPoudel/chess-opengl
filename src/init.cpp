@@ -26,12 +26,12 @@ void inicializarEstado(void)
     glPointSize(4.0);
     glLineWidth(3.0);
     /* Modo de desenho dos poligonos */
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     /* Back-Face Culling */
-    //glCullFace(GL_BACK);
-    //glFrontFace(GL_CCW);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
     //glEnable(GL_CULL_FACE);
-    //glEnable(GL_DEPTH);
+    glEnable(GL_DEPTH);
     glEnable(GL_DEPTH_TEST);
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     /* Matriz de projeccao é inicialmente a IDENTIDADE => Proj. Paralela Ortogonal */
@@ -39,7 +39,8 @@ void inicializarEstado(void)
     matrizModelView = IDENTITY_MATRIX;
 
     chess = new Chess();
-    selectedModel = 4;
+    selectedModel = 0;
+    selectedPosition = -1;
 }
 
 
@@ -192,7 +193,7 @@ void inicializarModelos(void)
     obj->factorEsc.x = 1;
     obj->factorEsc.y = 1;
     obj->factorEsc.z = 1;
-    secondaryModels.push_back(*obj);
+    chessTable = obj;
 
     matrizProj = CreateProjectionMatrix(proj.fovy, proj.aspect_ratio, proj.near_plane, proj.far_plane);
     /* Posicionar no interior do View Volome */
@@ -214,10 +215,7 @@ void libertarArraysGlobais(void)
         free(it->arrayNormais);
         delete &it;
     }
-    for (vector<GraphicModelChess>::iterator it = secondaryModels.begin(); it != secondaryModels.end(); ++it)
-    {
-        free(it->arrayVertices);
-        free(it->arrayNormais);
-        delete &it;
-    }
+    free(chessTable->arrayVertices);
+    free(chessTable->arrayNormais);
+    delete &chessTable;
 }

@@ -5,6 +5,7 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include <vector>
+#include "globals.hpp"
 #include "chess-engine/ChessPiece.hpp"
 #include "models.hpp"
 #include "utils/mathUtils.hpp"
@@ -44,10 +45,10 @@ public:
         point.y = (x + 1.75) / 0.5;
         return point;
     };
-    static GraphicModelChess generatePreviewSquare(Point2D<float> p, float R, float G, float B) {
+    static GraphicModelChess generatePreviewSquare(Point2D<float> p, float R, float G, float B, float scale, float zIndex) {
     	GraphicModelChess * obj = new GraphicModelChess();
 		obj->piece = NULL;
-		lerVerticesDeFicheiro("models/marker.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
+		lerVerticesDeFicheiro("../src/models/marker.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
 		obj->kAmb[0] = 0.1 + 0.9 * R;
 		obj->kAmb[1] = 0.1 + 0.9 * G;
 		obj->kAmb[2] = 0.1 + 0.9 * B;
@@ -63,13 +64,13 @@ public:
 		obj->coefPhong = 100;
 		obj->desl.x = p.x;
 		obj->desl.y = p.y;
-		obj->desl.z = 0.01;
+		obj->desl.z = zIndex;
 		obj->anguloRot.x = 0;
 		obj->anguloRot.y = 0;
 		obj->anguloRot.z = 0;
-		obj->factorEsc.x = 1;
-		obj->factorEsc.y = 1;
-		obj->factorEsc.z = 1;
+		obj->factorEsc.x = scale;
+		obj->factorEsc.y = scale;
+		obj->factorEsc.z = scale;
 		return *obj;
     }
 };

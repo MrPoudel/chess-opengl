@@ -32,19 +32,11 @@ int main(int argc, char **argv)
 	glewInitResult = glewInit();
 	if (GLEW_OK != glewInitResult)
 	{
-		fprintf(
-		    stderr,
-		    "ERROR: %s\n",
-		    glewGetErrorString(glewInitResult)
-		);
+		fprintf(stderr, "ERROR: %s\n", glewGetErrorString(glewInitResult));
 		exit(EXIT_FAILURE);
 	}
 	/* Qual a versao do OpenGL? */
-	fprintf(
-	    stdout,
-	    "INFO: OpenGL Version: %s\n",
-	    glGetString(GL_VERSION)
-	);
+	fprintf(stdout, "INFO: OpenGL Version: %s\n", glGetString(GL_VERSION));
 	/* Inicializar o estado da aplicacao */
 	inicializarEstado();
 	/* Inicializar a cena */

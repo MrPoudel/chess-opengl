@@ -27,29 +27,21 @@ struct projCoord
 	float near_plane;
 	float far_plane;
 };
-/* Variaveis GLOBAIS !! */
+
+/* Static variables */
+static string projectPath = "../src/";
+/* Global variables */
 extern projCoord proj;
 extern int windowHandle;
-/* O identificador do programa em GLSL combinando os SHADERS */
 extern GLuint programaGLSL;
-/* Os identificadores dos SHADERS */
-extern GLuint vs;
-extern GLuint fs;
+extern GLuint vs, fs;
+extern GLint attribute_coord3d, attribute_normal3d;
+extern mat4x4 matrizProj, matrizModelView;
 
-extern string projectPath;
-/* Para passar coordenadas, cores a a matriz de transformacao ao Vertex-Shader */
-extern GLint attribute_coord3d;
-extern GLint attribute_normal3d;
-/* Matriz de projeccao */
-extern mat4x4 matrizProj;
-/* Matriz global de transformacao */
-extern mat4x4 matrizModelView;
-
-extern int selectedModel;
+extern int selectedModel, selectedPosition;
 extern Chess * chess;
 extern LightModel * lights;
-extern vector<GraphicModelChess> previewPositions;
-extern vector<GraphicModelChess> secondaryModels;
-extern vector<GraphicModelChess> pieceModels;
+extern GraphicModelChess * chessTable, * selectedFrame;
+extern vector<GraphicModelChess> previewPositions, pieceModels;
 
 #endif

@@ -41,6 +41,7 @@ static char *readShaderSource(const string shaderFile)
 
 int initResources(void)
 {
+    GLuint vs, fs;
     const char *vsSource;
     const char *fsSource;
     string attribute_coord3d_name;
