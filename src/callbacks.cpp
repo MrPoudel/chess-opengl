@@ -277,23 +277,52 @@ void onMouse(int button, int state, int x, int y)
     Point2D<int> np;
     np.x = rint(p.x);
     np.y = rint(p.y);
+
     if (np.x >= 0 && np.x < 8 && np.y >= 0 && np.y < 8) {
-        int tmpSelected = -1;
+        int tmpSelectedModel = -1, tmpSelectedPos = -1;
         for (int i = 0; i < 32; i++) {
             Point2D<int> tmp = chess->getPosition(pieceModels[i].piece);
             if (tmp.x == np.y && tmp.y == np.x) {
-                tmpSelected = i;
+                tmpSelectedModel = i;
                 break;
             }
         }
-        if (tmpSelected != -1) {
-            selectedModel = tmpSelected;
+
+        if (selectedModel >= 0 && selectedModel <= 31) {
+            vector<Point2D<int> > possiblePos = chess->getPossiblePositions(pieceModels[selectedModel].piece);
+            for (int i = 0; i < possiblePos.size(); i++) {
+                if (np.x == possiblePos[i].y && np.y == possiblePos[i].x) {
+                    tmpSelectedPos = i;
+                    break;
+                }
+            }
+        }
+        
+        if (selectedPosition == tmpSelectedPos && selectedPosition != -1) {
+            vector<Point2D<int> > possiblePos = chess->getPossiblePositions(pieceModels[selectedModel].piece);
+            if (chess->move(pieceModels[selectedModel].piece, possiblePos[selectedPosition])) {
+                glutTimerFunc(1000, myAnimationTimer, 0);
+                if (chess->getCurrentPlayer() == ONE)
+                    selectedModel = 0;
+                else
+                    selectedModel = 16;
+                selectedPosition = -1;
+                refreshSelectedPosition();
+                refreshPreviewPanels();
+                glutPostRedisplay();
+            }
+        }
+        else if (tmpSelectedPos != -1) {
+            selectedPosition = tmpSelectedPos;
+            refreshSelectedPosition();
+            glutPostRedisplay();
+        }
+        else if (tmpSelectedModel != -1) {
+            selectedModel = tmpSelectedModel;
             selectedPosition = -1;
             refreshPreviewPanels();
             refreshSelectedPosition();
             glutPostRedisplay();
-        } else {
-
         }
     }
 }
