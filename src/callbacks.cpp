@@ -228,30 +228,70 @@ void mySpecialKeys(int key, int x, int y)
     switch (key)
     {
     case GLUT_KEY_LEFT :
-        RotateAboutZ(&matrizProj, DegreesToRadians(-1));
+        RotateAboutZ(&matrizProj, DegreesToRadians(-2));
         glutPostRedisplay();
         break;
     case GLUT_KEY_RIGHT :
-        RotateAboutZ(&matrizProj, DegreesToRadians(1));
+        RotateAboutZ(&matrizProj, DegreesToRadians(2));
         glutPostRedisplay();
         break;
     case GLUT_KEY_UP :
-        RotateAboutY(&matrizProj, DegreesToRadians(1));
+        RotateAboutY(&matrizProj, DegreesToRadians(2));
         glutPostRedisplay();
         break;
     case GLUT_KEY_DOWN :
-        RotateAboutY(&matrizProj, DegreesToRadians(-1));
+        RotateAboutY(&matrizProj, DegreesToRadians(-2));
         glutPostRedisplay();
         break;
     }
 }
 
-
-
 void onMouse(int button, int state, int x, int y)
 {
     if (state != GLUT_DOWN)
         return;
+
+    GLint viewport[4];
+    GLdouble modelview[16];
+    GLdouble projection[16];
+    GLfloat winX, winY, winZ;
+    GLdouble posX, posY, posZ;
+ 
+    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+    glGetDoublev(GL_PROJECTION_MATRIX, projection);
+    glGetIntegerv(GL_VIEWPORT, viewport);
+ 
+    winX = (float)x;
+    winY = (float)viewport[3] - (float)y;
+    for (int i = 0; i < 16; i++) 
+        projection[i] = matrizProj.m[i];
+    glReadPixels(x, int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ);
+    gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
+
+
+    Point2D<float> p = GraphicModelChess::convertBackToChessPos(posX, posY);
+    Point2D<int> np;
+    np.x = rint(p.x);
+    np.y = rint(p.y);
+    if (np.x >= 0 && np.x < 8 && np.y >= 0 && np.y < 8) {
+        int tmpSelected = -1;
+        for (int i = 0; i < 32; i++) {
+            Point2D<int> tmp = chess->getPosition(pieceModels[i].piece);
+            if (tmp.x == np.y && tmp.y == np.x) {
+                tmpSelected = i;
+                break;
+            }
+        }
+        if (tmpSelected != -1) {
+            selectedModel = tmpSelected;
+            selectedPosition = -1;
+            refreshPreviewPanels();
+            refreshSelectedPosition();
+            glutPostRedisplay();
+        } else {
+
+        }
+    }
 }
 
 void myAnimationTimer(int value)
