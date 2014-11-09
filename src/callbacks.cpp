@@ -103,6 +103,10 @@ void myDisplay(void)
 
 void refreshPreviewPanels()
 {
+    for (int i = 0; i < previewPositions.size(); i++) {
+        free(previewPositions[i].arrayNormais);
+        free(previewPositions[i].arrayVertices);
+    }
     previewPositions.clear();
     vector<Point2D<int> > pp = chess->getPossiblePositions(pieceModels[selectedModel].piece);
     previewPositions.push_back(GraphicModelChess::generatePreviewSquare(

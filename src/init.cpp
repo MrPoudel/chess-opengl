@@ -102,98 +102,97 @@ void inicializarFontesDeLuz(void)
 void inicializarModelos(void)
 {
     vector<ChessPiece *> list = chess->getListPieces();
-    GraphicModelChess *obj;
+    GraphicModelChess obj;
     for (vector<ChessPiece *>::iterator it = list.begin(); it != list.end(); ++it)
     {
-        obj = new GraphicModelChess();
-        obj->piece = *it;
-        if (obj->piece->getType() == "Queen")
-            lerVerticesDeFicheiro(projectPath + "models/queen.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
-        else if (obj->piece->getType() == "Bishop")
-            lerVerticesDeFicheiro(projectPath + "models/bishop.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
-        else if (obj->piece->getType() == "Pawn")
-            lerVerticesDeFicheiro(projectPath + "models/pawn.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
-        else if (obj->piece->getType() == "King")
-            lerVerticesDeFicheiro(projectPath + "models/king.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
-        else if (obj->piece->getType() == "Knight")
-            lerVerticesDeFicheiro(projectPath + "models/knight.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
-        else if (obj->piece->getType() == "Tower")
-            lerVerticesDeFicheiro(projectPath + "models/tower.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
+        obj = GraphicModelChess();
+        obj.piece = *it;
+        if (obj.piece->getType() == "Queen")
+            lerVerticesDeFicheiro(projectPath + "models/queen.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais);
+        else if (obj.piece->getType() == "Bishop")
+            lerVerticesDeFicheiro(projectPath + "models/bishop.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais);
+        else if (obj.piece->getType() == "Pawn")
+            lerVerticesDeFicheiro(projectPath + "models/pawn.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais);
+        else if (obj.piece->getType() == "King")
+            lerVerticesDeFicheiro(projectPath + "models/king.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais);
+        else if (obj.piece->getType() == "Knight")
+            lerVerticesDeFicheiro(projectPath + "models/knight.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais);
+        else if (obj.piece->getType() == "Tower")
+            lerVerticesDeFicheiro(projectPath + "models/tower.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais);
         /* Propriedades do material */
-        if (obj->piece->player == ONE)
+        if (obj.piece->player == ONE)
         {
-            obj->kAmb[0] = 0.8;
-            obj->kAmb[1] = 0.8;
-            obj->kAmb[2] = 0.8;
-            obj->kAmb[3] = 1.0;
+            obj.kAmb[0] = 0.8;
+            obj.kAmb[1] = 0.8;
+            obj.kAmb[2] = 0.8;
+            obj.kAmb[3] = 1.0;
 
-            obj->kDif[0] = 0.9;
-            obj->kDif[1] = 0.9;
-            obj->kDif[2] = 0.9;
-            obj->kDif[3] = 1.0;
+            obj.kDif[0] = 0.9;
+            obj.kDif[1] = 0.9;
+            obj.kDif[2] = 0.9;
+            obj.kDif[3] = 1.0;
         }
         else
         {
-            obj->kAmb[0] = 0.1;
-            obj->kAmb[1] = 0.1;
-            obj->kAmb[2] = 0.1;
-            obj->kAmb[3] = 1.0;
+            obj.kAmb[0] = 0.1;
+            obj.kAmb[1] = 0.1;
+            obj.kAmb[2] = 0.1;
+            obj.kAmb[3] = 1.0;
 
-            obj->kDif[0] = 0.3;
-            obj->kDif[1] = 0.3;
-            obj->kDif[2] = 0.3;
-            obj->kDif[3] = 1.0;
+            obj.kDif[0] = 0.3;
+            obj.kDif[1] = 0.3;
+            obj.kDif[2] = 0.3;
+            obj.kDif[3] = 1.0;
         }
 
-        obj->kEsp[0] = 0.9;
-        obj->kEsp[1] = 0.9;
-        obj->kEsp[2] = 0.9;
-        obj->kEsp[3] = 1.0;
-        obj->coefPhong = 30;
+        obj.kEsp[0] = 0.9;
+        obj.kEsp[1] = 0.9;
+        obj.kEsp[2] = 0.9;
+        obj.kEsp[3] = 1.0;
+        obj.coefPhong = 30;
         /* Parametros das transformacoes */
-        Point2D<int> pos = chess->getPosition(obj->piece);
+        Point2D<int> pos = chess->getPosition(obj.piece);
         // -0.35 -0.25 -0.15 -0.05 0.05 ..
         Point2D<float> nP = GraphicModelChess::convertChessPos(pos);
-        obj->desl.x = nP.x;
-        obj->desl.y = nP.y;
-        obj->desl.z = 0;
-        obj->anguloRot.x = 0;
-        obj->anguloRot.y = 0;
-        obj->anguloRot.z = obj->piece->player == ONE ? 180 : 0;
-        obj->factorEsc.x = 1;
-        obj->factorEsc.y = 1;
-        obj->factorEsc.z = 1;
+        obj.desl.x = nP.x;
+        obj.desl.y = nP.y;
+        obj.desl.z = 0;
+        obj.anguloRot.x = 0;
+        obj.anguloRot.y = 0;
+        obj.anguloRot.z = obj.piece->player == ONE ? 180 : 0;
+        obj.factorEsc.x = 1;
+        obj.factorEsc.y = 1;
+        obj.factorEsc.z = 1;
 
-        pieceModels.push_back(*obj);
+        pieceModels.push_back(obj);
     }
 
     /* Tabuleiro */
-    obj = new GraphicModelChess();
-    obj->piece = NULL;
-    lerVerticesDeFicheiro(projectPath + "models/board.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
-    obj->kAmb[0] = 0.9;
-    obj->kAmb[1] = 0.9;
-    obj->kAmb[2] = 0.9;
-    obj->kAmb[3] = 1.0;
-    obj->kDif[0] = 0.9;
-    obj->kDif[1] = 0.9;
-    obj->kDif[2] = 0.9;
-    obj->kDif[3] = 1.0;
-    obj->kEsp[0] = 0.9;
-    obj->kEsp[1] = 0.9;
-    obj->kEsp[2] = 0.9;
-    obj->kEsp[3] = 1.0;
-    obj->coefPhong = 100;
-    obj->desl.x = 0;
-    obj->desl.y = 0;
-    obj->desl.z = 0;
-    obj->anguloRot.x = 0;
-    obj->anguloRot.y = 0;
-    obj->anguloRot.z = 0;
-    obj->factorEsc.x = 1;
-    obj->factorEsc.y = 1;
-    obj->factorEsc.z = 1;
-    chessTable = obj;
+    chessTable = new GraphicModelChess();
+    chessTable->piece = NULL;
+    lerVerticesDeFicheiro(projectPath + "models/board.obj", &chessTable->numVertices, &chessTable->arrayVertices, &chessTable->arrayNormais);
+    chessTable->kAmb[0] = 0.9;
+    chessTable->kAmb[1] = 0.9;
+    chessTable->kAmb[2] = 0.9;
+    chessTable->kAmb[3] = 1.0;
+    chessTable->kDif[0] = 0.9;
+    chessTable->kDif[1] = 0.9;
+    chessTable->kDif[2] = 0.9;
+    chessTable->kDif[3] = 1.0;
+    chessTable->kEsp[0] = 0.9;
+    chessTable->kEsp[1] = 0.9;
+    chessTable->kEsp[2] = 0.9;
+    chessTable->kEsp[3] = 1.0;
+    chessTable->coefPhong = 100;
+    chessTable->desl.x = 0;
+    chessTable->desl.y = 0;
+    chessTable->desl.z = 0;
+    chessTable->anguloRot.x = 0;
+    chessTable->anguloRot.y = 0;
+    chessTable->anguloRot.z = 0;
+    chessTable->factorEsc.x = 1;
+    chessTable->factorEsc.y = 1;
+    chessTable->factorEsc.z = 1;
 
     matrizProj = CreateProjectionMatrix(proj.fovy, proj.aspect_ratio, proj.near_plane, proj.far_plane);
     /* Posicionar no interior do View Volome */
@@ -208,14 +207,20 @@ void libertarArraysGlobais(void)
 {
     delete lights;
     delete chess;
-
-    for (vector<GraphicModelChess>::iterator it = pieceModels.begin(); it != pieceModels.end(); ++it)
-    {
-        free(it->arrayVertices);
-        free(it->arrayNormais);
-        delete &it;
+    for (int i = 0; i < pieceModels.size(); i++) {
+        free(pieceModels[i].arrayVertices);
+        free(pieceModels[i].arrayNormais);
+    }
+    for (int i = 0; i < previewPositions.size(); i++) {
+        free(previewPositions[i].arrayNormais);
+        free(previewPositions[i].arrayVertices);
     }
     free(chessTable->arrayVertices);
     free(chessTable->arrayNormais);
-    delete &chessTable;
+    delete chessTable;
+    if (selectedFrame != NULL) {
+        free(selectedFrame->arrayNormais);
+        free(selectedFrame->arrayVertices);
+        delete selectedFrame;
+    }
 }
