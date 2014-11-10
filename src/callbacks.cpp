@@ -254,7 +254,6 @@ void onMouse(int button, int state, int x, int y)
 {
     if (state != GLUT_DOWN)
         return;
-
     GLint viewport[4];
     GLdouble modelview[16];
     GLdouble projection[16];
@@ -297,6 +296,10 @@ void onMouse(int button, int state, int x, int y)
                 }
             }
         }
+        if (tmpSelectedPos == -1 && tmpSelectedModel != -1 && 
+            pieceModels[tmpSelectedModel].piece->player != chess->getCurrentPlayer())
+            return;
+
         
         if (selectedPosition == tmpSelectedPos && selectedPosition != -1) {
             vector<Point2D<int> > possiblePos = chess->getPossiblePositions(pieceModels[selectedModel].piece);
@@ -327,6 +330,11 @@ void onMouse(int button, int state, int x, int y)
     }
 }
 
+/*void onDrag(int x, int y)
+{
+    printf("%d %d\n", x, y);
+}*/
+
 void myAnimationTimer(int value)
 {
     RotateAboutZ(&matrizProj, DegreesToRadians(1));
@@ -342,4 +350,5 @@ void registarCallbackFunctions(void)
     glutKeyboardFunc(myKeyboard);
     glutSpecialFunc(mySpecialKeys);
     glutMouseFunc(onMouse);
+    //glutMotionFunc(onDrag);
 }
