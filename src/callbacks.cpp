@@ -185,8 +185,6 @@ void myKeyboard(unsigned char key, int x, int y)
     case ',':
         obj = &pieceModels[selectedModel];
         pp = chess->getPossiblePositions(obj->piece);
-        obj = &pieceModels[selectedModel];
-        pp = chess->getPossiblePositions(obj->piece);
         if (pp.size() != 0) {
             selectedPosition = (selectedPosition - 1) % pp.size();
             refreshSelectedPosition();
@@ -278,6 +276,7 @@ void onMouse(int button, int state, int x, int y)
     np.y = rint(p.y);
 
     if (np.x >= 0 && np.x < 8 && np.y >= 0 && np.y < 8) {
+        /* Find proper model */
         int tmpSelectedModel = -1, tmpSelectedPos = -1;
         for (int i = 0; i < 32; i++) {
             Point2D<int> tmp = chess->getPosition(pieceModels[i].piece);
@@ -287,8 +286,8 @@ void onMouse(int button, int state, int x, int y)
             }
         }
 
+        vector<Point2D<int> > possiblePos = chess->getPossiblePositions(pieceModels[selectedModel].piece);
         if (selectedModel >= 0 && selectedModel <= 31) {
-            vector<Point2D<int> > possiblePos = chess->getPossiblePositions(pieceModels[selectedModel].piece);
             for (int i = 0; i < possiblePos.size(); i++) {
                 if (np.x == possiblePos[i].y && np.y == possiblePos[i].x) {
                     tmpSelectedPos = i;
@@ -300,27 +299,25 @@ void onMouse(int button, int state, int x, int y)
             pieceModels[tmpSelectedModel].piece->player != chess->getCurrentPlayer())
             return;
 
-        
         if (selectedPosition == tmpSelectedPos && selectedPosition != -1) {
-            vector<Point2D<int> > possiblePos = chess->getPossiblePositions(pieceModels[selectedModel].piece);
             if (chess->move(pieceModels[selectedModel].piece, possiblePos[selectedPosition])) {
-                glutTimerFunc(1000, myAnimationTimer, 0);
-                if (chess->getCurrentPlayer() == ONE)
-                    selectedModel = 0;
-                else
-                    selectedModel = 16;
-                selectedPosition = -1;
-                refreshSelectedPosition();
+                if (!chess->isGameFinished()) {
+                    glutTimerFunc(1000, myAnimationTimer, 0);
+                    if (chess->getCurrentPlayer() == ONE)
+                        selectedModel = 0;
+                    else
+                        selectedModel = 16;
+                    selectedPosition = -1;
+                    refreshSelectedPosition();
+                }
                 refreshPreviewPanels();
                 glutPostRedisplay();
             }
-        }
-        else if (tmpSelectedPos != -1) {
+        } else if (tmpSelectedPos != -1) {
             selectedPosition = tmpSelectedPos;
             refreshSelectedPosition();
             glutPostRedisplay();
-        }
-        else if (tmpSelectedModel != -1) {
+        } else if (tmpSelectedModel != -1) {
             selectedModel = tmpSelectedModel;
             selectedPosition = -1;
             refreshPreviewPanels();

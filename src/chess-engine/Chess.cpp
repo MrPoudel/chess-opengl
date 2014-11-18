@@ -2,6 +2,7 @@
 #include <cstddef>
 #include <typeinfo>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -45,6 +46,7 @@ Chess::Chess() {
 	}
 
 	cPlayer = ONE;
+	gameEnded = false;
 }
 
 Chess::~Chess() {
@@ -53,6 +55,10 @@ Chess::~Chess() {
 			delete table[i][j];
 		}
 	}
+}
+
+bool Chess::isGameFinished() {
+	return gameEnded;
 }
 
 Player Chess::getCurrentPlayer() {
@@ -90,24 +96,26 @@ Point2D<int> Chess::getPosition(ChessPiece * ptr) {
 }
 
 bool Chess::move(ChessPiece* srcPiece, Point2D<int> dst) {
-	if (srcPiece->player != cPlayer)
+	if (gameEnded || srcPiece->player != cPlayer)
 		return false;
 	Point2D<int> src = getPosition(srcPiece);
 	if (!isInsideChess(src.x, src.y))
 		return false;
-	vector<Point2D<int> > vec = getPossiblePositions(srcPiece);
+
 	bool found = false;
+	vector<Point2D<int> > vec = getPossiblePositions(srcPiece);
 	for (vector<Point2D<int> >::iterator it = vec.begin(); it != vec.end(); ++it)
 		if (it->x == dst.x && it->y == dst.y)
 			found = true;
 	if (!found)
 		return false;
 
-	if (table[dst.x][dst.y] == NULL)
-	{	
+	if (table[dst.x][dst.y] == NULL) {	
 		table[dst.x][dst.y] = table[src.x][src.y];
 		table[src.x][src.y] = NULL;
 	} else {
+		if (table[dst.x][dst.y]->getType() == "King")
+			gameEnded = true;
 		beated.push_back(*table[dst.x][dst.y]);
 		table[dst.x][dst.y] = table[src.x][src.y];
 		table[src.x][src.y] = NULL;

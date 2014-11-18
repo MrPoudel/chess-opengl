@@ -19,18 +19,21 @@ private:
 	ChessPiece * table[8][8];
 	Player cPlayer;
 	vector<ChessPiece> beated;
+	bool gameEnded;
 public:
 	Chess();
 	~Chess();
 
-	friend ostream &operator<<(ostream &, const Chess &);
 
 	Player getCurrentPlayer();
+	bool isGameFinished();
 	bool isFieldEmpty(Point2D<int>);
 	vector<ChessPiece *> getListPieces();
 	Point2D<int> getPosition(ChessPiece *);
-	vector<Point2D<int> > getPossiblePositions(ChessPiece *);
 	bool move(ChessPiece* src, Point2D<int> dst);
+	vector<Point2D<int> > getPossiblePositions(ChessPiece *);
+
+	friend ostream &operator<<(ostream &, const Chess &);
 };
 
 #endif
