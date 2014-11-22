@@ -18,7 +18,11 @@
 
 using namespace std;
 /* Callback functions */
-void myAnimationTimer(int value);
+void animation_rotateProjRight(int value);
+void animation_rotateProjLeft(int value);
+void createRotateProjectionAnimation(void);
+void makeChessMove(GraphicModelChess*, vector<Point2D<int> >);
+
 void produceModelsShading(GraphicModelChess *obj)
 {
     glEnableVertexAttribArray(attribute_coord3d);
@@ -205,24 +209,12 @@ void myKeyboard(unsigned char key, int x, int y)
     case 'M':
         obj = &pieceModels[selectedModel];
         pp = chess->getPossiblePositions(obj->piece);
-        if (selectedPosition < pp.size() && selectedPosition >= 0)
-        {
-            if (chess->move(obj->piece, pp[selectedPosition])) {
-                glutTimerFunc(1000, myAnimationTimer, 0);
-                if (chess->getCurrentPlayer() == ONE)
-                    selectedModel = 0;
-                else
-                    selectedModel = 16;
-                selectedPosition = -1;
-                refreshSelectedPosition();
-                refreshPreviewPanels();
-                glutPostRedisplay();
-            }
+        if (selectedPosition < pp.size() && selectedPosition >= 0) {
+            makeChessMove(obj, pp);
         }
         
     }
 }
-
 
 void mySpecialKeys(int key, int x, int y)
 {
@@ -230,18 +222,22 @@ void mySpecialKeys(int key, int x, int y)
     switch (key)
     {
     case GLUT_KEY_LEFT :
+        tableRotation.z -= 2;
         RotateAboutZ(&matrizProj, DegreesToRadians(-2));
         glutPostRedisplay();
         break;
     case GLUT_KEY_RIGHT :
+        tableRotation.z += 2;
         RotateAboutZ(&matrizProj, DegreesToRadians(2));
         glutPostRedisplay();
         break;
     case GLUT_KEY_UP :
+        tableRotation.y += 2;
         RotateAboutY(&matrizProj, DegreesToRadians(2));
         glutPostRedisplay();
         break;
     case GLUT_KEY_DOWN :
+        tableRotation.y -= 2;
         RotateAboutY(&matrizProj, DegreesToRadians(-2));
         glutPostRedisplay();
         break;
@@ -300,19 +296,7 @@ void onMouse(int button, int state, int x, int y)
             return;
 
         if (selectedPosition == tmpSelectedPos && selectedPosition != -1) {
-            if (chess->move(pieceModels[selectedModel].piece, possiblePos[selectedPosition])) {
-                if (!chess->isGameFinished()) {
-                    glutTimerFunc(1000, myAnimationTimer, 0);
-                    if (chess->getCurrentPlayer() == ONE)
-                        selectedModel = 0;
-                    else
-                        selectedModel = 16;
-                    selectedPosition = -1;
-                    refreshSelectedPosition();
-                }
-                refreshPreviewPanels();
-                glutPostRedisplay();
-            }
+            makeChessMove(&pieceModels[selectedModel], possiblePos);
         } else if (tmpSelectedPos != -1) {
             selectedPosition = tmpSelectedPos;
             refreshSelectedPosition();
@@ -332,12 +316,57 @@ void onMouse(int button, int state, int x, int y)
     printf("%d %d\n", x, y);
 }*/
 
-void myAnimationTimer(int value)
-{
+void makeChessMove(GraphicModelChess * obj, vector<Point2D<int> > possiblePos) {
+    if (chess->move(obj->piece, possiblePos[selectedPosition])) {
+        if (!chess->isGameFinished()) {
+            createRotateProjectionAnimation();
+            if (chess->getCurrentPlayer() == ONE)
+                selectedModel = 0;
+            else
+                selectedModel = 16;
+            selectedPosition = -1;
+            refreshSelectedPosition();
+        }
+        refreshPreviewPanels();
+        glutPostRedisplay();
+    }
+}
+
+
+void createRotateProjectionAnimation() {
+    int turnAngle = (int) tableRotation.z % 360;
+    int realRotation;
+    if (chess->getCurrentPlayer() == ONE)
+        turnAngle += 180;
+        
+    if (turnAngle > 180) {
+        realRotation = -turnAngle + 180;
+        glutTimerFunc(500, animation_rotateProjRight, turnAngle - 360);
+    } else if (turnAngle < -180) {
+        realRotation = -turnAngle - 180;
+        glutTimerFunc(500, animation_rotateProjLeft, 360 + turnAngle);
+    } else if (turnAngle >= 0) {
+        realRotation = 180 - turnAngle;
+        glutTimerFunc(500, animation_rotateProjLeft, turnAngle);
+    } else {
+        realRotation = -turnAngle -180;
+        glutTimerFunc(500, animation_rotateProjRight, turnAngle);
+    }
+
+    tableRotation.z += realRotation;
+}
+void animation_rotateProjLeft(int value) {
     RotateAboutZ(&matrizProj, DegreesToRadians(1));
     glutPostRedisplay();
-    if (value + 1 < 180)
-        glutTimerFunc(10, myAnimationTimer, value + 1);
+    if (abs(value) + 1 < 180)
+        glutTimerFunc(5, animation_rotateProjLeft, value + 1);
+}
+
+void animation_rotateProjRight(int value) {
+    RotateAboutZ(&matrizProj, DegreesToRadians(-1));
+    glutPostRedisplay();
+    if (abs(value) + 1 < 180)
+        glutTimerFunc(5, animation_rotateProjRight, value - 1);
 }
 
 void registarCallbackFunctions(void)

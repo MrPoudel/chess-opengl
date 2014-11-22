@@ -66,6 +66,11 @@ void inicializarJanela(void)
     }
 }
 
+void inicializarCoordenadasRotacao(void) {
+    tableRotation.x = 0;
+    tableRotation.y = 0;
+    tableRotation.z = 0;
+}
 void inicializarPlanoProjeccao(void)
 {
     proj.fovy = 60;

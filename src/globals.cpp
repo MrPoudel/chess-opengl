@@ -20,4 +20,4 @@ int selectedModel, selectedPosition;
 GraphicModelChess * chessTable, * selectedFrame;
 vector<GraphicModelChess> previewPositions, pieceModels;
 
-Point3D<float> tableRotation;
+Point3D<int> tableRotation;
