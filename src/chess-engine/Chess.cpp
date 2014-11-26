@@ -57,6 +57,18 @@ Chess::~Chess() {
 	}
 }
 
+Point2D<int> Chess::determineDeadPosition(ChessPiece * ptr) {
+	int counter = 0;
+	for (int i = 0; i < beated.size(); i++) {
+		if (beated[i] == ptr)
+			break;
+		if (beated[i]->player == ptr->player)
+			counter++;
+	}
+	
+	Point2D<int> deadPos = {counter, -1};
+	return deadPos;
+}
 bool Chess::isGameFinished() {
 	return gameEnded;
 }
@@ -91,8 +103,9 @@ Point2D<int> Chess::getPosition(ChessPiece * ptr) {
 			}
 		}
 	}
-	Point2D<int> point = { -1, -1 };
-	return point;
+	return determineDeadPosition(ptr);
+	//Point2D<int> point = { -1, -1 };
+	//return point;
 }
 
 bool Chess::move(ChessPiece* srcPiece, Point2D<int> dst) {
@@ -116,7 +129,7 @@ bool Chess::move(ChessPiece* srcPiece, Point2D<int> dst) {
 	} else {
 		if (table[dst.x][dst.y]->getType() == "King")
 			gameEnded = true;
-		beated.push_back(*table[dst.x][dst.y]);
+		beated.push_back(table[dst.x][dst.y]);
 		table[dst.x][dst.y] = table[src.x][src.y];
 		table[src.x][src.y] = NULL;
 	}
@@ -135,7 +148,7 @@ vector<Point2D<int> > Chess::getPossiblePositions(ChessPiece * src) {
 	vector<Point2D<int> > vec;
 
 	Point2D<int> pos = this->getPosition(src);
-	if (pos.x == -1 && pos.y == -1)
+	if (!isInsideChess(pos.x, pos.y))
 		return vec;
 	Point2D<int> tmp;
 	vector<Point2D<int> > points = src->getPossibleMoves();

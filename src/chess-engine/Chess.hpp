@@ -18,12 +18,13 @@ class Chess {
 private:
 	ChessPiece * table[8][8];
 	Player cPlayer;
-	vector<ChessPiece> beated;
+	vector<ChessPiece*> beated;
 	bool gameEnded;
+
+	Point2D<int> determineDeadPosition(ChessPiece*);
 public:
 	Chess();
 	~Chess();
-
 
 	Player getCurrentPlayer();
 	bool isGameFinished();
