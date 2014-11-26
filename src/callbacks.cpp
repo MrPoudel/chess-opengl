@@ -31,19 +31,22 @@ void produceModelsShading(GraphicModelChess *obj)
     GLfloat diffuseTerm[3];
     GLfloat specularTerm[3];
     /* Caracteristicas do array de coordenadas */
+    float *coordenadas = new GLfloat[obj->arrayVertices.size() * sizeof(GLfloat)];
+    float *normais = new GLfloat[obj->arrayNormais.size() * sizeof(GLfloat)];
+
     glVertexAttribPointer(attribute_coord3d,        // attribute
                           3,                        // number of elements per vertex, here (x,y,z)
                           GL_FLOAT,                 // the type of each element
                           GL_FALSE,                 // take our values as-is
                           0,                        // no extra data between each position
-                          obj->arrayVertices);      // pointer to the C array
+                          obj->arrayVertices.data());      // pointer to the C array
 
     glVertexAttribPointer(attribute_normal3d,       // attribute
                           3,                        // number of elements per vertex, here (R,G,B)
                           GL_FLOAT,                 // the type of each element
                           GL_FALSE,                 // take our values as-is
                           0,                        // no extra data between each position
-                          obj->arrayNormais);       // pointer to the C array
+                          obj->arrayNormais.data());       // pointer to the C array
     
 
     matrizModelView = IDENTITY_MATRIX;
@@ -107,10 +110,6 @@ void myDisplay(void)
 
 void refreshPreviewPanels()
 {
-    for (int i = 0; i < previewPositions.size(); i++) {
-        free(previewPositions[i].arrayNormais);
-        free(previewPositions[i].arrayVertices);
-    }
     previewPositions.clear();
     vector<Point2D<int> > pp = chess->getPossiblePositions(pieceModels[selectedModel].piece);
     previewPositions.push_back(GraphicModelChess::generatePreviewSquare(

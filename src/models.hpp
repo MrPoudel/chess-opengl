@@ -18,7 +18,7 @@
 
 using namespace std;
 
-void lerVerticesDeFicheiro(string nome, int *numVertices, GLfloat **arrayVertices, GLfloat **arrayNormais);
+void lerVerticesDeFicheiro(string nome, int *numVertices, vector<float> *arrayVertices, vector<float> *arrayNormais);
 void escreverVerticesEmFicheiro(string nome, int numVertices, GLfloat *arrayVertices);
 GLfloat *calcularNormaisTriangulos(int numVertices, GLfloat *arrayVertices);
 

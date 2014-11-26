@@ -1,4 +1,4 @@
-/*
+ /*
  * models.c
  *
  * Ficheiro de implementacao do modulo MODELS.
@@ -18,13 +18,8 @@
 #include "models.hpp"
 #include "utils/mathUtils.hpp"
 #include "utils/Points.hpp"
-/* Ler um modelo de ficheiro */
-/* FORMATO SIMPLES: x y z */
-/* VERTICES REPLICADOS */
-/* Atribuida MEMORIA ao array dos vertices */
-/* Nao sao verificados erros de formatacao do ficheiro */
 
-void lerVerticesDeFicheiro(string nome, int *numVertices, GLfloat **arrayVertices, GLfloat **arrayNormais)
+void lerVerticesDeFicheiro(string nome, int *numVertices, vector<float> *arrayVertices, vector<float> *arrayNormais)
 {
 	std::vector<Point3D<float> > vertices, normalVector, faces, facesNormals;
 
@@ -64,23 +59,19 @@ void lerVerticesDeFicheiro(string nome, int *numVertices, GLfloat **arrayVertice
 	}
 
 	*numVertices = faces.size();
-	*arrayVertices = (GLfloat *) malloc(3 * faces.size() * sizeof(GLfloat));
-	*arrayNormais = (GLfloat *) malloc(3 * faces.size() * sizeof(GLfloat));
-	GLfloat* coordenadas = *arrayVertices;
-	GLfloat* normais = *arrayNormais;
 	int i;
 	int sub = 0;
 	for (i = 0; i < faces.size(); i++) {
 		tmp = faces.at(i);
 		tmpN = facesNormals.at(i);
-		normais[sub] = tmpN.x;
-		coordenadas[sub++] = tmp.x;
-		normais[sub] = tmpN.y;
-		coordenadas[sub++] = tmp.y;
-		normais[sub] = tmpN.z;
-		coordenadas[sub++] = tmp.z;
+
+		arrayNormais->push_back(tmpN.x);
+		arrayVertices->push_back(tmp.x);
+		arrayNormais->push_back(tmpN.y);
+		arrayVertices->push_back(tmp.y);
+		arrayNormais->push_back(tmpN.z);
+		arrayVertices->push_back(tmp.z);
 	}
-	//*arrayNormais = calcularNormaisTriangulos(*numVertices, *arrayVertices);
 }
 
 

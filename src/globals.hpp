@@ -6,8 +6,8 @@
  */
 
 
-#ifndef _globals_h
-#define _globals_h
+#ifndef GLOBALS_H
+#define GLOBALS_H
 
 #define GLEW_STATIC /* Necessario se houver problemas com a lib */
 #include <GL/glew.h>

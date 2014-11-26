@@ -1,10 +1,10 @@
-HEADERS		= 	callbacks.hpp consoleIO.hpp init.hpp menus.hpp GraphicalModelChess.hpp globals.hpp \ 
+HEADERS		= 	callbacks.hpp consoleIO.hpp init.hpp menus.hpp GraphicModelChess.hpp globals.hpp \ 
 				chess-engine/Chess.hpp chess-engine/ChessPiece.hpp \
 				chess-engine/Pieces/Pawn.hpp chess-engine/Pieces/Knight.hpp chess-engine/Pieces/Bishop.hpp \
 				chess-engine/Pieces/Tower.hpp chess-engine/Pieces/King.hpp chess-engine/Pieces/Queen.hpp \
 				utils/mathUtils.hpp utils/Points.hpp shaders/shaders.hpp LightModel.hpp
 				
-SOURCES		=	project60337.cpp globals.cpp callbacks.cpp consoleIO.cpp init.cpp menus.cpp models.cpp \
+SOURCES		=	project60337.cpp globals.cpp callbacks.cpp GraphicModelChess.cpp consoleIO.cpp init.cpp menus.cpp models.cpp \
 				shaders/shaders.cpp chess-engine/ChessPiece.cpp chess-engine/Chess.cpp \
 				chess-engine/Pieces/Pawn.cpp chess-engine/Pieces/Knight.cpp chess-engine/Pieces/Bishop.cpp \
 				chess-engine/Pieces/Tower.cpp chess-engine/Pieces/King.cpp chess-engine/Pieces/Queen.cpp \

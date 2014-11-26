@@ -111,7 +111,10 @@ void RotateAboutX(mat4x4 *m, float angle)
 	rotation.m[6] = sine;
 	rotation.m[9] = -sine;
 	rotation.m[10] = cosine;
-	memcpy(m->m, MultiplyMatrices(m, &rotation)->m, sizeof(m->m));
+
+	mat4x4 *out = MultiplyMatrices(m, &rotation);
+	memcpy(m->m, out->m, sizeof(m->m));
+	free(out);
 }
 
 
@@ -124,7 +127,10 @@ void RotateAboutY(mat4x4 *m, float angle)
 	rotation.m[8] = sine;
 	rotation.m[2] = -sine;
 	rotation.m[10] = cosine;
-	memcpy(m->m, MultiplyMatrices(m, &rotation)->m, sizeof(m->m));
+
+	mat4x4 *out = MultiplyMatrices(m, &rotation);
+	memcpy(m->m, out->m, sizeof(m->m));
+	free(out);
 }
 
 
@@ -137,7 +143,10 @@ void RotateAboutZ(mat4x4 *m, float angle)
 	rotation.m[1] = sine;
 	rotation.m[4] = -sine;
 	rotation.m[5] = cosine;
-	memcpy(m->m, MultiplyMatrices(m, &rotation)->m, sizeof(m->m));
+
+	mat4x4 *out = MultiplyMatrices(m, &rotation);
+	memcpy(m->m, out->m, sizeof(m->m));
+	free(out);
 }
 
 
@@ -147,7 +156,10 @@ void Scale(mat4x4 *m, float x, float y, float z)
 	scale.m[0] = x;
 	scale.m[5] = y;
 	scale.m[10] = z;
-	memcpy(m->m, MultiplyMatrices(m, &scale)->m, sizeof(m->m));
+
+	mat4x4 *out = MultiplyMatrices(m, &scale);
+	memcpy(m->m, out->m, sizeof(m->m));
+	free(out);	
 }
 
 
@@ -157,7 +169,10 @@ void Translate(mat4x4 *m, float x, float y, float z)
 	translation.m[12] = x;
 	translation.m[13] = y;
 	translation.m[14] = z;
-	memcpy(m->m, MultiplyMatrices(m, &translation)->m, sizeof(m->m));
+	
+	mat4x4 *out = MultiplyMatrices(m, &translation);
+	memcpy(m->m, out->m, sizeof(m->m));
+	free(out);
 }
 
 

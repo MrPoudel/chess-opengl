@@ -175,7 +175,8 @@ void inicializarModelos(void)
     /* Tabuleiro */
     chessTable = new GraphicModelChess();
     chessTable->piece = NULL;
-    lerVerticesDeFicheiro(projectPath + "models/board.obj", &chessTable->numVertices, &chessTable->arrayVertices, &chessTable->arrayNormais);
+    lerVerticesDeFicheiro(projectPath + "models/board.obj", 
+                    &chessTable->numVertices, &chessTable->arrayVertices, &chessTable->arrayNormais);
     chessTable->kAmb[0] = 0.9;
     chessTable->kAmb[1] = 0.9;
     chessTable->kAmb[2] = 0.9;
@@ -212,20 +213,7 @@ void libertarArraysGlobais(void)
 {
     delete lights;
     delete chess;
-    for (int i = 0; i < pieceModels.size(); i++) {
-        free(pieceModels[i].arrayVertices);
-        free(pieceModels[i].arrayNormais);
-    }
-    for (int i = 0; i < previewPositions.size(); i++) {
-        free(previewPositions[i].arrayNormais);
-        free(previewPositions[i].arrayVertices);
-    }
-    free(chessTable->arrayVertices);
-    free(chessTable->arrayNormais);
     delete chessTable;
-    if (selectedFrame != NULL) {
-        free(selectedFrame->arrayNormais);
-        free(selectedFrame->arrayVertices);
+    if (selectedFrame != NULL)
         delete selectedFrame;
-    }
 }

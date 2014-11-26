@@ -5,7 +5,6 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include <vector>
-#include "globals.hpp"
 #include "chess-engine/ChessPiece.hpp"
 #include "models.hpp"
 #include "utils/mathUtils.hpp"
@@ -15,11 +14,17 @@ class GraphicModelChess
 {
 public:
     /* Coordenadas dos vertices */
-    ChessPiece *piece;
+    GraphicModelChess();
+    ~GraphicModelChess();
+    
+    static Point2D<float> convertChessPos(Point2D<int>);
+    static Point2D<float> convertBackToChessPos(float, float);
+    static GraphicModelChess generatePreviewSquare(Point2D<float>, float, float, float, float, float);
 
+    ChessPiece *piece;
     int numVertices;
-    float *arrayVertices;
-    float *arrayNormais;
+    vector<float> arrayVertices;
+    vector<float> arrayNormais;
     /* Propriedades do material */
     float kAmb[4];
     float kDif[4];
@@ -29,50 +34,6 @@ public:
     Point3D<float> desl;
     Point3D<float> anguloRot;
     Point3D<float> factorEsc;
-
-    /* -1.75 -1.25 -0.75 -0.25 0.25 0.75 1.25 1.75 */
-    static Point2D<float> convertChessPos(Point2D<int> pos)
-    {
-        Point2D<float> point;
-        point.x = pos.x * 0.5 - 1.75;
-        point.y = pos.y * 0.5 - 1.75;
-        return point;
-    };
-    static Point2D<float> convertBackToChessPos(float x, float y)
-    {
-        Point2D<float> point;
-        point.x = (y + 1.75) / 0.5;
-        point.y = (x + 1.75) / 0.5;
-        return point;
-    };
-    static GraphicModelChess generatePreviewSquare(Point2D<float> p, float R, float G, float B, float scale, float zIndex) {
-    	GraphicModelChess * obj = new GraphicModelChess();
-		obj->piece = NULL;
-		lerVerticesDeFicheiro("../src/models/marker.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
-		obj->kAmb[0] = 0.1 + 0.9 * R;
-		obj->kAmb[1] = 0.1 + 0.9 * G;
-		obj->kAmb[2] = 0.1 + 0.9 * B;
-		obj->kAmb[3] = 1.0;
-		obj->kDif[0] = 0.64 + 0.3 * R;
-		obj->kDif[1] = 0.64 + 0.3 * G;
-		obj->kDif[2] = 0.64 + 0.3 * B;
-		obj->kDif[3] = 1.0;
-		obj->kEsp[0] = 0.9;
-		obj->kEsp[1] = 0.9;
-		obj->kEsp[2] = 0.9;
-		obj->kEsp[3] = 1.0;
-		obj->coefPhong = 100;
-		obj->desl.x = p.x;
-		obj->desl.y = p.y;
-		obj->desl.z = zIndex;
-		obj->anguloRot.x = 0;
-		obj->anguloRot.y = 0;
-		obj->anguloRot.z = 0;
-		obj->factorEsc.x = scale;
-		obj->factorEsc.y = scale;
-		obj->factorEsc.z = scale;
-		return *obj;
-    }
 };
 
 #endif
