@@ -18,6 +18,7 @@ Chess * chess;
 LightModel * lights;
 int selectedModel, selectedPosition;
 GraphicModelChess * chessTable, * selectedFrame;
-vector<GraphicModelChess> previewPositions, pieceModels;
+vector<GraphicModelChess*> previewPositions;
+vector<GraphicModelChess> pieceModels;
 
 Point3D<int> tableRotation;

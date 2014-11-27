@@ -42,6 +42,7 @@ extern int selectedModel, selectedPosition;
 extern Chess * chess;
 extern LightModel * lights;
 extern GraphicModelChess * chessTable, * selectedFrame;
-extern vector<GraphicModelChess> previewPositions, pieceModels;
+extern vector<GraphicModelChess*> previewPositions;
+extern vector<GraphicModelChess> pieceModels;
 extern Point3D<int> tableRotation;
 #endif

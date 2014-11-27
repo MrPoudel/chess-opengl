@@ -19,7 +19,7 @@ public:
     
     static Point2D<float> convertChessPos(Point2D<int>);
     static Point2D<float> convertBackToChessPos(float, float);
-    static GraphicModelChess generatePreviewSquare(Point2D<float>, float, float, float, float, float);
+    static GraphicModelChess* generatePreviewSquare(Point2D<float>, float, float, float, float, float);
 
     ChessPiece *piece;
     int numVertices;

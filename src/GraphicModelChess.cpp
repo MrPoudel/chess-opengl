@@ -27,7 +27,7 @@ Point2D<float> GraphicModelChess::convertBackToChessPos(float x, float y)
     return point;
 }
 
-GraphicModelChess GraphicModelChess::generatePreviewSquare(Point2D<float> p, float R, float G, float B, float scale, float zIndex)
+GraphicModelChess* GraphicModelChess::generatePreviewSquare(Point2D<float> p, float R, float G, float B, float scale, float zIndex)
 {
     GraphicModelChess *obj = new GraphicModelChess();
     obj->piece = NULL;
@@ -54,5 +54,5 @@ GraphicModelChess GraphicModelChess::generatePreviewSquare(Point2D<float> p, flo
     obj->factorEsc.x = scale;
     obj->factorEsc.y = scale;
     obj->factorEsc.z = scale;
-    return *obj;
+    return obj;
 }

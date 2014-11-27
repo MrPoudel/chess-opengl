@@ -24,9 +24,7 @@ static char *readShaderSource(const string shaderFile)
     char *buf;
     FILE *fp = fopen(shaderFile.c_str(), "r");
     if (fp == NULL)
-    {
         return NULL;
-    }
     fseek(fp, 0L, SEEK_END);
     size = ftell(fp);
     fseek(fp, 0L, SEEK_SET);
@@ -118,6 +116,9 @@ int initResources(void)
         fprintf(stderr, "Could not bind attribute %s\n", attribute_normal3d_name.c_str());
         return 0;
     }
+
+    free((char *) fsSource);
+    free((char *) vsSource);
     return 1;
 }
 

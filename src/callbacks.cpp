@@ -76,6 +76,9 @@ void produceModelsShading(GraphicModelChess *obj)
 
     glDisableVertexAttribArray(attribute_coord3d);
     glDisableVertexAttribArray(attribute_normal3d);
+
+    delete[] coordenadas;
+    delete[] normais;
 }
 void myDisplay(void)
 {
@@ -101,16 +104,17 @@ void myDisplay(void)
         produceModelsShading(selectedFrame);
 
     for (int modelId = 0; modelId < previewPositions.size(); modelId++)
-    {
-        GraphicModelChess *obj = &previewPositions[modelId];
-        produceModelsShading(obj);
-    }
+        produceModelsShading(previewPositions[modelId]);
     glutSwapBuffers();
 }
 
 void refreshPreviewPanels()
 {
-    previewPositions.clear();
+    while (!previewPositions.empty()) {
+        delete previewPositions.back();
+        previewPositions.pop_back();
+    }
+
     vector<Point2D<int> > pp = chess->getPossiblePositions(pieceModels[selectedModel].piece);
     previewPositions.push_back(GraphicModelChess::generatePreviewSquare(
                                    GraphicModelChess::convertChessPos(
@@ -132,14 +136,14 @@ void refreshPreviewPanels()
 
 void refreshSelectedPosition() {
     if (selectedPosition == -1) {
+        delete selectedFrame;
         selectedFrame = NULL;
-        return;
-    }
-
-    Point2D<int> vec = chess->getPossiblePositions(pieceModels[selectedModel].piece)[selectedPosition];
-    selectedFrame = new GraphicModelChess(GraphicModelChess::generatePreviewSquare(
-                                            GraphicModelChess::convertChessPos(vec), 0, 1, 1, 0.8, 0.02)
+    } else {
+        Point2D<int> vec = chess->getPossiblePositions(pieceModels[selectedModel].piece)[selectedPosition];
+        selectedFrame = GraphicModelChess::generatePreviewSquare(
+                                            GraphicModelChess::convertChessPos(vec), 0, 1, 1, 0.8, 0.02
                                           );
+    }
 }
 
 void myKeyboard(unsigned char key, int x, int y)
