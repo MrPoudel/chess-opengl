@@ -65,8 +65,14 @@ Point2D<int> Chess::determineDeadPosition(ChessPiece * ptr) {
 		if (beated[i]->player == ptr->player)
 			counter++;
 	}
-	
-	Point2D<int> deadPos = {counter, -1};
+	Point2D<int> deadPos;
+	if (ptr->player == TWO) {
+		deadPos.x = counter;
+		deadPos.y = -1;
+	} else {
+		deadPos.x = 8 - counter - 1;
+		deadPos.y = 8;
+	}
 	return deadPos;
 }
 bool Chess::isGameFinished() {
@@ -104,8 +110,6 @@ Point2D<int> Chess::getPosition(ChessPiece * ptr) {
 		}
 	}
 	return determineDeadPosition(ptr);
-	//Point2D<int> point = { -1, -1 };
-	//return point;
 }
 
 bool Chess::move(ChessPiece* srcPiece, Point2D<int> dst) {
