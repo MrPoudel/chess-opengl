@@ -10,15 +10,6 @@ GraphicModelChess::~GraphicModelChess()
 {
 }
 
-/* -1.75 -1.25 -0.75 -0.25 0.25 0.75 1.25 1.75 */
-Point2D<float> GraphicModelChess::convertChessPos(Point2D<int> pos)
-{
-    Point2D<float> point;
-    point.x = pos.x * 0.5 - 1.75;
-    point.y = pos.y * 0.5 - 1.75;
-    return point;
-}
-
 Point2D<float> GraphicModelChess::convertBackToChessPos(float x, float y)
 {
     Point2D<float> point;

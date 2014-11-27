@@ -156,7 +156,7 @@ void inicializarModelos(void)
         obj.kEsp[3] = 1.0;
         obj.coefPhong = 30;
         /* Parametros das transformacoes */
-        Point2D<int> pos = chess->getPosition(obj.piece);
+        Point2D<int> pos = chess->getBoardPosition(obj.piece);
         // -0.35 -0.25 -0.15 -0.05 0.05 ..
         Point2D<float> nP = GraphicModelChess::convertChessPos(pos);
         obj.desl.x = nP.x;

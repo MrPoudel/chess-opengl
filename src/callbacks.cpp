@@ -92,7 +92,7 @@ void myDisplay(void)
     {
         GraphicModelChess *obj = &pieceModels[modelId];
 
-        Point2D<float> nPos = GraphicModelChess::convertChessPos(chess->getPosition(obj->piece));
+        Point2D<float> nPos = GraphicModelChess::convertChessPos(chess->getCompletePosition(obj->piece));
         obj->desl.x = nPos.x;
         obj->desl.y = nPos.y;
         produceModelsShading(obj);
@@ -118,7 +118,7 @@ void refreshPreviewPanels()
     vector<Point2D<int> > pp = chess->getPossiblePositions(pieceModels[selectedModel].piece);
     previewPositions.push_back(GraphicModelChess::generatePreviewSquare(
                                    GraphicModelChess::convertChessPos(
-                                       chess->getPosition(pieceModels[selectedModel].piece)
+                                       chess->getBoardPosition(pieceModels[selectedModel].piece)
                                    ), 1, 1, 0, 0.9, 0.01)
                               );
     for (vector<Point2D<int> >::iterator it = pp.begin(); it != pp.end(); ++it)
@@ -278,7 +278,7 @@ void onMouse(int button, int state, int x, int y)
         /* Find proper model */
         int tmpSelectedModel = -1, tmpSelectedPos = -1;
         for (int i = 0; i < 32; i++) {
-            Point2D<int> tmp = chess->getPosition(pieceModels[i].piece);
+            Point2D<int> tmp = chess->getBoardPosition(pieceModels[i].piece);
             if (tmp.x == np.y && tmp.y == np.x) {
                 tmpSelectedModel = i;
                 break;

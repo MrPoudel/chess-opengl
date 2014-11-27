@@ -57,24 +57,6 @@ Chess::~Chess() {
 	}
 }
 
-Point2D<int> Chess::determineDeadPosition(ChessPiece * ptr) {
-	int counter = 0;
-	for (int i = 0; i < beated.size(); i++) {
-		if (beated[i] == ptr)
-			break;
-		if (beated[i]->player == ptr->player)
-			counter++;
-	}
-	Point2D<int> deadPos;
-	if (ptr->player == TWO) {
-		deadPos.x = counter;
-		deadPos.y = -1;
-	} else {
-		deadPos.x = 8 - counter - 1;
-		deadPos.y = 8;
-	}
-	return deadPos;
-}
 bool Chess::isGameFinished() {
 	return gameEnded;
 }
@@ -100,7 +82,7 @@ vector<ChessPiece *> Chess::getListPieces() {
 	return vect;
 }
 
-Point2D<int> Chess::getPosition(ChessPiece * ptr) {
+Point2D<int> Chess::getBoardPosition(ChessPiece * ptr) {
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
 			if (table[i][j] == ptr) {
@@ -109,13 +91,46 @@ Point2D<int> Chess::getPosition(ChessPiece * ptr) {
 			}
 		}
 	}
+	Point2D<int> tmp = {-1, -1};
+	return tmp;
+}
+
+Point2D<float> Chess::getCompletePosition(ChessPiece * ptr) {
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			if (table[i][j] == ptr) {
+				Point2D<float> point = { i, j };
+				return point;
+			}
+		}
+	}
 	return determineDeadPosition(ptr);
+}
+
+Point2D<float> Chess::determineDeadPosition(ChessPiece * ptr) {
+	int counter = 0;
+	for (int i = 0; i < beated.size(); i++) {
+		if (beated[i] == ptr)
+			break;
+		if (beated[i]->player == ptr->player)
+			counter++;
+	}
+	Point2D<float> deadPos;
+	float intervalBetweenPieces = 0.7;
+	if (ptr->player == TWO) {
+		deadPos.x = counter * intervalBetweenPieces;
+		deadPos.y = -1;
+	} else {
+		deadPos.x = (8 - counter * intervalBetweenPieces - 1);
+		deadPos.y = 8;
+	}
+	return deadPos;
 }
 
 bool Chess::move(ChessPiece* srcPiece, Point2D<int> dst) {
 	if (gameEnded || srcPiece->player != cPlayer)
 		return false;
-	Point2D<int> src = getPosition(srcPiece);
+	Point2D<int> src = getBoardPosition(srcPiece);
 	if (!isInsideChess(src.x, src.y))
 		return false;
 
@@ -151,7 +166,7 @@ bool Chess::move(ChessPiece* srcPiece, Point2D<int> dst) {
 vector<Point2D<int> > Chess::getPossiblePositions(ChessPiece * src) {
 	vector<Point2D<int> > vec;
 
-	Point2D<int> pos = this->getPosition(src);
+	Point2D<int> pos = this->getBoardPosition(src);
 	if (!isInsideChess(pos.x, pos.y))
 		return vec;
 	Point2D<int> tmp;

@@ -21,7 +21,7 @@ private:
 	vector<ChessPiece*> beated;
 	bool gameEnded;
 
-	Point2D<int> determineDeadPosition(ChessPiece*);
+	Point2D<float> determineDeadPosition(ChessPiece*);
 public:
 	Chess();
 	~Chess();
@@ -30,7 +30,8 @@ public:
 	bool isGameFinished();
 	bool isFieldEmpty(Point2D<int>);
 	vector<ChessPiece *> getListPieces();
-	Point2D<int> getPosition(ChessPiece *);
+	Point2D<int> getBoardPosition(ChessPiece *);
+	Point2D<float> getCompletePosition(ChessPiece *);
 	bool move(ChessPiece* src, Point2D<int> dst);
 	vector<Point2D<int> > getPossiblePositions(ChessPiece *);
 
