@@ -16,15 +16,6 @@ public:
     /* Coordenadas dos vertices */
     GraphicModelChess();
     ~GraphicModelChess();
-    
-    template<class T> static Point2D<float> convertChessPos(Point2D<T> pos) {
-        Point2D<float> point;
-        point.x = pos.x * 0.5 - 1.75;
-        point.y = pos.y * 0.5 - 1.75;
-        return point;
-    }
-    static Point2D<float> convertBackToChessPos(float, float);
-    static GraphicModelChess* generatePreviewSquare(Point2D<float>, float, float, float, float, float);
 
     ChessPiece *piece;
     int numVertices;
@@ -39,6 +30,15 @@ public:
     Point3D<float> desl;
     Point3D<float> anguloRot;
     Point3D<float> factorEsc;
+
+    template<class T> static Point2D<float> convertChessPos(Point2D<T> pos) {
+        Point2D<float> point;
+        point.x = pos.x * 0.5 - 1.75;
+        point.y = pos.y * 0.5 - 1.75;
+        return point;
+    }
+    static Point2D<float> convertBackToChessPos(float, float);
+    static GraphicModelChess* generatePreviewSquare(Point2D<float>, float, float, float, float, float);
 };
 
 #endif
