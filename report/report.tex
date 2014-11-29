@@ -149,9 +149,39 @@ Ainda se pode verificar a existência de 3 funções estáticas, duas das quais 
 
 \subsubsection{Load de cada modelo de Xadrez}
 
-As peças do Xadrez foram retiradas de modelos já existentes num projecto Open Source \url{LINK MISSING}
+As peças do Xadrez foram retiradas de modelos já existentes num projecto Open Source \url{https://code.google.com/p/pwag-chessboard/}, desse projecto foram retirados do directório /trunk/Chess/Chess/Models.\\
+
+Sendo que esses modelos foram todos optimizados usando o programa Blender de maneira a ficarem da forma pretendida, tal como, colocar a base no plano xOy, ou seja, z = 0.
+
+Após a recolocação dos modelos, foram todos exportados para ficheiros .obj no formato oficial.
+
+Apesar de fazer a leitura do modelo oficial dos ficheiros obj, apenas são carregados os vertices, as normais e as faces, deixando de foram os vertices das texturas.
+
+O load genérico dos ficheiros obj encontra-se em /src/models.cpp.
 
 \subsection{Shaders}
+
+Inicialmente os shaders apenas estavam a ser usados para a representação das cores, não fazendo qualquer procesamento na gráfica, mas houve a necessidade de implementar a iluminação nos shaders devido ao tentar fazer uma animação mais complexa e notar-se que a imagem não era completamente fluída porque o tempo que o CPU demorava a fazer os calculos das iluminações de cada vertice era superior ao tempo da rotação, verificando-se um delay no movimento.\\
+
+Sendo assim, havia duas opções, tornar a animação mais rudimentar, ou passar a iluminação para os shaders (fazendo com que a gráfica processa-se a animação).
+
+\begin{figure}[H]
+\centerline{\includegraphics[width=300pt]{images/vertexshader.png}}
+\caption{Vertex Shader}
+\label{img:complete}
+\end{figure}
+
+Como se pode verificar no vertex shader é feito os calculos do ponto relativamente a um vertice, a sua posição, consoante a matrix projecção e o modelo, para além disso, ainda é calculado alguma fracções que vão ser usadas mais tarde pelo fragment shader, estas precisam de ser calculadas no vertex porque a iluminação depende da posição do vertice e do foco de iluminação.
+
+\begin{figure}[H]
+\centerline{\includegraphics[width=300pt]{images/fragmentshader.png}}
+\caption{Fragment Shader}
+\label{img:complete}
+\end{figure}
+
+No fragment shader pode-se verificar que são usadas as variaveis passadas pelo Vertex Shader, neste caso, fE, fN e fL, calculando a respectiva cor do vertice, dando o efeito de iluminação pretendido.\\
+
+Para realizar esta parte do código foi utilizado os slides dados na teórica das aulas de Computação Visual no ficheiro PDF ``Métodos de Iluminação e Sombreamento (PDF)'' disponível em \url{http://sweet.ua.pt/jmadeira/CV/CV_07_Ilumina%C3%A7%C3%A3o_e_Shading_BSS_JM.pdf} nos slides 50 a 53.
 
 \chapter{Aspectos Importantes do Trabalho}
 
