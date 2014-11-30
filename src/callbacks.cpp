@@ -235,7 +235,7 @@ void mySpecialKeys(int key, int x, int y)
 {
     if (animationActive)
         return;
-    
+
     GraphicModelChess *obj = chessTable;
     switch (key)
     {
@@ -356,7 +356,7 @@ void onDrag(int x, int y)
     float rotatey = (float)(last.y - curr.y) * 0.15;
     
     tableRotation.z += rotatez;
-    cout << tableRotation.z << endl;
+    //cout << tableRotation.z << endl;
     RotateAboutZ(&matrizProj, DegreesToRadians(rotatez));
 
     RotateAboutZ(&matrizProj, DegreesToRadians(-tableRotation.z));
