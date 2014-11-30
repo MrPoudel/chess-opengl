@@ -71,6 +71,19 @@ bool Chess::isFieldEmpty(Point2D<int> src) {
 	return table[src.x][src.y] == NULL;
 }
 
+bool Chess::gotPromoted(ChessPiece * src) {
+	if (src->getType() != "Pawn")
+		return false;
+
+	if ((src->player == ONE && this->getBoardPosition(src).x == 7) ||
+		(src->player == TWO && this->getBoardPosition(src).x == 0)) {
+		Player player = src->player;
+		delete src;
+		src = new Queen(player);
+		return true;
+	}
+	return false;
+}
 vector<ChessPiece *> Chess::getListPieces() {
 	vector<ChessPiece *> vect;
 	for (int i = 0; i < 8; i++) {

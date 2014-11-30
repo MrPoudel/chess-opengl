@@ -356,7 +356,6 @@ void onDrag(int x, int y)
     float rotatey = (float)(last.y - curr.y) * 0.15;
     
     tableRotation.z += rotatez;
-    //cout << tableRotation.z << endl;
     RotateAboutZ(&matrizProj, DegreesToRadians(rotatez));
 
     RotateAboutZ(&matrizProj, DegreesToRadians(-tableRotation.z));
@@ -369,6 +368,10 @@ void onDrag(int x, int y)
 
 void makeChessMove(GraphicModelChess * obj, vector<Point2D<int> > possiblePos) {
     if (chess->move(obj->piece, possiblePos[selectedPosition])) {
+        if (chess->gotPromoted(obj->piece)) {
+            lerVerticesDeFicheiro(projectPath + "models/queen.obj", &obj->numVertices, 
+                &obj->arrayVertices, &obj->arrayNormais, &obj->arrayTextures);
+        }
         if (!chess->isGameFinished()) {
             createRotateProjectionAnimation();
             for (int i = 0; i < pieceModels.size(); i++) {

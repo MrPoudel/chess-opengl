@@ -34,6 +34,7 @@ public:
 	Point2D<float> getCompletePosition(ChessPiece *);
 	bool move(ChessPiece* src, Point2D<int> dst);
 	vector<Point2D<int> > getPossiblePositions(ChessPiece *);
+	bool gotPromoted(ChessPiece *);
 
 	friend ostream &operator<<(ostream &, const Chess &);
 };
