@@ -209,9 +209,9 @@ void inicializarModelos(void)
     lerVerticesDeFicheiro(projectPath + "models/skybox.obj", 
                     &skybox->numVertices, &skybox->arrayVertices, &skybox->arrayNormais, &skybox->arrayTextures);
     skybox->textureID = loadBMPImage(projectPath + "models/skybox.bmp");
-    skybox->kAmb[0] = 0;
-    skybox->kAmb[1] = 0;
-    skybox->kAmb[2] = 0;
+    skybox->kAmb[0] = 0.5;
+    skybox->kAmb[1] = 0.5;
+    skybox->kAmb[2] = 0.5;
     skybox->kAmb[3] = 1.0;
     skybox->kDif[0] = 0.9;
     skybox->kDif[1] = 0.9;
