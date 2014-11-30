@@ -17,9 +17,11 @@ mat4x4 matrizProj, matrizModelView;
 Chess * chess;
 LightModel * lights;
 int selectedModel, selectedPosition;
-GraphicModelChess * chessTable, * selectedFrame;
+GraphicModelChess * chessTable, * selectedFrame, * skybox;
 vector<GraphicModelChess*> previewPositions;
 vector<GraphicModelChess> pieceModels;
-vector<GraphicModelChess*> chessTableSquares;
+
+Point2D<int> curr = {0,0}, last = {0,0};
+bool arcball_on = false;
 
 Point3D<int> tableRotation;

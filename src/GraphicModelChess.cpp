@@ -31,11 +31,11 @@ GraphicModelChess* GraphicModelChess::generatePreviewSquare(Point2D<float> p, fl
     obj->kDif[1] = 0.64 + 0.3 * G;
     obj->kDif[2] = 0.64 + 0.3 * B;
     obj->kDif[3] = 1.0;
-    obj->kEsp[0] = 0.9;
-    obj->kEsp[1] = 0.9;
-    obj->kEsp[2] = 0.9;
+    obj->kEsp[0] = 0.5;
+    obj->kEsp[1] = 0.5;
+    obj->kEsp[2] = 0.5;
     obj->kEsp[3] = 1.0;
-    obj->coefPhong = 100;
+    obj->coefPhong = 20;
     obj->desl.x = p.x;
     obj->desl.y = p.y;
     obj->desl.z = zIndex;

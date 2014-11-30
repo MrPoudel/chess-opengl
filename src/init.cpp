@@ -74,32 +74,32 @@ void inicializarCoordenadasRotacao(void) {
 }
 void inicializarPlanoProjeccao(void)
 {
-    proj.fovy = 60;
+    proj.fovy = 70;
     proj.aspect_ratio = 1;
     proj.near_plane = 1;
-    proj.far_plane = 50;
+    proj.far_plane = 150;
 }
 void inicializarFontesDeLuz(void)
 {
     /* Intensidade Luminosa */
     // IL
     float intensidadeFLuz_0[4];
-    intensidadeFLuz_0[0] = 1;
-    intensidadeFLuz_0[1] = 1;
-    intensidadeFLuz_0[2] = 1;
+    intensidadeFLuz_0[0] = 0.5;
+    intensidadeFLuz_0[1] = 0.5;
+    intensidadeFLuz_0[2] = 0.5;
     intensidadeFLuz_0[3] = 1.0;
     /* Posicao */
     float posicaoFLuz_0[4];
     posicaoFLuz_0[0] = 0.0;
     posicaoFLuz_0[1] = 0.0;
-    posicaoFLuz_0[2] = 2.0;
+    posicaoFLuz_0[2] = 4.0;
     posicaoFLuz_0[3] = 0.0;
     /* Luz Ambiente */
     // IA
     float intensidadeLuzAmbiente[4];
-    intensidadeLuzAmbiente[0] = 0.2;
-    intensidadeLuzAmbiente[1] = 0.2;
-    intensidadeLuzAmbiente[2] = 0.2;
+    intensidadeLuzAmbiente[0] = 0.4;
+    intensidadeLuzAmbiente[1] = 0.4;
+    intensidadeLuzAmbiente[2] = 0.4;
     intensidadeLuzAmbiente[3] = 1.0;
 
     lights = new LightModel(intensidadeFLuz_0, posicaoFLuz_0, intensidadeLuzAmbiente);
@@ -109,7 +109,8 @@ void inicializarModelos(void)
 {
     vector<ChessPiece *> list = chess->getListPieces();
     GraphicModelChess obj;
-    GLuint basic = loadBMPImage(projectPath + "models/basic.bmp");
+    GLuint white = loadBMPImage(projectPath + "models/basic_white.bmp");
+    GLuint black = loadBMPImage(projectPath + "models/basic_black.bmp");
     for (vector<ChessPiece *>::iterator it = list.begin(); it != list.end(); ++it)
     {
         obj = GraphicModelChess();
@@ -127,11 +128,11 @@ void inicializarModelos(void)
         else if (obj.piece->getType() == "Tower")
             lerVerticesDeFicheiro(projectPath + "models/tower.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais, &obj.arrayTextures);
         /* Propriedades do material */
-        obj.textureID = basic;
         if (obj.piece->player == ONE) {
-            obj.kAmb[0] = 0.8;
-            obj.kAmb[1] = 0.8;
-            obj.kAmb[2] = 0.8;
+            obj.textureID = white;
+            obj.kAmb[0] = 0.0;
+            obj.kAmb[1] = 0.0;
+            obj.kAmb[2] = 0.0;
             obj.kAmb[3] = 1.0;
 
             obj.kDif[0] = 0.9;
@@ -139,14 +140,15 @@ void inicializarModelos(void)
             obj.kDif[2] = 0.9;
             obj.kDif[3] = 1.0;
         } else {
-            obj.kAmb[0] = 0;
-            obj.kAmb[1] = 0;
-            obj.kAmb[2] = 0;
+            obj.textureID = black;
+            obj.kAmb[0] = 0.1;
+            obj.kAmb[1] = 0.1;
+            obj.kAmb[2] = 0.1;
             obj.kAmb[3] = 1.0;
 
-            obj.kDif[0] = 0;
-            obj.kDif[1] = 0;
-            obj.kDif[2] = 0;
+            obj.kDif[0] = 0.3;
+            obj.kDif[1] = 0.3;
+            obj.kDif[2] = 0.3;
             obj.kDif[3] = 1.0;
         }
 
@@ -201,17 +203,35 @@ void inicializarModelos(void)
     chessTable->factorEsc.y = 1.19;
     chessTable->factorEsc.z = 1.19;
     /* Quadriculado no tabuleiro */
-    Point2D<int> aux;
-    Point2D<float> auxCvt;
-    for (int i = 0; i < 64; i++) {
-        aux.x = i % 8;
-        aux.y = i / 8;
-        auxCvt = GraphicModelChess::convertChessPos(aux);
-        if ((aux.x % 2 == 0 && aux.y % 2 == 0) || (aux.x % 2 != 0 && aux.y % 2 != 0))
-            chessTableSquares.push_back(GraphicModelChess::generatePreviewSquare(auxCvt, 1, 1, 1, 1, 0.01));
-        else
-            chessTableSquares.push_back(GraphicModelChess::generatePreviewSquare(auxCvt, 0, 0, 0, 1, 0.01));
-    }
+    skybox = new GraphicModelChess();
+    skybox->piece = NULL;
+    lerVerticesDeFicheiro(projectPath + "models/skybox.obj", 
+                    &skybox->numVertices, &skybox->arrayVertices, &skybox->arrayNormais, &skybox->arrayTextures);
+    skybox->textureID = loadBMPImage(projectPath + "models/skybox.bmp");
+    skybox->kAmb[0] = 0;
+    skybox->kAmb[1] = 0;
+    skybox->kAmb[2] = 0;
+    skybox->kAmb[3] = 1.0;
+    skybox->kDif[0] = 0.9;
+    skybox->kDif[1] = 0.9;
+    skybox->kDif[2] = 0.9;
+    skybox->kDif[3] = 1.0;
+    skybox->kEsp[0] = 0.9;
+    skybox->kEsp[1] = 0.9;
+    skybox->kEsp[2] = 0.9;
+    skybox->kEsp[3] = 1.0;
+    skybox->coefPhong = 100;
+    skybox->desl.x = 0;
+    skybox->desl.y = 0;
+    skybox->desl.z = 0;
+    skybox->anguloRot.x = 0;
+    skybox->anguloRot.y = 90;
+    skybox->anguloRot.z = 0;
+    skybox->factorEsc.x = 10;
+    skybox->factorEsc.y = 10;
+    skybox->factorEsc.z = 10;
+
+
     matrizProj = CreateProjectionMatrix(proj.fovy, proj.aspect_ratio, proj.near_plane, proj.far_plane);
     /* Posicionar no interior do View Volome */
     Translate(&matrizProj, 0, 0, -6);

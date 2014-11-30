@@ -35,5 +35,5 @@ void main( void )
     vec4 fColor = ambient + diffuse + specular;
     fColor.a = 1.0;
 
-    gl_FragColor = texture2D(mytexture, f_texcoord) * 0.5 + fColor * 0.5;
+    gl_FragColor = texture2D(mytexture, f_texcoord) + fColor;
 }

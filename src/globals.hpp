@@ -41,8 +41,10 @@ extern mat4x4 matrizProj, matrizModelView;
 extern int selectedModel, selectedPosition;
 extern Chess * chess;
 extern LightModel * lights;
-extern GraphicModelChess * chessTable, * selectedFrame;
-extern vector<GraphicModelChess*> previewPositions, chessTableSquares;
+extern GraphicModelChess *chessTable, *selectedFrame, *skybox;
+extern vector<GraphicModelChess*> previewPositions;
 extern vector<GraphicModelChess> pieceModels;
+extern Point2D<int> curr, last;
+extern bool arcball_on;
 extern Point3D<int> tableRotation;
 #endif

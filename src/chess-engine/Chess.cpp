@@ -118,11 +118,11 @@ Point2D<float> Chess::determineDeadPosition(ChessPiece * ptr) {
 	Point2D<float> deadPos;
 	float intervalBetweenPieces = 0.7;
 	if (ptr->player == TWO) {
-		deadPos.x = counter * intervalBetweenPieces;
-		deadPos.y = -1;
+		deadPos.x = counter * intervalBetweenPieces - 0.6;
+		deadPos.y = -0.9;
 	} else {
-		deadPos.x = (8 - counter * intervalBetweenPieces - 1);
-		deadPos.y = 8;
+		deadPos.x = (8 - counter * intervalBetweenPieces - 0.4);
+		deadPos.y = 7.9;
 	}
 	return deadPos;
 }

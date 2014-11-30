@@ -110,10 +110,8 @@ void myDisplay(void)
         produceModelsShading(obj);
     }
     /* Secondary models includes only chess table atm */
-    if (chessTable != NULL)
-        produceModelsShading(chessTable);
-    //for (int i = 0; i < chessTableSquares.size(); i++) 
-    //    produceModelsShading(chessTableSquares[i]);
+    produceModelsShading(chessTable);
+    produceModelsShading(skybox);
     if (selectedFrame != NULL)
         produceModelsShading(selectedFrame);
 
@@ -263,6 +261,13 @@ void mySpecialKeys(int key, int x, int y)
 
 void onMouse(int button, int state, int x, int y)
 {
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+        arcball_on = true;
+        last.x = curr.x = x;
+        last.y = curr.y = y;
+    } else {
+        arcball_on = false;
+    }
     if (state != GLUT_DOWN)
         return;
     GLint viewport[4];
@@ -328,10 +333,22 @@ void onMouse(int button, int state, int x, int y)
     }
 }
 
-/*void onDrag(int x, int y)
+void onDrag(int x, int y)
 {
-    printf("%d %d\n", x, y);
-}*/
+    last.x = curr.x;
+    last.y = curr.y;
+    curr.x = x;
+    curr.y = y;
+
+    float rotatez = (float)(last.x - curr.x) * 0.15;
+    float rotatey = (float)(last.y - curr.y) * 0.15;
+    //cout << rotate << endl;
+    RotateAboutZ(&matrizProj, DegreesToRadians(rotatez));
+    RotateAboutY(&matrizProj, DegreesToRadians(rotatey));
+
+    glutPostRedisplay();
+    
+}
 
 void makeChessMove(GraphicModelChess * obj, vector<Point2D<int> > possiblePos) {
     if (chess->move(obj->piece, possiblePos[selectedPosition])) {
@@ -393,5 +410,5 @@ void registarCallbackFunctions(void)
     glutKeyboardFunc(myKeyboard);
     glutSpecialFunc(mySpecialKeys);
     glutMouseFunc(onMouse);
-    //glutMotionFunc(onDrag);
+    glutMotionFunc(onDrag);
 }
