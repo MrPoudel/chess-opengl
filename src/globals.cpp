@@ -10,7 +10,7 @@ GLuint programaGLSL;
 /* Os identificadores dos SHADERS */
 GLuint vs, fs;
 /* Para passar coordenadas, cores a a matriz de transformacao ao Vertex-Shader */
-GLint attribute_coord3d, attribute_normal3d;
+GLint attribute_coord3d, attribute_normal3d, attribute_texcoord;
 /* Matriz de projeccao e Matriz global de transformacao */
 mat4x4 matrizProj, matrizModelView;
 
@@ -20,5 +20,6 @@ int selectedModel, selectedPosition;
 GraphicModelChess * chessTable, * selectedFrame;
 vector<GraphicModelChess*> previewPositions;
 vector<GraphicModelChess> pieceModels;
+vector<GraphicModelChess*> chessTableSquares;
 
 Point3D<int> tableRotation;

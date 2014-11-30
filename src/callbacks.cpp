@@ -27,6 +27,9 @@ void produceModelsShading(GraphicModelChess *obj)
 {
     glEnableVertexAttribArray(attribute_coord3d);
     glEnableVertexAttribArray(attribute_normal3d);
+    glEnableVertexAttribArray(attribute_texcoord);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, obj->textureID);
     GLfloat ambientTerm[3];
     GLfloat diffuseTerm[3];
     GLfloat specularTerm[3];
@@ -48,6 +51,12 @@ void produceModelsShading(GraphicModelChess *obj)
                           0,                        // no extra data between each position
                           obj->arrayNormais.data());       // pointer to the C array
     
+    glVertexAttribPointer(attribute_texcoord, // attribute
+                          2,                  // number of elements per vertex, here (x,y)
+                          GL_FLOAT,           // the type of each element
+                          GL_FALSE,           // take our values as-is
+                          0,                  // no extra data between each position
+                          obj->arrayTextures.data());
 
     matrizModelView = IDENTITY_MATRIX;
     Translate(&matrizModelView, obj->desl.x, obj->desl.y, obj->desl.z);
@@ -72,10 +81,14 @@ void produceModelsShading(GraphicModelChess *obj)
     glUniform4fv(glGetUniformLocation(programaGLSL, "specularTerm"), 1, specularTerm);
     glUniform4fv(glGetUniformLocation(programaGLSL, "posicaoFLuz"), 1, lights->posicaoFLuz);
     glUniform1f(glGetUniformLocation(programaGLSL, "coefPhong"), obj->coefPhong);
+    glUniform1i(glGetUniformLocation(programaGLSL, "mytexture"), /*GL_TEXTURE*/0);
+
     glDrawArrays(GL_TRIANGLES, 0, obj->numVertices);
+    glBindTexture(GL_TEXTURE_2D, 0);
 
     glDisableVertexAttribArray(attribute_coord3d);
     glDisableVertexAttribArray(attribute_normal3d);
+    glDisableVertexAttribArray(attribute_texcoord);
 
     delete[] coordenadas;
     delete[] normais;
@@ -84,7 +97,6 @@ void myDisplay(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glUseProgram(programaGLSL);
-
     /* Chess pieces */
     /* [0-15] - Player 1 */ 
     /* [16-31] - Player 2 */
@@ -100,6 +112,8 @@ void myDisplay(void)
     /* Secondary models includes only chess table atm */
     if (chessTable != NULL)
         produceModelsShading(chessTable);
+    //for (int i = 0; i < chessTableSquares.size(); i++) 
+    //    produceModelsShading(chessTableSquares[i]);
     if (selectedFrame != NULL)
         produceModelsShading(selectedFrame);
 
@@ -119,17 +133,17 @@ void refreshPreviewPanels()
     previewPositions.push_back(GraphicModelChess::generatePreviewSquare(
                                    GraphicModelChess::convertChessPos(
                                        chess->getBoardPosition(pieceModels[selectedModel].piece)
-                                   ), 1, 1, 0, 0.9, 0.01)
+                                   ), 1, 1, 0, 0.9, 0.02)
                               );
     for (vector<Point2D<int> >::iterator it = pp.begin(); it != pp.end(); ++it)
     {
         if (!chess->isFieldEmpty(*it))
             previewPositions.push_back(GraphicModelChess::generatePreviewSquare(
-                                           GraphicModelChess::convertChessPos(*it), 1, 0, 0, 0.9, 0.01)
+                                           GraphicModelChess::convertChessPos(*it), 1, 0, 0, 0.9, 0.02)
                                       );
         else
             previewPositions.push_back(GraphicModelChess::generatePreviewSquare(
-                                           GraphicModelChess::convertChessPos(*it), 0, 1, 0, 0.9, 0.01)
+                                           GraphicModelChess::convertChessPos(*it), 0, 1, 0, 0.9, 0.02)
                                       );
     }
 }
@@ -141,7 +155,7 @@ void refreshSelectedPosition() {
     } else {
         Point2D<int> vec = chess->getPossiblePositions(pieceModels[selectedModel].piece)[selectedPosition];
         selectedFrame = GraphicModelChess::generatePreviewSquare(
-                                            GraphicModelChess::convertChessPos(vec), 0, 1, 1, 0.8, 0.02
+                                            GraphicModelChess::convertChessPos(vec), 0, 1, 1, 0.8, 0.03
                                           );
     }
 }

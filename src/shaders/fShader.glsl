@@ -3,6 +3,8 @@
 varying vec3 fN;
 varying vec3 fL;
 varying vec3 fE;
+varying vec2 f_texcoord;
+uniform sampler2D mytexture;
 
 uniform vec4 ambientTerm, diffuseTerm, specularTerm;
 uniform mat4x4 matrizModelView;
@@ -33,5 +35,5 @@ void main( void )
     vec4 fColor = ambient + diffuse + specular;
     fColor.a = 1.0;
 
-    gl_FragColor = fColor;
+    gl_FragColor = texture2D(mytexture, f_texcoord) * 0.5 + fColor * 0.5;
 }

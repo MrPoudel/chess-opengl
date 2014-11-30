@@ -15,6 +15,7 @@
 #include "globals.hpp"
 #include "utils/mathUtils.hpp"
 #include "models.hpp"
+#include <iostream>
 
 void inicializarEstado(void)
 {
@@ -34,7 +35,7 @@ void inicializarEstado(void)
     glEnable(GL_DEPTH);
     glEnable(GL_DEPTH_TEST);
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    /* Matriz de projeccao é inicialmente a IDENTIDADE => Proj. Paralela Ortogonal */
+    /* Matriz de projeccao Ã© inicialmente a IDENTIDADE => Proj. Paralela Ortogonal */
     matrizProj = IDENTITY_MATRIX;
     matrizModelView = IDENTITY_MATRIX;
 
@@ -83,16 +84,16 @@ void inicializarFontesDeLuz(void)
     /* Intensidade Luminosa */
     // IL
     float intensidadeFLuz_0[4];
-    intensidadeFLuz_0[0] = 0.5;
-    intensidadeFLuz_0[1] = 0.5;
-    intensidadeFLuz_0[2] = 0.5;
+    intensidadeFLuz_0[0] = 1;
+    intensidadeFLuz_0[1] = 1;
+    intensidadeFLuz_0[2] = 1;
     intensidadeFLuz_0[3] = 1.0;
     /* Posicao */
     float posicaoFLuz_0[4];
     posicaoFLuz_0[0] = 0.0;
     posicaoFLuz_0[1] = 0.0;
-    posicaoFLuz_0[2] = 4.0;
-    posicaoFLuz_0[3] = 1.0;
+    posicaoFLuz_0[2] = 2.0;
+    posicaoFLuz_0[3] = 0.0;
     /* Luz Ambiente */
     // IA
     float intensidadeLuzAmbiente[4];
@@ -108,25 +109,26 @@ void inicializarModelos(void)
 {
     vector<ChessPiece *> list = chess->getListPieces();
     GraphicModelChess obj;
+    GLuint basic = loadBMPImage(projectPath + "models/basic.bmp");
     for (vector<ChessPiece *>::iterator it = list.begin(); it != list.end(); ++it)
     {
         obj = GraphicModelChess();
         obj.piece = *it;
         if (obj.piece->getType() == "Queen")
-            lerVerticesDeFicheiro(projectPath + "models/queen.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais);
+            lerVerticesDeFicheiro(projectPath + "models/queen.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais, &obj.arrayTextures);
         else if (obj.piece->getType() == "Bishop")
-            lerVerticesDeFicheiro(projectPath + "models/bishop.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais);
+            lerVerticesDeFicheiro(projectPath + "models/bishop.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais, &obj.arrayTextures);
         else if (obj.piece->getType() == "Pawn")
-            lerVerticesDeFicheiro(projectPath + "models/pawn.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais);
+            lerVerticesDeFicheiro(projectPath + "models/pawn.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais, &obj.arrayTextures);
         else if (obj.piece->getType() == "King")
-            lerVerticesDeFicheiro(projectPath + "models/king.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais);
+            lerVerticesDeFicheiro(projectPath + "models/king.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais, &obj.arrayTextures);
         else if (obj.piece->getType() == "Knight")
-            lerVerticesDeFicheiro(projectPath + "models/knight.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais);
+            lerVerticesDeFicheiro(projectPath + "models/knight.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais, &obj.arrayTextures);
         else if (obj.piece->getType() == "Tower")
-            lerVerticesDeFicheiro(projectPath + "models/tower.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais);
+            lerVerticesDeFicheiro(projectPath + "models/tower.obj", &obj.numVertices, &obj.arrayVertices, &obj.arrayNormais, &obj.arrayTextures);
         /* Propriedades do material */
-        if (obj.piece->player == ONE)
-        {
+        obj.textureID = basic;
+        if (obj.piece->player == ONE) {
             obj.kAmb[0] = 0.8;
             obj.kAmb[1] = 0.8;
             obj.kAmb[2] = 0.8;
@@ -136,17 +138,15 @@ void inicializarModelos(void)
             obj.kDif[1] = 0.9;
             obj.kDif[2] = 0.9;
             obj.kDif[3] = 1.0;
-        }
-        else
-        {
-            obj.kAmb[0] = 0.1;
-            obj.kAmb[1] = 0.1;
-            obj.kAmb[2] = 0.1;
+        } else {
+            obj.kAmb[0] = 0;
+            obj.kAmb[1] = 0;
+            obj.kAmb[2] = 0;
             obj.kAmb[3] = 1.0;
 
-            obj.kDif[0] = 0.3;
-            obj.kDif[1] = 0.3;
-            obj.kDif[2] = 0.3;
+            obj.kDif[0] = 0;
+            obj.kDif[1] = 0;
+            obj.kDif[2] = 0;
             obj.kDif[3] = 1.0;
         }
 
@@ -176,10 +176,11 @@ void inicializarModelos(void)
     chessTable = new GraphicModelChess();
     chessTable->piece = NULL;
     lerVerticesDeFicheiro(projectPath + "models/board.obj", 
-                    &chessTable->numVertices, &chessTable->arrayVertices, &chessTable->arrayNormais);
-    chessTable->kAmb[0] = 0.9;
-    chessTable->kAmb[1] = 0.9;
-    chessTable->kAmb[2] = 0.9;
+                    &chessTable->numVertices, &chessTable->arrayVertices, &chessTable->arrayNormais, &chessTable->arrayTextures);
+    chessTable->textureID = loadBMPImage(projectPath + "models/chessboard.bmp");
+    chessTable->kAmb[0] = 0;
+    chessTable->kAmb[1] = 0;
+    chessTable->kAmb[2] = 0;
     chessTable->kAmb[3] = 1.0;
     chessTable->kDif[0] = 0.9;
     chessTable->kDif[1] = 0.9;
@@ -196,10 +197,21 @@ void inicializarModelos(void)
     chessTable->anguloRot.x = 0;
     chessTable->anguloRot.y = 0;
     chessTable->anguloRot.z = 0;
-    chessTable->factorEsc.x = 1;
-    chessTable->factorEsc.y = 1;
-    chessTable->factorEsc.z = 1;
-
+    chessTable->factorEsc.x = 1.19;
+    chessTable->factorEsc.y = 1.19;
+    chessTable->factorEsc.z = 1.19;
+    /* Quadriculado no tabuleiro */
+    Point2D<int> aux;
+    Point2D<float> auxCvt;
+    for (int i = 0; i < 64; i++) {
+        aux.x = i % 8;
+        aux.y = i / 8;
+        auxCvt = GraphicModelChess::convertChessPos(aux);
+        if ((aux.x % 2 == 0 && aux.y % 2 == 0) || (aux.x % 2 != 0 && aux.y % 2 != 0))
+            chessTableSquares.push_back(GraphicModelChess::generatePreviewSquare(auxCvt, 1, 1, 1, 1, 0.01));
+        else
+            chessTableSquares.push_back(GraphicModelChess::generatePreviewSquare(auxCvt, 0, 0, 0, 1, 0.01));
+    }
     matrizProj = CreateProjectionMatrix(proj.fovy, proj.aspect_ratio, proj.near_plane, proj.far_plane);
     /* Posicionar no interior do View Volome */
     Translate(&matrizProj, 0, 0, -6);

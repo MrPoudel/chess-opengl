@@ -18,8 +18,10 @@
 
 using namespace std;
 
-void lerVerticesDeFicheiro(string nome, int *numVertices, vector<float> *arrayVertices, vector<float> *arrayNormais);
+void lerVerticesDeFicheiro(string nome, int *numVertices, vector<float> *arrayVertices, 
+										vector<float> *arrayNormais, vector<float> *arrayTextures);
 void escreverVerticesEmFicheiro(string nome, int numVertices, GLfloat *arrayVertices);
+GLuint loadBMPImage(string imagepath);
 GLfloat *calcularNormaisTriangulos(int numVertices, GLfloat *arrayVertices);
 
 #endif

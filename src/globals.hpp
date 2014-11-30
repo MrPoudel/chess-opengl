@@ -35,14 +35,14 @@ extern projCoord proj;
 extern int windowHandle;
 extern GLuint programaGLSL;
 extern GLuint vs, fs;
-extern GLint attribute_coord3d, attribute_normal3d;
+extern GLint attribute_coord3d, attribute_normal3d, attribute_texcoord;
 extern mat4x4 matrizProj, matrizModelView;
 
 extern int selectedModel, selectedPosition;
 extern Chess * chess;
 extern LightModel * lights;
 extern GraphicModelChess * chessTable, * selectedFrame;
-extern vector<GraphicModelChess*> previewPositions;
+extern vector<GraphicModelChess*> previewPositions, chessTableSquares;
 extern vector<GraphicModelChess> pieceModels;
 extern Point3D<int> tableRotation;
 #endif

@@ -44,6 +44,7 @@ int initResources(void)
     const char *fsSource;
     string attribute_coord3d_name;
     string attribute_normal3d_name;
+    string attribute_texcoord_name;
     const char *uniform_matriz_model_view_name;
     const char *uniform_matriz_proj_name;
     GLint compileOK = GL_FALSE;
@@ -62,6 +63,8 @@ int initResources(void)
     attribute_coord3d_name = "v_coord3d";
     /* Para passar cores ao Vertex-Shader */
     attribute_normal3d_name = "v_normal3d";
+
+    attribute_texcoord_name = "texcoord";
     /* String contendo o codigo (GLSL) do fragment-shader */
     fsSource = readShaderSource(projectPath + "shaders/fShader.glsl");
     if (fsSource == NULL)
@@ -117,6 +120,11 @@ int initResources(void)
         return 0;
     }
 
+    attribute_texcoord = glGetAttribLocation(programaGLSL, attribute_texcoord_name.c_str());
+    if (attribute_texcoord == -1) {
+        fprintf(stderr, "Could not bind attribute %s\n", attribute_texcoord_name.c_str());
+        return 0;
+    }
     free((char *) fsSource);
     free((char *) vsSource);
     return 1;

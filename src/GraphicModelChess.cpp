@@ -22,7 +22,7 @@ GraphicModelChess* GraphicModelChess::generatePreviewSquare(Point2D<float> p, fl
 {
     GraphicModelChess *obj = new GraphicModelChess();
     obj->piece = NULL;
-    lerVerticesDeFicheiro("../src/models/marker.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais);
+    lerVerticesDeFicheiro("../src/models/marker.obj", &obj->numVertices, &obj->arrayVertices, &obj->arrayNormais, &obj->arrayTextures);
     obj->kAmb[0] = 0.1 + 0.9 * R;
     obj->kAmb[1] = 0.1 + 0.9 * G;
     obj->kAmb[2] = 0.1 + 0.9 * B;

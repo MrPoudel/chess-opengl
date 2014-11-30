@@ -20,7 +20,9 @@ public:
     ChessPiece *piece;
     int numVertices;
     vector<float> arrayVertices;
+    vector<float> arrayTextures;
     vector<float> arrayNormais;
+    GLuint textureID;
     /* Propriedades do material */
     float kAmb[4];
     float kDif[4];
