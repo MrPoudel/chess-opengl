@@ -233,27 +233,36 @@ void myKeyboard(unsigned char key, int x, int y)
 
 void mySpecialKeys(int key, int x, int y)
 {
+    if (animationActive)
+        return;
+    
     GraphicModelChess *obj = chessTable;
     switch (key)
     {
     case GLUT_KEY_LEFT :
-        tableRotation.z -= 2;
-        RotateAboutZ(&matrizProj, DegreesToRadians(-2));
-        glutPostRedisplay();
-        break;
-    case GLUT_KEY_RIGHT :
         tableRotation.z += 2;
         RotateAboutZ(&matrizProj, DegreesToRadians(2));
         glutPostRedisplay();
         break;
+    case GLUT_KEY_RIGHT :
+        tableRotation.z -= 2;
+        RotateAboutZ(&matrizProj, DegreesToRadians(-2));
+        glutPostRedisplay();
+        break;
     case GLUT_KEY_UP :
-        tableRotation.y += 2;
-        RotateAboutY(&matrizProj, DegreesToRadians(2));
+        tableRotation.y -= 2;
+        
+        RotateAboutZ(&matrizProj, DegreesToRadians(-tableRotation.z));
+        RotateAboutY(&matrizProj, DegreesToRadians(-2));
+        RotateAboutZ(&matrizProj, DegreesToRadians(tableRotation.z));
         glutPostRedisplay();
         break;
     case GLUT_KEY_DOWN :
-        tableRotation.y -= 2;
-        RotateAboutY(&matrizProj, DegreesToRadians(-2));
+        tableRotation.y += 2;
+        
+        RotateAboutZ(&matrizProj, DegreesToRadians(-tableRotation.z));
+        RotateAboutY(&matrizProj, DegreesToRadians(2));
+        RotateAboutZ(&matrizProj, DegreesToRadians(tableRotation.z));
         glutPostRedisplay();
         break;
     }
@@ -261,13 +270,10 @@ void mySpecialKeys(int key, int x, int y)
 
 void onMouse(int button, int state, int x, int y)
 {
-    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-        arcball_on = true;
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && !animationActive)
         last.x = curr.x = x;
         last.y = curr.y = y;
-    } else {
-        arcball_on = false;
-    }
+    
     if (state != GLUT_DOWN)
         return;
     GLint viewport[4];
@@ -335,16 +341,27 @@ void onMouse(int button, int state, int x, int y)
 
 void onDrag(int x, int y)
 {
+    if (animationActive)
+        return;
+
     last.x = curr.x;
     last.y = curr.y;
     curr.x = x;
     curr.y = y;
 
+    if (curr.x == -1 && curr.y == -1)
+        return;
+
     float rotatez = (float)(last.x - curr.x) * 0.15;
     float rotatey = (float)(last.y - curr.y) * 0.15;
-    //cout << rotate << endl;
+    
+    tableRotation.z += rotatez;
+    cout << tableRotation.z << endl;
     RotateAboutZ(&matrizProj, DegreesToRadians(rotatez));
+
+    RotateAboutZ(&matrizProj, DegreesToRadians(-tableRotation.z));
     RotateAboutY(&matrizProj, DegreesToRadians(rotatey));
+    RotateAboutZ(&matrizProj, DegreesToRadians(tableRotation.z));
 
     glutPostRedisplay();
     
@@ -354,10 +371,12 @@ void makeChessMove(GraphicModelChess * obj, vector<Point2D<int> > possiblePos) {
     if (chess->move(obj->piece, possiblePos[selectedPosition])) {
         if (!chess->isGameFinished()) {
             createRotateProjectionAnimation();
-            if (chess->getCurrentPlayer() == ONE)
-                selectedModel = 0;
-            else
-                selectedModel = 16;
+            for (int i = 0; i < pieceModels.size(); i++) {
+                if (pieceModels[i].piece->player == chess->getCurrentPlayer() && pieceModels[i].piece->getType() == "King") {
+                    selectedModel = i;
+                    break;
+                }
+            }
             selectedPosition = -1;
             refreshSelectedPosition();
         }
@@ -390,17 +409,23 @@ void createRotateProjectionAnimation() {
     tableRotation.z += realRotation;
 }
 void animation_rotateProjLeft(int value) {
+    animationActive = true;
     RotateAboutZ(&matrizProj, DegreesToRadians(1));
     glutPostRedisplay();
-    if (abs(value) + 1 < 180)
+    if (abs(value) + 1 < 180) 
         glutTimerFunc(5, animation_rotateProjLeft, value + 1);
+    else
+        animationActive = false;
 }
 
 void animation_rotateProjRight(int value) {
+    animationActive = true;
     RotateAboutZ(&matrizProj, DegreesToRadians(-1));
     glutPostRedisplay();
     if (abs(value) + 1 < 180)
         glutTimerFunc(5, animation_rotateProjRight, value - 1);
+    else
+        animationActive = false;
 }
 
 void registarCallbackFunctions(void)

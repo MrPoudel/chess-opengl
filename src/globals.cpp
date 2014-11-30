@@ -21,7 +21,7 @@ GraphicModelChess * chessTable, * selectedFrame, * skybox;
 vector<GraphicModelChess*> previewPositions;
 vector<GraphicModelChess> pieceModels;
 
-Point2D<int> curr = {0,0}, last = {0,0};
-bool arcball_on = false;
+Point2D<int> curr, last;
 
-Point3D<int> tableRotation;
+Point3D<float> tableRotation;
+bool animationActive;

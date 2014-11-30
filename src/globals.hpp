@@ -45,6 +45,6 @@ extern GraphicModelChess *chessTable, *selectedFrame, *skybox;
 extern vector<GraphicModelChess*> previewPositions;
 extern vector<GraphicModelChess> pieceModels;
 extern Point2D<int> curr, last;
-extern bool arcball_on;
-extern Point3D<int> tableRotation;
+extern Point3D<float> tableRotation;
+extern bool animationActive;
 #endif

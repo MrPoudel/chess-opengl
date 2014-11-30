@@ -40,7 +40,8 @@ void inicializarEstado(void)
     matrizModelView = IDENTITY_MATRIX;
 
     chess = new Chess();
-    selectedModel = 0;
+    animationActive = false;
+    selectedModel = 4;
     selectedPosition = -1;
 }
 
