@@ -352,7 +352,7 @@ void onDrag(int x, int y)
     if (curr.x == -1 && curr.y == -1)
         return;
 
-    float rotatez = (float)(last.x - curr.x) * 0.15;
+    float rotatez = (float)(curr.x - last.x) * 0.15;
     float rotatey = (float)(last.y - curr.y) * 0.15;
     
     tableRotation.z += rotatez;
