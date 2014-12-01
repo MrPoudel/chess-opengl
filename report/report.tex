@@ -1,9 +1,11 @@
-\documentclass[11pt,a4paper]{report}
+%
+% General structure for the revdetua class:
+%
+\documentclass[portugues,final]{revdetua}
 \usepackage[portuguese]{babel}
 \usepackage{listingsutf8}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{glossaries}
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{wrapfig}
@@ -11,61 +13,46 @@
 \usepackage{natbib}
 \usepackage{color}
 \usepackage{eurosym}
-
-\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
-
-\newcommand{\tab}[1]{%
-\settowidth{\tabcont}{#1}%
-\ifthenelse{\lengthtest{\tabcont < .25\linewidth}}%
-{\makebox[.25\linewidth][l]{#1}\ignorespaces}%
-{\makebox[.5\linewidth][l]{\color{red} #1}\ignorespaces}%
-}%
+%
+% Valid options are:
+%
+%   longpaper --------- \part and \tableofcontents defined
+%   shortpaper -------- \part and \tableofcontents not defined (default)
+%
+%   english ----------- main language is English (default)
+%   portugues --------- main language is Portuguese
+%
+%   draft ------------- draft version
+%   final ------------- final version (default)
+%
+%   times ------------- use times (postscript) fonts for text
+%
+%   mirror ------------ prints a mirror image of the paper (with dvips)
+%
+%   visiblelabels ----- \SL, \SN, \SP, \EL, \EN, etc. defined
+%   invisiblelabels --- \SL, \SN, \SP, \EL, \EN, etc. not defined (default)
+%
+% Note: the final version should use the times fonts
+% Note: the really final version should also use the mirror option
+%
 
 \begin{document}
 
-%% Página de titulo
+% Note: the month must be in Portuguese
+
 \title{\textbf{Jogo de Xadrez implementado em OpenGL} \\ Computação Visual\\Universidade de Aveiro}
 \author{Diogo Silva 60337}
 \maketitle
 
-\tableofcontents
+\begin{resumo} % Note: in Portuguese
+  ...
+\end{resumo}
 
-\definecolor{shadecolor}{RGB}{233,233,233}
-\lstset{literate=
-		{á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
-		{ã}{{\~a}}1 {ç}{{\c c}}1 {ê}{{\^e}}1 {õ}{{\~o}}1 {€}{{\euro}}1
-		{£}{{\pounds}}1,
-	basicstyle=\ttfamily\footnotesize,
-	numberstyle=\tiny,
-	breaklines=true,
-	frame=lines,
-	tabsize=2,
-    showspaces=false,
-    showstringspaces=false,
-    keywordstyle=\color{blue}\bfseries,
-    stringstyle=\color{red},
-    commentstyle=\color{blue}\itshape,
-    backgroundcolor=\color{shadecolor},
-    numbers=left,
-    captionpos=t,
-    escapeinside={\%*}{*)}
-}
+\begin{palavraschave} % Note: in Portuguese (optional)
+  ...
+\end{palavraschave}
 
-\chapter{Introdução}
-
-Este trabalho foi desenvolvido no âmbito da disciplina de Computação Visual do curso de Engenharia de Computadores e Telemática durante o ano curricular 2014/2015, sendo a escolha feita para este projecto foi um jogo de Xadrez (completo, 32 peças) para jogar entre dois jogadores através do mesmo computador, sendo este trabalho uma representação 3D do jogo usando as ferramentas que foram instruídas durante as aulas, neste caso, OpenGL.\\
-
-O desenvolvimento de todo o código ao longo desta aplicação foi feito em C++ usando as bibliotecas de OpenGL, perante isto pode-se encontrar todo o código fonte em: \url{https://github.com/dbtds/chess-opengl}.
-
-O resultado final é descrito ao longo deste relatório, desde detalhes de código (shaders, modelos) até representação gráfica de viewbox, texturas, movimentos, entre outras situações. A imagem seguinte mostra como ficou o trabalho:
-
-\begin{figure}[H]
-\centerline{\includegraphics[width=180pt]{images/finalresult.png}}
-\caption{Resultado final do Xadrez}
-\label{img:complete}
-\end{figure}
-
-\chapter{Estrutura da Aplicação}
+\section{Estrutura da Aplicação}
 
 A aplicação do jogo inicialmente encontrava-se em C, tal como foi sugerido nas aulas, mas devido à necessidade de introduzir o conceito de herança nas peças de Xadrez, passou-se tudo para C++ e realizou-se o desenvolvimento a partir daí.\\
 
@@ -73,7 +60,7 @@ Para compilar o código existe um Makefile disponível no qual foi criado para L
 
 FALTA FALAR DA COMPILAÇÃO MELHOR
 
-\section{Engine do Jogo de Xadrez}
+\subsection{Engine do Jogo de Xadrez}
 
 O motor do jogo tem as seguintes funcionalidades como:
 \begin{enumerate}
@@ -87,21 +74,21 @@ O motor do jogo tem as seguintes funcionalidades como:
 Tal como mostra a figura seguinte, pode-se verificar que estas funcionalidades são acedidas facilmente através da classe Chess.
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=250pt]{images/chess.png}}
+\centerline{\includegraphics[width=230pt]{images/chess.png}}
 \caption{Implementação do Chess}
 \label{img:complete}
 \end{figure}
 
 Por sua vez, a classe Chess contém uma matrix de 8 por 8 (64 lugares) em que no ínicio, estão 32 ocupadas e as restantes apontar para NULL, esta matrix é uma matrix de referências de Peças de Xadrez, mais precisamento, objectos do tipo ChessPiece (descritos detalhadamente na secção seguinte).
 
-\subsection{Peças do Xadrez}
+\subsubsection{Peças do Xadrez}
 
 As peças de Xadrez têm um módulo do qual permite destinguir a qual jogador pertence a peça, o tipo da peça (se é um Rei, um Cavalo, etc..). Consecutivamente, também é o que permite destinguir movimentos das peças.\\
 
 Todas as peças herdam uma classe principal chamada ChessPiece, que contém as funcionalidades referidas anteriomente, tal como mostra a figura seguinte:
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=250pt]{images/chesspiece.png}}
+\centerline{\includegraphics[width=230pt]{images/chesspiece.png}}
 \caption{Implementação do ChessPiece}
 \label{img:complete}
 \end{figure}
@@ -109,12 +96,12 @@ Todas as peças herdam uma classe principal chamada ChessPiece, que contém as f
 Tal como foi referido, todas as peças têm de indicar na sua inicialização a lista de movimentos possíveis, se são movimentos multíplos ou não e o jogador a qual pertence, na figura seguinte pode-se ver o exemplo da implementação da Rainha, em que mostra que os movimentos possíveis são em todas as casas as sua volta e são movimentos multíplos.
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=380pt]{images/queen.png}}
+\centerline{\includegraphics[width=230pt]{images/queen.png}}
 \caption{Implementação da Peça Rainha}
 \label{img:complete}
 \end{figure}
 
-\section{Desenvolvimento OpenGL}
+\subsection{Desenvolvimento OpenGL}
 
 Relativamente a implementação da parte gráfica da aplicação, decidiu-se dar continuação a estrutura já existentes das aulas, tendo os seguintes ficheiros:
 \begin{enumerate}
@@ -128,9 +115,9 @@ Relativamente a implementação da parte gráfica da aplicação, decidiu-se dar
 Para além deste ainda foram criados dois ficheiros, um LightModel.cpp que contém apenas todas as caracteristicas necessárias para a representação de um foco de iluminação, tais como, posição do foco, intensidade do foco e intensidade da luz ambiente.
 O outro ficheiro, é o ficheiro GraphicModelChess.cpp que contém as caracteristicas gráficas de cada modelo de Xadrez (este ficheiro é descrito detalhamente na secção seguinte).
 
-\subsection{Modelos}
+\subsubsection{Modelos}
 
-\subsubsection{Estrutura do GraphicModelChess}
+{\large Estrutura do GraphicModelChess}
 
 A classe GraphicModelChess contém todas as caracteristicas gráficas de cada modelo:
 \begin{enumerate}
@@ -146,14 +133,14 @@ Para além deste valores, ainda contém uma referência para o respectivo modelo
 A figura seguinte mostra o cabeçalho deste ficheiro:
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=300pt]{images/graphicmodelchess.png}}
+\centerline{\includegraphics[width=230pt]{images/graphicmodelchess.png}}
 \caption{Cabeçalho do GraphicModelChess}
 \label{img:complete}
 \end{figure}
 
 Ainda se pode verificar a existência de 3 funções estáticas, duas das quais servem para converter coordenadas do tabuleiro de Xadrez para coordenadas do mundo 3D, e vice-versa. A outra função serve para gerar modelos quadrados que vão servir para representar todas as alternativas possíveis de cada movimento.
 
-\subsubsection{Load de cada modelo de Xadrez}
+{\large Load de cada modelo de Xadrez}
 
 As peças do Xadrez foram retiradas de modelos já existentes num projecto Open Source \url{https://code.google.com/p/pwag-chessboard/}, desse projecto foram retirados do directório /trunk/Chess/Chess/Models.\\
 
@@ -165,14 +152,14 @@ Apesar de fazer a leitura do modelo oficial dos ficheiros obj, apenas são carre
 
 O load genérico dos ficheiros obj encontra-se em /src/models.cpp.
 
-\subsection{Shaders}
+\subsubsection{Shaders}
 
 Inicialmente os shaders apenas estavam a ser usados para a representação das cores, não fazendo qualquer procesamento na gráfica, mas houve a necessidade de implementar a iluminação nos shaders devido ao tentar fazer uma animação mais complexa e notar-se que a imagem não era completamente fluída porque o tempo que o CPU demorava a fazer os calculos das iluminações de cada vertice era superior ao tempo da rotação, verificando-se um delay no movimento.\\
 
 Sendo assim, havia duas opções, tornar a animação mais rudimentar, ou passar a iluminação para os shaders (fazendo com que a gráfica processa-se a animação).
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=300pt]{images/vertexshader.png}}
+\centerline{\includegraphics[width=230pt]{images/vertexshader.png}}
 \caption{Vertex Shader}
 \label{img:complete}
 \end{figure}
@@ -182,7 +169,7 @@ Como se pode verificar no vertex shader é feito os calculos do ponto relativame
 Ainda se pode verificar que as coordenadas das texturas são passadas para o fragment shader.
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=300pt]{images/fragmentshader.png}}
+\centerline{\includegraphics[width=230pt]{images/fragmentshader.png}}
 \caption{Fragment Shader}
 \label{img:complete}
 \end{figure}
@@ -193,51 +180,33 @@ Para realizar esta parte do código foi utilizado os slides dados na teórica da
 
 Ainda se pode verificar que as texturas são introduzidas com o texture2D que permite aplicar uma cor RGB a uma coordenada específica, fazendo isto com todas as coordendas, para além disto, ainda se pode verificar que dá-se igual importância a textura e a iluminação, apesar de não ser o melhor método funciona relativamente bem.
 
-\chapter{Aspectos Importantes do Trabalho}
+\section{Aspectos Importantes do Trabalho}
 
-\section{Interacção com o utilizador}
+Os aspectos importantes deste trabalho vai desde a representação gráfica dos objectos (como peças de xadrez, texturas, skybox, movimentos possíveis de cada peça) e interacção com o utilizador (como clique nas peças de xadrez, teclado ou rato, e ainda manipulação da cena, teclado ou rato).
 
-\subsection{Clique nas peças do Xadrez (Interacção Directa)}
+\subsection{Interacção com o utilizador}
 
-\subsection{Manipulação do cenário}
+\subsubsection{Clique nas peças do Xadrez (Interacção Directa)}
 
-\section{Iluminação na Placa Gráfica}
+\subsubsection{Manipulação do cenário}
 
-\section{Texturas}
+\subsection{Iluminação na Placa Gráfica}
 
-\section{Skybox}
+\subsection{Texturas}
 
-\section{Representação Gráfica}
+\subsection{Skybox}
 
-\subsection{Peças de Xadrez}
+\subsection{Representação Gráfica}
 
-\subsection{Movimentos possíveis}
+\subsubsection{Peças de Xadrez}
 
-\subsubsection{Distinção de movimentos}
+\subsubsection{Movimentos possíveis}
 
-\subsection{Peças mortas}
+{\large Distinção de movimentos}
 
-\chapter{Conclusão}
-%
+\subsubsection{Peças mortas}
 
-
-
-%% Glossário (Lista de acronimos)
-%\printglossaries
-%\addcontentsline{toc}{chapter}{Glossário}
-
-%% Bibliografia
-%\bibliographystyle{plain}
-%\bibliography{report}
-%\addcontentsline{toc}{chapter}{Bibliografia}
-
-%% Lista de Figuras
-\listoffigures
-%\addcontentsline{toc}{chapter}{Lista de figuras}
-%% Lista de Tabelas
-% Não foi incluido list of tables porque não foi preciso utilizar nenhuma tabela neste trabalho.
-
-%\listoftables
-%\addcontentsline{toc}{chapter}{Lista de tabelas}
+\bibliography{adasd} % use a field named url or \url{} for URLs
+% Note: the \bibliographystyle is set automatically
 
 \end{document}

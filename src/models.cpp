@@ -69,7 +69,8 @@ GLuint loadBMPImage(string imagepath) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
-	//glBindTexture(GL_TEXTURE_2D, 0);
+
+	delete[] data;
 	return textureID;
 }
 void lerVerticesDeFicheiro(string nome, int *numVertices, vector<float> *arrayVertices, 
