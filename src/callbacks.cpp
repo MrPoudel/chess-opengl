@@ -277,7 +277,7 @@ void onMouse(int button, int state, int x, int y)
         return;
     }
 
-    if (button == 4 && tableScale > 0.35){
+    if (button == 4 && tableScale > 0.4){
         Scale(&matrizProj, 0.98, 0.98, 0.98);
         tableScale -= 0.02;
         glutPostRedisplay();
