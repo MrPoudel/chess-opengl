@@ -53,11 +53,17 @@
 
 \chapter{Introdução}
 
-Este trabalho foi desenvolvido no âmbito da disciplina de Computação Visual do curso de Engenharia de Computadores e Telemática durante o ano curricular 2014/2015.\\
+Este trabalho foi desenvolvido no âmbito da disciplina de Computação Visual do curso de Engenharia de Computadores e Telemática durante o ano curricular 2014/2015, sendo a escolha feita para este projecto foi um jogo de Xadrez (completo, 32 peças) para jogar entre dois jogadores através do mesmo computador, sendo este trabalho uma representação 3D do jogo usando as ferramentas que foram instruídas durante as aulas, neste caso, OpenGL.\\
 
-A escolha feita para este projecto foi um jogo de Xadrez (completo, 32 peças) para jogar entre dois jogadores através do mesmo computador, sendo este trabalho uma representação 3D do jogo usando as ferramentas que foram instruídas durante as aulas, neste caso, OpenGL.\\
+O desenvolvimento de todo o código ao longo desta aplicação foi feito em C++ usando as bibliotecas de OpenGL, perante isto pode-se encontrar todo o código fonte em: \url{https://github.com/dbtds/chess-opengl}.
 
-O desenvolvimento de todo o código ao longo desta aplicação foi feito em C++ usando as bibliotecas de OpenGL, perante isto pode-se encontrar todo o código fonte em: \url{https://github.com/dbtds/chess-opengl}
+O resultado final é descrito ao longo deste relatório, desde detalhes de código (shaders, modelos) até representação gráfica de viewbox, texturas, movimentos, entre outras situações. A imagem seguinte mostra como ficou o trabalho:
+
+\begin{figure}[H]
+\centerline{\includegraphics[width=180pt]{images/finalresult.png}}
+\caption{Resultado final do Xadrez}
+\label{img:complete}
+\end{figure}
 
 \chapter{Estrutura da Aplicação}
 
@@ -171,7 +177,9 @@ Sendo assim, havia duas opções, tornar a animação mais rudimentar, ou passar
 \label{img:complete}
 \end{figure}
 
-Como se pode verificar no vertex shader é feito os calculos do ponto relativamente a um vertice, a sua posição, consoante a matrix projecção e o modelo, para além disso, ainda é calculado alguma fracções que vão ser usadas mais tarde pelo fragment shader, estas precisam de ser calculadas no vertex porque a iluminação depende da posição do vertice e do foco de iluminação.
+Como se pode verificar no vertex shader é feito os calculos do ponto relativamente a um vertice, a sua posição, consoante a matrix projecção e o modelo, para além disso, ainda é calculado alguma fracções que vão ser usadas mais tarde pelo fragment shader, estas precisam de ser calculadas no vertex porque a iluminação depende da posição do vertice e do foco de iluminação.\\
+
+Ainda se pode verificar que as coordenadas das texturas são passadas para o fragment shader.
 
 \begin{figure}[H]
 \centerline{\includegraphics[width=300pt]{images/fragmentshader.png}}
@@ -181,7 +189,9 @@ Como se pode verificar no vertex shader é feito os calculos do ponto relativame
 
 No fragment shader pode-se verificar que são usadas as variaveis passadas pelo Vertex Shader, neste caso, fE, fN e fL, calculando a respectiva cor do vertice, dando o efeito de iluminação pretendido.\\
 
-Para realizar esta parte do código foi utilizado os slides dados na teórica das aulas de Computação Visual no ficheiro PDF ``Métodos de Iluminação e Sombreamento (PDF)'' disponível em \url{http://sweet.ua.pt/jmadeira/CV/CV_07_Ilumina%C3%A7%C3%A3o_e_Shading_BSS_JM.pdf} nos slides 50 a 53.
+Para realizar esta parte do código foi utilizado os slides dados na teórica das aulas de Computação Visual no ficheiro PDF ``Métodos de Iluminação e Sombreamento (PDF)'' disponível em \url{http://sweet.ua.pt/jmadeira/CV/CV_07_Ilumina%C3%A7%C3%A3o_e_Shading_BSS_JM.pdf} nos slides 50 a 53.\\
+
+Ainda se pode verificar que as texturas são introduzidas com o texture2D que permite aplicar uma cor RGB a uma coordenada específica, fazendo isto com todas as coordendas, para além disto, ainda se pode verificar que dá-se igual importância a textura e a iluminação, apesar de não ser o melhor método funciona relativamente bem.
 
 \chapter{Aspectos Importantes do Trabalho}
 
@@ -193,6 +203,10 @@ Para realizar esta parte do código foi utilizado os slides dados na teórica da
 
 \section{Iluminação na Placa Gráfica}
 
+\section{Texturas}
+
+\section{Skybox}
+
 \section{Representação Gráfica}
 
 \subsection{Peças de Xadrez}
@@ -202,7 +216,6 @@ Para realizar esta parte do código foi utilizado os slides dados na teórica da
 \subsubsection{Distinção de movimentos}
 
 \subsection{Peças mortas}
-
 
 \chapter{Conclusão}
 %

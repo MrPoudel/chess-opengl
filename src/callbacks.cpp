@@ -131,17 +131,17 @@ void refreshPreviewPanels()
     previewPositions.push_back(GraphicModelChess::generatePreviewSquare(
                                    GraphicModelChess::convertChessPos(
                                        chess->getBoardPosition(pieceModels[selectedModel].piece)
-                                   ), 1, 1, 0, 0.9, 0.02)
+                                   ), 1, 1, 0, 0.9, 0.002)
                               );
     for (vector<Point2D<int> >::iterator it = pp.begin(); it != pp.end(); ++it)
     {
         if (!chess->isFieldEmpty(*it))
             previewPositions.push_back(GraphicModelChess::generatePreviewSquare(
-                                           GraphicModelChess::convertChessPos(*it), 1, 0, 0, 0.9, 0.02)
+                                           GraphicModelChess::convertChessPos(*it), 1, 0, 0, 0.9, 0.002)
                                       );
         else
             previewPositions.push_back(GraphicModelChess::generatePreviewSquare(
-                                           GraphicModelChess::convertChessPos(*it), 0, 1, 0, 0.9, 0.02)
+                                           GraphicModelChess::convertChessPos(*it), 0, 1, 0, 0.9, 0.002)
                                       );
     }
 }
@@ -153,7 +153,7 @@ void refreshSelectedPosition() {
     } else {
         Point2D<int> vec = chess->getPossiblePositions(pieceModels[selectedModel].piece)[selectedPosition];
         selectedFrame = GraphicModelChess::generatePreviewSquare(
-                                            GraphicModelChess::convertChessPos(vec), 0, 1, 1, 0.8, 0.03
+                                            GraphicModelChess::convertChessPos(vec), 0, 1, 1, 0.8, 0.003
                                           );
     }
 }
@@ -270,10 +270,22 @@ void mySpecialKeys(int key, int x, int y)
 
 void onMouse(int button, int state, int x, int y)
 {
+    if (button == 3) {
+        Scale(&matrizProj, 1.02, 1.02, 1.02);
+        glutPostRedisplay();
+        return;
+    }
+
+    if (button == 4){
+        Scale(&matrizProj, 0.98, 0.98, 0.98);
+        glutPostRedisplay();
+        return;
+    }
+
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && !animationActive)
         last.x = curr.x = x;
-        last.y = curr.y = y;
-    
+        last.y = curr.y = y;  
+        
     if (state != GLUT_DOWN)
         return;
     GLint viewport[4];
