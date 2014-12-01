@@ -1,3 +1,6 @@
+Código fonte disponível em: https://github.com/dbtds/chess-opengl
+Podendo ser obtido através do comando: git clone https://github.com/dbtds/chess-opengl.git
+
 Este projecto foi desenvolvido unicamente em ambiente Linux, sendo assim, não foi criado qualquer ficheiro executável para ambiente Windows, apesar que também é possível faze-lo alterando apenas a forma de compilação.
 
 Note-se que todas as próximas indicações foram apenas realizadas em ambiente Linux no Ubuntu 14.10 64 bits.

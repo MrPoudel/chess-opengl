@@ -52,9 +52,9 @@ Relatório inclui descrição de shaders, modelos, skybox, texturas, iluminaçã
 
 \section{Estrutura da Aplicação}
 
-A aplicação do jogo inicialmente encontrava-se em C, tal como foi sugerido nas aulas, mas devido à necessidade de introduzir o conceito de herança nas peças de Xadrez, passou-se tudo para C++ e realizou-se o desenvolvimento a partir daí.\\
+A aplicação do jogo inicialmente encontrava-se em C, tal como foi sugerido nas aulas, mas devido à necessidade de introduzir o conceito de herança nas peças de Xadrez, passou-se tudo para {\tt C++} e realizou-se o desenvolvimento a partir daí.\\
 
-Para compilar o código foi criado um tutorial num ficheiro README com uma explicação breve a dizer as bibliotecas que são necessárias instalar e de como correr o programa.
+Para compilar o código foi criado um tutorial num ficheiro {\tt README} com uma explicação breve a dizer as bibliotecas que são necessárias instalar e de como correr o programa.
 
 \subsection{Engine do Jogo de Xadrez}
 
@@ -75,7 +75,7 @@ Tal como mostra a figura seguinte, pode-se verificar que estas funcionalidades s
 \label{img:complete}
 \end{figure}
 
-Por sua vez, a classe Chess contém uma matrix de 8 por 8 (64 lugares) em que no ínicio, estão 32 ocupadas e as restantes apontar para NULL, esta matrix é uma matrix de referências de Peças de Xadrez, mais precisamento, objectos do tipo ChessPiece (descritos detalhadamente na secção seguinte).
+Por sua vez, a classe Chess contém uma matrix de 8 por 8 (64 lugares) em que no ínicio, estão 32 ocupadas e as restantes apontar para {\tt NULL}, esta matrix é uma matrix de referências de Peças de Xadrez, mais precisamento, objectos do tipo ChessPiece (descritos detalhadamente na secção seguinte).
 
 \subsubsection{Peças do Xadrez}
 
@@ -302,6 +302,12 @@ O resultado final obtido foi o seguinte:
 Pode-se verificar que OpenGL apesar de não ser uma biblioteca de muito alto nível, é possível fazer a representação gráfica de objectos bastante complexos usando apenas triângulos. Neste trabalho foi possível realizar texturas, skybox, leitura de ficheiros obj, iluminação na placa gráfica, motor do jogo e interecção com o utilizador (rato e teclado).
 
 \section{Compilação e Execução}
+
+Código fonte disponível em:
+
+{\tt \url{https://github.com/dbtds/chess-opengl}}
+
+Podendo ser obtido através do comando: {\tt git clone https://github.com/dbtds/chess-opengl.git}
 
 Este projecto foi desenvolvido unicamente em ambiente Linux, sendo assim, não foi criado qualquer ficheiro executável para ambiente Windows, apesar que também é possível faze-lo alterando apenas a forma de compilação.\\
 
