@@ -1,0 +1,18 @@
+Este projecto foi desenvolvido unicamente em ambiente Linux, sendo assim, não foi criado qualquer ficheiro executável para ambiente Windows, apesar que também é possível faze-lo alterando apenas a forma de compilação.
+
+Note-se que todas as próximas indicações foram apenas realizadas em ambiente Linux no Ubuntu 14.10 64 bits.
+
+Software essencial para compilar e correr o programa:
+* build-essential
+* libglut-mesa1
+* missing more
+
+Após a obtenção de todas estas dependências, basta executar o Makefile na pasta principal ou na pasta src.
+
+Executando em bash $ make
+
+Para executar o programa, basta ir a pasta gerada bin ou a pasta src, e correr o executável com o nome chess.
+Executando em bash $ ./chess
+
+Já existe um executável pré-gerado dentro da pasta bin com o nome chess_bin, executando da mesma forma:
+Em bash $ ./chess_bin}
