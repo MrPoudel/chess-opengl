@@ -43,6 +43,7 @@ void inicializarEstado(void)
     animationActive = false;
     selectedModel = 4;
     selectedPosition = -1;
+    tableScale = 1;
 }
 
 

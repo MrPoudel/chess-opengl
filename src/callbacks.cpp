@@ -270,14 +270,16 @@ void mySpecialKeys(int key, int x, int y)
 
 void onMouse(int button, int state, int x, int y)
 {
-    if (button == 3) {
+    if (button == 3 && tableScale < 3) {
         Scale(&matrizProj, 1.02, 1.02, 1.02);
+        tableScale += 0.02;
         glutPostRedisplay();
         return;
     }
 
-    if (button == 4){
+    if (button == 4 && tableScale > 0.35){
         Scale(&matrizProj, 0.98, 0.98, 0.98);
+        tableScale -= 0.02;
         glutPostRedisplay();
         return;
     }

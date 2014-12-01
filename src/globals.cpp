@@ -24,4 +24,5 @@ vector<GraphicModelChess> pieceModels;
 Point2D<int> curr, last;
 
 Point3D<float> tableRotation;
+float tableScale;
 bool animationActive;

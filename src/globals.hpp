@@ -46,5 +46,6 @@ extern vector<GraphicModelChess*> previewPositions;
 extern vector<GraphicModelChess> pieceModels;
 extern Point2D<int> curr, last;
 extern Point3D<float> tableRotation;
+extern float tableScale;
 extern bool animationActive;
 #endif
