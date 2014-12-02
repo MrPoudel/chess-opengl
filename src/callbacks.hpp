@@ -1,7 +1,9 @@
 /*
- * callbacks.h
+ * callbacks.hpp
  *
  * Ficheiro cabecalho do modulo CALLBACKS.
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
  *
  */
 

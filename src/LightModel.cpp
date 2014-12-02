@@ -1,3 +1,10 @@
+/*
+ * LightModel.cpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #include "LightModel.hpp"
 
 using namespace std;

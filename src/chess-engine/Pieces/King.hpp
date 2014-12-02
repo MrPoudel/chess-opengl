@@ -1,3 +1,10 @@
+/*
+ * King.hpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #ifndef KING_H
 #define KING_H
 

@@ -1,3 +1,10 @@
+/*
+ * Bishop.hpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #ifndef BISHOP_H
 #define BISHOP_H
 

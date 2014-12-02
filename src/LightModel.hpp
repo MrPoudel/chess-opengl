@@ -1,3 +1,10 @@
+/*
+ * LightModel.hpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #ifndef LIGHTMODEL_H
 #define LIGHTMODEL_H
 

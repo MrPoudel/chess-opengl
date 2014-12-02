@@ -1,8 +1,9 @@
 /*
- * OpenGL_ex_13.c
+ * project60337.cpp
  *
- * Primeiro exemplo de iluminação - Per Vertex Shading !!
+ * Ficheiro main
  *
+ * Author: Diogo Silva (dbtds@ua.pt)
  *
  */
 
@@ -15,7 +16,6 @@
 #include <GL/freeglut.h>
 #include "globals.hpp"
 #include "callbacks.hpp"
-#include "consoleIO.hpp"
 #include "init.hpp"
 #include "menus.hpp"
 #include "shaders/shaders.hpp"
@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 	{
 		/* Registando callback functions se OK */
 		registarCallbackFunctions();
-		infosConsola();
+		fprintf(stdout, "\n Para Terminar: usar as teclas Q ou ESC\n\n");
 		glutMainLoop();
 	}
 	/* Housekeeping */

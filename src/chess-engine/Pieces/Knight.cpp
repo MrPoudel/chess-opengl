@@ -1,3 +1,10 @@
+/*
+ * Knight.cpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #include "Knight.hpp"
 
 using namespace std;

@@ -1,7 +1,9 @@
 /*
- * init.c
+ * init.cpp
  *
  * Ficheiro de implementacao do modulo INIT.
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
  *
  */
 

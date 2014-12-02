@@ -1,7 +1,9 @@
 /*
- * menus.h
+ * menus.hpp
  *
  * Ficheiro cabecalho do modulo MENUS.
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
  *
  */
 

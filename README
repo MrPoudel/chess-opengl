@@ -10,8 +10,10 @@ Software essencial para compilar e correr o programa:
 * libglut-mesa1
 * missing more
 
-Após a obtenção de todas estas dependências, basta executar o Makefile na pasta principal ou na pasta src.
+Para obter cada dependência basta executar:
+sudo apt-get install nome_da_dependencia_aqui
 
+Após a obtenção de todas estas dependências, basta executar o Makefile na pasta principal ou na pasta src.
 Executando em bash $ make
 
 Para executar o programa, basta ir a pasta gerada bin ou a pasta src, e correr o executável com o nome chess.

@@ -1,3 +1,10 @@
+/*
+ * King.cpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #include "King.hpp"
 
 using namespace std;

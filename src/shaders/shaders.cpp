@@ -1,5 +1,5 @@
 /*
- * shaders.c
+ * shaders.cpp
  *
  * Ficheiro de implementacao do modulo SHADERS.
  *

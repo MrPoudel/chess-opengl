@@ -1,3 +1,10 @@
+/*
+ * Tower.cpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #include "Tower.hpp"
 
 using namespace std;

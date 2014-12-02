@@ -1,5 +1,7 @@
 /*
- * callbacks.c
+ * callbacks.cpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
  *
  */
 
@@ -14,7 +16,6 @@
 #include <GL/glu.h>
 #include "globals.hpp"
 #include "callbacks.hpp"
-#include "consoleIO.hpp"
 
 using namespace std;
 /* Callback functions */

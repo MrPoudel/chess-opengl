@@ -1,3 +1,10 @@
+/*
+ * Bishop.cpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #include "Bishop.hpp"
 
 using namespace std;

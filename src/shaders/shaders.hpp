@@ -1,5 +1,5 @@
 /*
- * shaders.h
+ * shaders.hpp
  *
  * Ficheiro cabecalho do modulo SHADERS.
  *

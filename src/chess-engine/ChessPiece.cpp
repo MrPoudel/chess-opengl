@@ -1,3 +1,10 @@
+/*
+ * ChessPiece.cpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #include "ChessPiece.hpp"
 
 ChessPiece::ChessPiece(Player player, std::vector<Point2D<int> > possibleMoves, bool multipleMoves) {

@@ -1,13 +1,10 @@
  /*
- * models.c
+ * models.cpp
  *
  * Ficheiro de implementacao do modulo MODELS.
  *
+ * Author: Diogo Silva (dbtds@ua.pt)
  */
-
-
-/* Incluir os ficheiros cabecalhos necessarios */
-
 
 #include <stdio.h>
 #include <stdlib.h>

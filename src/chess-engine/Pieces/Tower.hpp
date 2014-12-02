@@ -1,3 +1,10 @@
+/*
+ * Tower.hpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #ifndef TOWER_H
 #define TOWER_H
 

@@ -1,7 +1,9 @@
 /*
- * menus.c
+ * menus.cpp
  *
  * Ficheiro de implementacao do modulo MENUS.
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
  *
  */
 
@@ -12,7 +14,6 @@
 #define GLEW_STATIC /* Necessario se houver problemas com a lib */
 #include <GL/glew.h>
 #include <GL/freeglut.h>
-#include "consoleIO.hpp"
 #include "globals.hpp"
 #include "init.hpp"
 #include "menus.hpp"

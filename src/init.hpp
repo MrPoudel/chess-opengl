@@ -1,7 +1,9 @@
 /*
- * init.h
+ * init.hpp
  *
  * Ficheiro cabecalho do modulo INIT.
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
  *
  */
 

@@ -1,3 +1,10 @@
+/*
+ * Chess.cpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #include "Chess.hpp"
 #include <cstddef>
 #include <typeinfo>

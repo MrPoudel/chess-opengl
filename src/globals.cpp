@@ -1,3 +1,12 @@
+/*
+ * globals.cpp
+ *
+ * Implementação de tipos e variaveis globais.
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #include "globals.hpp"
 
 using namespace std;

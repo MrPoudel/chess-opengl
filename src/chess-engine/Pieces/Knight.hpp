@@ -1,3 +1,10 @@
+/*
+ * Knight.hpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #ifndef KNIGHT_H
 #define KNIGHT_H
 

@@ -1,3 +1,10 @@
+/*
+ * GraphicModelChess.hpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #ifndef GRAPHICMODELCHESS_H
 #define GRAPHICMODELCHESS_H
 

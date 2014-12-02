@@ -1,7 +1,9 @@
 /*
- * globals.h
+ * globals.hpp
  *
  * Declaracao de tipos e variaveis globais.
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
  *
  */
 

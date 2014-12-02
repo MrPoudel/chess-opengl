@@ -1,7 +1,9 @@
 /*
- * models.h
+ * models.hpp
  *
  * Ficheiro cabecalho do modulo MODELS.
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
  *
  */
 

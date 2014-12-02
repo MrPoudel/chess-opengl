@@ -1,3 +1,10 @@
+/*
+ * Pawn.cpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #include "Pawn.hpp"
 
 using namespace std;

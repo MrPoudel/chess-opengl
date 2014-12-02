@@ -1,3 +1,10 @@
+/*
+ * Queen.cpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #include "Queen.hpp"
 
 using namespace std;

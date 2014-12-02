@@ -1,3 +1,10 @@
+/*
+ * ChessPiece.hpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #ifndef CHESSPIECE_H
 #define CHESSPIECE_H
 

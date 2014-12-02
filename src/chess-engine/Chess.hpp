@@ -1,3 +1,10 @@
+/*
+ * Chess.hpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #ifndef CHESS_H
 #define CHESS_H
 

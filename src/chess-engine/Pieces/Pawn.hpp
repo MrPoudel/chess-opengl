@@ -1,3 +1,10 @@
+/*
+ * Pawn.hpp
+ *
+ * Author: Diogo Silva (dbtds@ua.pt)
+ *
+ */
+
 #ifndef PAWN_H
 #define PAWN_H
 
