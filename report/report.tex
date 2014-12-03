@@ -316,19 +316,24 @@ Note-se que todas as próximas indicações foram apenas realizadas em ambiente 
 Software essencial para compilar e correr o programa:
 \begin{enumerate}
 \item build-essential
-\item libglut-mesa1
-\item missing more
+\item qt4-qmake
+\item libglew-dev
+\item freeglut3-dev
 \end{enumerate}
+
+Para obter cada dependência basta executar:
+
+{\tt sudo apt-get install nome\_da\_dependencia\_aqui}
 
 Após a obtenção de todas estas dependências, basta executar o Makefile na pasta principal ou na pasta src.
 
-Executando em bash \$ {\tt make}
+Executando em bash {\tt /src \$ make}
 
 Para executar o programa, basta ir a pasta gerada bin ou a pasta src, e correr o executável com o nome chess.
-Executando em bash \$ {\tt ./chess}
+Executando em bash {\tt /bin \$ ./chess}
 
-Já existe um executável pré-gerado dentro da pasta bin com o nome chess\_bin, executando da mesma forma:
-Em bash \$ {\tt ./chess\_bin}
+Já existe um executável pré-gerado apenas para 64 bits dentro da pasta bin com o nome chess\_bin64, executando da mesma forma:
+Em bash {\tt /bin \$ ./chess\_bin64}
 
 
 \bibliography{report} % use a field named url or \url{} for URLs

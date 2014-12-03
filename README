@@ -7,17 +7,18 @@ Note-se que todas as próximas indicações foram apenas realizadas em ambiente 
 
 Software essencial para compilar e correr o programa:
 * build-essential
-* libglut-mesa1
-* missing more
+* qt4-qmake
+* libglew-dev
+* freeglut3-dev
 
 Para obter cada dependência basta executar:
 sudo apt-get install nome_da_dependencia_aqui
 
 Após a obtenção de todas estas dependências, basta executar o Makefile na pasta principal ou na pasta src.
-Executando em bash $ make
+Executando em bash /src$ make
 
 Para executar o programa, basta ir a pasta gerada bin ou a pasta src, e correr o executável com o nome chess.
-Executando em bash $ ./chess
+Executando em bash /bin$ ./chess
 
 Já existe um executável pré-gerado dentro da pasta bin com o nome chess_bin, executando da mesma forma:
-Em bash $ ./chess_bin}
+Em bash /bin$ ./chess_bin}
