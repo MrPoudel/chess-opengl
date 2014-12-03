@@ -6,5 +6,5 @@ docs:
 	cd report; make
 
 clean:
-	cd src; make clean
+	cd src; qmake qmake.pro; make clean
 	cd report; make clean
