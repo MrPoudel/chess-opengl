@@ -14,10 +14,10 @@ Software essencial para compilar e correr o programa:
 Para obter cada dependência basta executar:
 sudo apt-get install nome_da_dependencia_aqui
 
-Após a obtenção de todas estas dependências, basta executar o Makefile na pasta principal ou na pasta src.
-Executando em bash /src$ make
+Após a obtenção de todas estas dependências, basta executar o Makefile na pasta principal (root).
+Executando em bash /$ make
 
-Para executar o programa, basta ir a pasta gerada bin ou a pasta src, e correr o executável com o nome chess.
+Para executar o programa, basta ir a pasta gerada bin, e correr o executável com o nome chess.
 Executando em bash /bin$ ./chess
 
 Já existe um executável pré-gerado dentro da pasta bin com o nome chess_bin64, executando da mesma forma:

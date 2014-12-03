@@ -1,6 +1,6 @@
 all:
 	mkdir -p bin/genfiles
-	cd src; make
+	cd src; qmake qmake.pro; make
 
 docs:
 	cd report; make
