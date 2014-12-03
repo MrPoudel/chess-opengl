@@ -20,5 +20,5 @@ Executando em bash /src$ make
 Para executar o programa, basta ir a pasta gerada bin ou a pasta src, e correr o executável com o nome chess.
 Executando em bash /bin$ ./chess
 
-Já existe um executável pré-gerado dentro da pasta bin com o nome chess_bin, executando da mesma forma:
-Em bash /bin$ ./chess_bin}
+Já existe um executável pré-gerado dentro da pasta bin com o nome chess_bin64, executando da mesma forma:
+Em bash /bin$ ./chess_bin64}
