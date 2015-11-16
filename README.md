@@ -1,13 +1,15 @@
-Description
-===========
-___
+#Description
+
+---
+
 This project was developed during my subject "Visual Computing" in Aveiro University.
 
 The objective of the subject was to develop a project that would represent our knowledge that we learnt during all semester, then I choose to make a game (I really like to develop games for fun), in this case, a Chess game in OpenGL, the result is pretty interesting, I hope you enjoy.
 
-Installation
-============
-___
+#Installation
+
+---
+
 This was tested and developed on Ubuntu 14.10, it might work easily in any other debian distros but you will need to look better at dependencies names if you want to install in any other distro. It is also possible to install in Windows, but you will have to look closely at the includes and fix them. I had no time to worry about that.
 
 Dependencies name:
